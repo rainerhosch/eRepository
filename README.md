@@ -12,7 +12,9 @@ git clone https://github.com/rzoktan/eRepository.git
 ## Usage
 
 ```php
-$this->db->get();
+# returns 'config_db'
+$config['live']; //for production
+$config['development']; //for development
 
 # returns 'words'
 foobar.pluralize('word')
