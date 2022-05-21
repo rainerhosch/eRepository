@@ -9,21 +9,24 @@ eRepository is a web portal for book libraries, where there are two main roles, 
 git clone https://github.com/rzoktan/eRepository.git
 ```
 
-## Usage
+## .htaccess
+
+```htaccess
+# returns 'config_db'
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
+
+```
+
+## Config
 
 ```php
 # returns 'config_db'
 $config['live']; //for production
 $config['development']; //for development
 
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
 ```
 
 ## Table of contents
