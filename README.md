@@ -11,8 +11,8 @@ git clone https://github.com/rzoktan/eRepository.git
 
 ## Usage
 
-```python
-import foobar
+```php
+$this->db->get();
 
 # returns 'words'
 foobar.pluralize('word')
