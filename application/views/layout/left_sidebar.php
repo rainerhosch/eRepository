@@ -56,102 +56,37 @@
 
         <!--- Sidemenu -->
         <div id="sidebar-menu">
-
             <ul id="side-menu">
-
-                <li class="menu-title">Navigation</li>
-
-                <li>
-                    <a href="index.html">
-                        <i class="mdi mdi-view-dashboard"></i>
-                        <span> Dashboard </span>
-                    </a>
-                </li>
-
-                <li class="menu-title mt-2">Apps</li>
-
-                <li>
-                    <a href="apps-calendar.html">
-                        <i class="mdi mdi-calendar"></i>
-                        <span> Calendar </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="apps-chat.html">
-                        <i class="mdi mdi-forum"></i>
-                        <span> Chat </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#email" data-bs-toggle="collapse">
-                        <i class="mdi mdi-email"></i>
-                        <span> Email </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="email">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a href="email-inbox.html">Inbox</a>
-                            </li>
-                            <li>
-                                <a href="email-templates.html">Email Templates</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li>
-                    <a href="#sidebarTasks" data-bs-toggle="collapse">
-                        <i class="mdi mdi-clipboard"></i>
-                        <span> Tasks </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarTasks">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a href="task-kanban-board.html">Kanban Board</a>
-                            </li>
-                            <li>
-                                <a href="task-details.html">Details</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li>
-                    <a href="apps-projects.html">
-                        <i class="mdi mdi-page-next"></i>
-                        <span> Projects </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#contacts" data-bs-toggle="collapse">
-                        <i class="mdi mdi-account"></i>
-                        <span> Contacts </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="contacts">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a href="contacts-list.html">Members List</a>
-                            </li>
-                            <li>
-                                <a href="contacts-profile.html">Profile</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
             </ul>
-
         </div>
         <!-- End Sidebar -->
-
         <div class="clearfix"></div>
-
     </div>
     <!-- Sidebar -left -->
 
 </div>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: "<?= base_url() ?>manajemen/user/get_user_acces_menu",
+            type: "POST",
+            dataType: "JSON",
+            success: function(response) {
+                // console.log(response);
+                let html = ``;
+                $.each(response.data, function(i, v) {
+                    html += `<li class="menu-title">${v.nama_menu} </li>`;
+                    html += `<li>`;
+                    $.each(v.submenu, function(i, v) {
+                        html += `<a href="${v.url}">`;
+                        html += `${v.icon}`;
+                        html += `<span>${v.nama_submenu}</span>`;
+                        html += `</a>`;
+                    });
+                    html += `</li>`;
+                });
+                $("ul#side-menu").html(html);
+            }
+        });
+    });
+</script>

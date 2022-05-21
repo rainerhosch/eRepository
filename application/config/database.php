@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$active_group = 'development';
+$active_group = 'dev';
 $query_builder = TRUE;
 
-$db['development'] = array(
+$db['dev'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
@@ -27,7 +27,7 @@ $db['development'] = array(
 );
 
 
-$db['production'] = array(
+$db['prod'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
