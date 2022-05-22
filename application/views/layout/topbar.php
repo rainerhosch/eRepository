@@ -216,7 +216,9 @@
         </li>
 
         <li>
-            <h4 class="page-title-main"><?= $page; ?></h4>
+            <h4 class="page-title-main"><?php 
+            echo $page;  if(isset($subpage)){echo '<i class="mdi mdi-triangle-wave"></i>' . $subpage;}; ?>
+            </h4>
         </li>
     </ul>
     <!-- LOGO -->

@@ -18,7 +18,17 @@ class M_menu extends CI_Model
         if ($where != null) {
             $this->db->where($where);
         }
-        $this->db->order_by('id_menu', 'ASC');
+        $this->db->order_by('nama_menu', 'ASC');
         return $this->db->get();
+    }
+
+    function updateData($data, $where)
+    {
+        $this->db->update('m_menu', $data, $where);
+        if ($this->db->affected_rows() > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

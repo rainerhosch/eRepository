@@ -1,5 +1,5 @@
-<div class="content">
 
+<div class="content">
     <!-- Start Content-->
     <div class="container-fluid">
 
@@ -340,3 +340,9 @@
     </div> <!-- container-fluid -->
 
 </div> <!-- content -->
+
+<!--Morris Chart-->
+<script src="<?= base_url('assets/template') ?>/libs/morris.js06/morris.min.js"></script>
+<script src="<?= base_url('assets/template') ?>/libs/raphael/raphael.min.js"></script>
+<!-- Dashboar init js-->
+<script src="<?= base_url('assets/template') ?>/js/pages/dashboard.init.js"></script>

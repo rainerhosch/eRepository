@@ -72,20 +72,54 @@
             type: "POST",
             dataType: "JSON",
             success: function(response) {
+                let curren_url = window.location.href;
+                let segmeng_url = curren_url.split('/');
                 // console.log(response);
                 let html = ``;
+                let menuActive = ``;
                 $.each(response.data, function(i, v) {
-                    html += `<li class="menu-title">${v.nama_menu} </li>`;
-                    html += `<li>`;
-                    $.each(v.submenu, function(i, v) {
-                        html += `<a href="${v.url}">`;
-                        html += `${v.icon}`;
-                        html += `<span>${v.nama_submenu}</span>`;
-                        html += `</a>`;
-                    });
-                    html += `</li>`;
+                    if(segmeng_url[4] === v.link_menu){
+                            html+=`<li class="menuitem-active" id="${v.link_menu}">`;
+                    }else{
+                            html+=`<li id="${v.link_menu}">`;
+                    }
+                    if(v.type ==='1'){
+                        html+=`<a href="<?=base_url()?>${v.link_menu}">${v.icon}
+                        <span> ${v.nama_menu} </span></a>`;
+                    }else{
+                        html+=`<a href="#li-${v.link_menu}" data-bs-toggle="collapse">
+                                    <i class="mdi mdi-file-multiple"></i>
+                                    <span> ${v.nama_menu} </span>
+                                    <span class="menu-arrow"></span>
+                                </a>`;
+                                html+=`<div class="collapse" id="li-${v.link_menu}">`;
+                                $.each(v.submenu, function(i, val) {
+                                    let icon_submenu = ``;
+                                    if(val.icon_status === '1'){
+                                        icon_submenu += val.icon;
+                                    }
+                                    html+=`<ul class="nav-second-level">
+                                                <li>
+                                                    <a href="<?=base_url()?>${val.url}" id="${val.nama_submenu}" class="">${icon_submenu} ${val.nama_submenu}</a>
+                                                </li>`;
+                                    html+=`</ul>`;
+                                });
+                        html+=`</div>`;
+                    }
+                    html+=`</li>`;
                 });
                 $("ul#side-menu").html(html);
+                if($('li').hasClass('menuitem-active')){
+                    let submenuAktif = segmeng_url[segmeng_url.length - 1];
+                    $this = $('li.menuitem-active').attr('id');
+                    let id = 'li-'+$this;
+                    $('div#'+id).addClass('show');
+                    
+                    str = submenuAktif.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                        return letter.toUpperCase();
+                    });
+                    $('a#'+str).addClass('active');
+                }
             }
         });
     });

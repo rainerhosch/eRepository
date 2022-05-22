@@ -11,7 +11,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?= base_url('assets/template') ?>/images/favicon.ico">
-
     <!-- App css -->
     <link href="<?= base_url('assets/template') ?>/css/config/default/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
     <link href="<?= base_url('assets/template') ?>/css/config/default/app.min.css" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
@@ -21,6 +20,7 @@
     <link href="<?= base_url('assets/template') ?>/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- Vendor js -->
     <script src="<?= base_url('assets/template') ?>/js/vendor.min.js"></script>
+    <script src="<?= base_url('assets') ?>/plugins/sweetalert2/sweetalert2.all.min.js"></script>
 
 </head>
 
@@ -41,11 +41,6 @@
 
     <!-- knob plugin -->
     <script src="<?= base_url('assets/template') ?>/libs/jquery-knob/jquery.knob.min.js"></script>
-    <!--Morris Chart-->
-    <script src="<?= base_url('assets/template') ?>/libs/morris.js06/morris.min.js"></script>
-    <script src="<?= base_url('assets/template') ?>/libs/raphael/raphael.min.js"></script>
-    <!-- Dashboar init js-->
-    <script src="<?= base_url('assets/template') ?>/js/pages/dashboard.init.js"></script>
     <!-- App js-->
     <script src="<?= base_url('assets/template') ?>/js/app.min.js"></script>
 </body>

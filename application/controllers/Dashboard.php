@@ -27,4 +27,13 @@ class Dashboard extends CI_Controller
         $this->load->view('template', $data);
         // $this->load->view('app');
     }
+    
+    public function home()
+    {
+        $data['title'] = 'E-Library';
+        $data['page'] = 'Dashboard';
+        $data['subpage'] = 'Home';
+        $data['content'] = 'content/v_dashboard';
+        $this->load->view('template', $data);
+    }
 }
