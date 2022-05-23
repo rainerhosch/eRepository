@@ -62,41 +62,41 @@
             dataType: "JSON",
             success: function(response) {
                 // console.log(response);
-                let html=``;
-                let no=1;
-                let editable_atribut=``;
+                let html = ``;
+                let no = 1;
+                let editable_atribut = ``;
                 $.each(response.data, function(i, v) {
-                    if(v.editable == "N/A"){
-                        editable_atribut=`disabled`;
+                    if (v.editable == "N/A") {
+                        editable_atribut = `disabled`;
                     }
                     html += `<tr>`;
                     html += `<td>${no}</td>
                                 <td>${v.nama_menu}</td>
                                 <td class="text-center">${v.link_menu}</td>`;
-                                if (v.type == '1') {
-                                    html += `<td class="text-center">STATIS</td>`;
-                                } else {
-                                    html += `<td class="text-center">DINAMIS</td>`;
-                                }
-                                html += `<td class="text-center">${v.icon}</td>`;
-                                html += `<td class="text-center"><label class="form-switch">`;
-                                if (v.is_active == '0') {
-                                    html += `<input type="checkbox" class="form-check-input menuSwitch" data-id="${v.id_menu}" value="${v.is_active}" ${editable_atribut}>`;
-                                } else {
-                                    html += `<input type="checkbox" class="form-check-input menuSwitch" data-id="${v.id_menu}" checked="" value="${v.is_active}" ${editable_atribut}>`;
-                                }
-                                html+=`</label></td>`;
-                                html+=`<td class="text-center">
+                    if (v.type == '1') {
+                        html += `<td class="text-center">STATIS</td>`;
+                    } else {
+                        html += `<td class="text-center">DINAMIS</td>`;
+                    }
+                    html += `<td class="text-center">${v.icon}</td>`;
+                    html += `<td class="text-center"><label class="form-switch">`;
+                    if (v.is_active == '0') {
+                        html += `<input type="checkbox" class="form-check-input menuSwitch" data-id="${v.id_menu}" value="${v.is_active}" ${editable_atribut}>`;
+                    } else {
+                        html += `<input type="checkbox" class="form-check-input menuSwitch" data-id="${v.id_menu}" checked="" value="${v.is_active}" ${editable_atribut}>`;
+                    }
+                    html += `</label></td>`;
+                    html += `<td class="text-center">
                                 <button type="button" class="btn btn-xs btn-info" ${editable_atribut}><i class="fas fa-pen"></i></button> | <button type="button" class="btn btn-xs btn-danger" ${editable_atribut}><i class="fas fa-trash-alt"></i></button>
                                 </td>`;
                     html += `</tr>`;
-                            no++;
+                    no++;
                 });
                 $('#tbody_menu').html(html);
-                $('.menuSwitch').change(function(){
+                $('.menuSwitch').change(function() {
                     let id = $(this).data('id');
                     let status_awal = $(this).val();
-                    if(status_awal == '0') {
+                    if (status_awal == '0') {
                         status_awal = '1';
                     } else {
                         status_awal = '0';
@@ -107,8 +107,8 @@
                         url: "<?= base_url('setup/menu/updateData'); ?>",
                         type: "POST",
                         data: {
-                            id:id,
-                            status:status_awal
+                            id: id,
+                            status: status_awal
                         },
                         dataType: "JSON",
                         success: function(response) {

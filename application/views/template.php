@@ -26,23 +26,30 @@
 
 <!-- body start -->
 <!-- <body class="loading" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "sidebar": { "color": "light", "size": "condensed", "showuser": true}, "topbar": {"color": "light"}, "showRightSidebarOnPageLoad": true}'> -->
+<?php if ($page == 'Auth') : ?>
 
-<body class="loading" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "sidebar": { "color": "dark", "size": "default", "showuser": true}, "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
-    <!-- Begin page -->
-    <div id="wrapper">
-        <?php $this->load->view('layout/topbar'); ?>
-        <?php $this->load->view('layout/left_sidebar'); ?>
-        <div class="content-page">
-            <?php $this->load->view($content); ?>
-            <?php $this->load->view('layout/footer'); ?>
-        </div>
-    </div>
-    <div class="rightbar-overlay"></div>
+    <body class="loading authentication-bg authentication-bg-pattern">
+        <?php $this->load->view($content); ?>
+    <?php else : ?>
 
-    <!-- knob plugin -->
-    <script src="<?= base_url('assets/template') ?>/libs/jquery-knob/jquery.knob.min.js"></script>
-    <!-- App js-->
-    <script src="<?= base_url('assets/template') ?>/js/app.min.js"></script>
-</body>
+        <body class="loading" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "sidebar": { "color": "dark", "size": "default", "showuser": true}, "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
+            <!-- Begin page -->
+            <div id="wrapper">
+                <?php $this->load->view('layout/topbar'); ?>
+                <?php $this->load->view('layout/left_sidebar'); ?>
+                <div class="content-page">
+                    <?php $this->load->view($content); ?>
+                    <?php $this->load->view('layout/footer'); ?>
+                </div>
+            </div>
+            <div class="rightbar-overlay"></div>
+
+        <?php endif; ?>
+
+        <!-- knob plugin -->
+        <script src="<?= base_url('assets/template') ?>/libs/jquery-knob/jquery.knob.min.js"></script>
+        <!-- App js-->
+        <script src="<?= base_url('assets/template') ?>/js/app.min.js"></script>
+        </body>
 
 </html>

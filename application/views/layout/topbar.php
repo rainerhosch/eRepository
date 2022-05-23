@@ -201,7 +201,7 @@
                 <div class="dropdown-divider"></div>
 
                 <!-- item-->
-                <a href="auth-logout.html" class="dropdown-item notify-item">
+                <a href="<?= basename('auth'); ?>/logout" class="dropdown-item notify-item">
                     <i class="fe-log-out"></i>
                     <span>Logout</span>
                 </a>
@@ -216,8 +216,11 @@
         </li>
 
         <li>
-            <h4 class="page-title-main"><?php 
-            echo $page;  if(isset($subpage)){echo '<i class="mdi mdi-triangle-wave"></i>' . $subpage;}; ?>
+            <h4 class="page-title-main"><?php
+                                        echo $page;
+                                        if (isset($subpage)) {
+                                            echo '<i class="mdi mdi-triangle-wave"></i>' . $subpage;
+                                        }; ?>
             </h4>
         </li>
     </ul>
