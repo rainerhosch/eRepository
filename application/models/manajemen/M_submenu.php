@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 /**
-    *  File Name             : M_submenu.php
-    *  File Type             : Model
-    *  File Package          : CI_Models
-    ** * * * * * * * * * * * * * * * * * **
-    *  Author                : Rizky Ardiansyah
-    *  Date Created          : 21/05/2022
-    *  Quots of the code     : 'sebuah code program bukanlah sebatas perintah-perintah yang ditulis di komputer, melainkan sebuah kesempatan berkomunikasi antara komputer dan manusia. (bagi yang tidak punya teman wkwk)'
-*/
+ *  File Name             : M_submenu.php
+ *  File Type             : Model
+ *  File Package          : CI_Models
+ ** * * * * * * * * * * * * * * * * * **
+ *  Author                : Rizky Ardiansyah
+ *  Date Created          : 21/05/2022
+ *  Quots of the code     : 'sebuah code program bukanlah sebatas perintah-perintah yang ditulis di komputer, melainkan sebuah kesempatan berkomunikasi antara komputer dan manusia. (bagi yang tidak punya teman wkwk)'
+ */
 class M_submenu extends CI_Model
 {
     function getData($where = null)
@@ -20,5 +20,15 @@ class M_submenu extends CI_Model
         }
         $this->db->order_by('id_submenu', 'ASC');
         return $this->db->get();
+    }
+
+    function updateData($data, $where)
+    {
+        $this->db->update('m_submenu', $data, $where);
+        if ($this->db->affected_rows() > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

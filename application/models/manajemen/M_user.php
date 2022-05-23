@@ -60,4 +60,17 @@ class M_user extends CI_Model
             return FALSE;
         }
     }
+
+    public function get_user_acces_menu($where = null)
+    {
+        // $this->db->distinct();
+        $this->db->select('*');
+        $this->db->from('user_access_menu');
+        $this->db->join('m_menu', 'm_menu.id_menu=user_access_menu.id_menu');
+        if ($where != null) {
+            $this->db->where($where);
+        }
+        $this->db->order_by('user_access_menu.id_menu', 'ASC');
+        return $this->db->get();
+    }
 }

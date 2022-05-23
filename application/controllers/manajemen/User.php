@@ -14,7 +14,7 @@ class User extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        // $this->load->model('manajemen/M_user', 'user');
+        $this->load->model('manajemen/M_user', 'user');
         $this->load->model('manajemen/M_menu', 'menu');
         $this->load->model('manajemen/M_submenu', 'submenu');
     }
@@ -23,13 +23,20 @@ class User extends CI_Controller
     {
 
         if ($this->input->is_ajax_request()) {
+            $role_user = $this->session->userdata('role');
             $where = [
-                'is_active' => 1
+                'm_menu.is_active' => 1,
+                'user_access_menu.role_id' => $role_user
             ];
-            $data = $this->menu->getData($where)->result_array();
-            foreach ($data as $key => $value) {
-                $submenu = $this->submenu->getData(['id_menu' => $value['id_menu']])->result_array();
-                $data[$key]['submenu'] = $submenu;
+            $data = $this->user->get_user_acces_menu($where)->result_array();
+            foreach ($data as $i => $val) {
+                $where = [
+                    'id_menu' => $val['id_menu'],
+                    'is_active' => 1
+                ];
+                $submenu = $this->submenu->getData($where)->result_array();
+                $data[$i]['submenu'] = $submenu;
+                //     }
             }
             $res = [
                 'code' => 200,

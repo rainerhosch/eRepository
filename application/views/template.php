@@ -32,7 +32,7 @@
         <?php $this->load->view($content); ?>
     <?php else : ?>
 
-        <body class="loading" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "sidebar": { "color": "dark", "size": "default", "showuser": true}, "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
+        <body class="loading" data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "sidebar": { "color": "light", "size": "default", "showuser": true}, "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
             <!-- Begin page -->
             <div id="wrapper">
                 <?php $this->load->view('layout/topbar'); ?>

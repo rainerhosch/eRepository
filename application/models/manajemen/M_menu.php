@@ -11,9 +11,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 class M_menu extends CI_Model
 {
-    function getData($where = null)
+    function getData($field = null, $where = null)
     {
-        $this->db->select('*');
+        if ($field != null) {
+            $this->db->select($field);
+        } else {
+            $this->db->select('*');
+        }
         $this->db->from('m_menu');
         if ($where != null) {
             $this->db->where($where);

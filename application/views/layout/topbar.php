@@ -1,7 +1,6 @@
 <!-- Topbar Start -->
 <div class="navbar-custom">
     <ul class="list-unstyled topnav-menu float-end mb-0">
-
         <li class="d-none d-lg-block">
             <form class="app-search">
                 <div class="app-search-box">
@@ -12,36 +11,25 @@
                         </button>
                     </div>
                     <div class="dropdown-menu dropdown-lg" id="search-dropdown">
-                        <!-- item-->
                         <div class="dropdown-header noti-title">
                             <h5 class="text-overflow mb-2">Found 22 results</h5>
                         </div>
-
-                        <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <i class="fe-home me-1"></i>
                             <span>Analytics Report</span>
                         </a>
-
-                        <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <i class="fe-aperture me-1"></i>
                             <span>How can I help you?</span>
                         </a>
-
-                        <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item notify-item">
                             <i class="fe-settings me-1"></i>
                             <span>User profile settings</span>
                         </a>
-
-                        <!-- item-->
                         <div class="dropdown-header noti-title">
                             <h6 class="text-overflow mb-2 text-uppercase">Users</h6>
                         </div>
-
                         <div class="notification-list">
-                            <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item">
                                 <div class="d-flex align-items-start">
                                     <img class="d-flex me-2 rounded-circle" src="<?= base_url('assets/template') ?>/images/users/user-2.jpg" alt="Generic placeholder image" height="32">
@@ -51,8 +39,6 @@
                                     </div>
                                 </div>
                             </a>
-
-                            <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item">
                                 <div class="d-flex align-items-start">
                                     <img class="d-flex me-2 rounded-circle" src="<?= base_url('assets/template') ?>/images/users/user-5.jpg" alt="Generic placeholder image" height="32">
@@ -63,12 +49,10 @@
                                 </div>
                             </a>
                         </div>
-
                     </div>
                 </div>
             </form>
         </li>
-
         <li class="dropdown d-inline-block d-lg-none">
             <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="fe-search noti-icon"></i>
@@ -80,14 +64,13 @@
             </div>
         </li>
 
+        <!-- Notifikasi -->
         <li class="dropdown notification-list topbar-dropdown">
             <a class="nav-link dropdown-toggle waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="fe-bell noti-icon"></i>
                 <span class="badge bg-danger rounded-circle noti-icon-badge">9</span>
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-lg">
-
-                <!-- item-->
                 <div class="dropdown-item noti-title">
                     <h5 class="m-0">
                         <span class="float-end">
@@ -97,10 +80,7 @@
                         </span>Notification
                     </h5>
                 </div>
-
-                <div class="noti-scroll" data-simplebar>
-
-                    <!-- item-->
+                <!-- <div class="noti-scroll" data-simplebar>
                     <a href="javascript:void(0);" class="dropdown-item notify-item active">
                         <div class="notify-icon">
                             <img src="<?= base_url('assets/template') ?>/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="" />
@@ -110,8 +90,6 @@
                             <small>Hi, How are you? What about our next meeting</small>
                         </p>
                     </a>
-
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon bg-primary">
                             <i class="mdi mdi-comment-account-outline"></i>
@@ -120,8 +98,6 @@
                             <small class="text-muted">1 min ago</small>
                         </p>
                     </a>
-
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon">
                             <img src="<?= base_url('assets/template') ?>/images/users/user-4.jpg" class="img-fluid rounded-circle" alt="" />
@@ -131,8 +107,6 @@
                             <small>Wow ! this admin looks good and awesome design</small>
                         </p>
                     </a>
-
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon bg-warning">
                             <i class="mdi mdi-account-plus"></i>
@@ -141,8 +115,6 @@
                             <small class="text-muted">5 hours ago</small>
                         </p>
                     </a>
-
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon bg-info">
                             <i class="mdi mdi-comment-account-outline"></i>
@@ -151,8 +123,6 @@
                             <small class="text-muted">4 days ago</small>
                         </p>
                     </a>
-
-                    <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <div class="notify-icon bg-secondary">
                             <i class="mdi mdi-heart"></i>
@@ -162,14 +132,11 @@
                             <small class="text-muted">13 days ago</small>
                         </p>
                     </a>
-                </div>
-
-                <!-- All-->
+                </div> -->
                 <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
                     View all
                     <i class="fe-arrow-right"></i>
                 </a>
-
             </div>
         </li>
 
@@ -177,36 +144,29 @@
             <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <img src="<?= base_url('assets/template') ?>/images/users/user-1.jpg" alt="user-image" class="rounded-circle">
                 <span class="pro-user-name ms-1">
-                    Nowak <i class="mdi mdi-chevron-down"></i>
+                    <?= $this->session->userdata('fullname'); ?> <i class="mdi mdi-chevron-down"></i>
                 </span>
             </a>
             <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
-                <!-- item-->
                 <div class="dropdown-header noti-title">
                     <h6 class="text-overflow m-0">Welcome !</h6>
                 </div>
-
-                <!-- item-->
                 <a href="contacts-profile.html" class="dropdown-item notify-item">
                     <i class="fe-user"></i>
                     <span>My Account</span>
                 </a>
-
-                <!-- item-->
                 <a href="auth-lock-screen.html" class="dropdown-item notify-item">
                     <i class="fe-lock"></i>
                     <span>Lock Screen</span>
                 </a>
-
                 <div class="dropdown-divider"></div>
-
-                <!-- item-->
-                <a href="<?= basename('auth'); ?>/logout" class="dropdown-item notify-item">
+                <a href="<?= base_url('auth'); ?>/logout" class="dropdown-item notify-item">
                     <i class="fe-log-out"></i>
                     <span>Logout</span>
                 </a>
             </div>
         </li>
+
     </ul>
     <ul class="list-unstyled topnav-menu topnav-menu-left mb-0">
         <li>

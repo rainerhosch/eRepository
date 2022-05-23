@@ -14,6 +14,7 @@ class Menu extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        login_check();
         $this->load->model('manajemen/M_menu', 'menu');
     }
 
@@ -54,11 +55,11 @@ class Menu extends CI_Controller
             $data_update = [
                 'is_active' => $data_post['status']
             ];
-            $param=[
+            $param = [
                 'id_menu' => $data_post['id']
             ];
             $update = $this->menu->updateData($data_update, $param);
-            if(!$update){
+            if (!$update) {
                 $res = [
                     'code' => 500,
                     'status' => 'error',
