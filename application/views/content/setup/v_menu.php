@@ -163,15 +163,15 @@
 
         $('#formAddMenu').submit(function(e) {
             e.preventDefault();
-            var $form = $(this);
-            if (!$form.valid) return false;
+            // var $form = $(this).('form#formAddMenu');
+            // if (!$form.valid) return false;
             $.ajax({
                 url: "<?= base_url(); ?>setup/menu/addData",
                 type: "POST",
                 data: $('#formAddMenu').serialize(),
                 dataType: "JSON",
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     Swal.fire({
                         icon: response.status,
                         title: response.message,

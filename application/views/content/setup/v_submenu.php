@@ -183,7 +183,7 @@
                         showConfirmButton: false,
                         timer: 1000
                     }).then((result) => {
-                        // location.reload();
+                        location.reload();
                     });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
