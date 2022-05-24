@@ -270,7 +270,7 @@
                             $('#editNamaSubmenu').val(response.data.nama_submenu);
                             $('#editUrlSubmenu').val(response.data.url);
                             $('#editIconSubmenu').val(response.data.icon);
-                            
+
                             $.ajax({
                                 url: "<?= base_url('setup/menu/getData'); ?>",
                                 type: "POST",
@@ -280,8 +280,8 @@
                                     let html = ``;
                                     $.each(res['data'], function(k, v) {
                                         if (v.type === '2') {
-                                            let selected =``;
-                                            if(v.id_menu == response.data.id_menu){
+                                            let selected = ``;
+                                            if (v.id_menu == response.data.id_menu) {
                                                 selected = `selected`;
                                             }
                                             html += `<option value="${v.id_menu}" ${selected}>${v.nama_menu}</option>`;
@@ -311,7 +311,7 @@
                                             showConfirmButton: false,
                                             timer: 1000
                                         }).then((result) => {
-                                            // location.reload();
+                                            location.reload();
                                         });
                                     },
                                     error: function(jqXHR, textStatus, errorThrown) {
