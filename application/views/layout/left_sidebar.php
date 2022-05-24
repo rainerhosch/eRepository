@@ -76,7 +76,7 @@
             success: function(response) {
                 let curren_url = window.location.href;
                 let segmeng_url = curren_url.split('/');
-                console.log(response);
+                // console.log(response);
                 let html = ``;
                 let menuActive = ``;
                 $.each(response.data, function(i, v) {

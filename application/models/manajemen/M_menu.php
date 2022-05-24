@@ -26,9 +26,25 @@ class M_menu extends CI_Model
         return $this->db->get();
     }
 
+    public function insertData($data)
+    {
+        return $this->db->insert('m_menu', $data);
+    }
+
     function updateData($data, $where)
     {
         $this->db->update('m_menu', $data, $where);
+        if ($this->db->affected_rows() > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function deleteData($where)
+    {
+        $this->db->where($where);
+        $this->db->delete('m_menu');
         if ($this->db->affected_rows() > 0) {
             return TRUE;
         } else {
