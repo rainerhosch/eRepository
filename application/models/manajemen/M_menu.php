@@ -11,24 +11,32 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 class M_menu extends CI_Model
 {
-    function getData($field = null, $where = null)
+    private $_table = 'm_menu';
+
+    // Add new 
+    public function addData($data)
+    {
+        return $this->db->insert($this->_table, $data);
+    }
+
+    function getData($field = null, $where = null, $tbl_join = null)
     {
         if ($field != null) {
             $this->db->select($field);
         } else {
             $this->db->select('*');
         }
-        $this->db->from('m_menu');
+        $this->db->from($this->_table);
+        if ($tbl_join != null) {
+            foreach ($tbl_join as $key => $value) {
+                $this->db->join($value['table'], $value['on'], $value['type']);
+            }
+        }
         if ($where != null) {
             $this->db->where($where);
         }
         $this->db->order_by('nama_menu', 'ASC');
         return $this->db->get();
-    }
-
-    public function insertData($data)
-    {
-        return $this->db->insert('m_menu', $data);
     }
 
     function updateData($data, $where)

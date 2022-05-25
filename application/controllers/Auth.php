@@ -98,6 +98,74 @@ class Auth extends CI_Controller
 	}
 
 
+	public function process_registration()
+	{
+		if ($this->input->is_ajax_request()) {
+			$curent_time = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
+			$date = $curent_time->format('Y-m-d');
+			$post_regist = $this->input->post();
+
+
+			// cek tlp
+			$data_tlp = '62' . substr($post_regist['tlp_user'], 1, 11);
+			// data insert user detail
+			$tbl = 'user_detail';
+			$data_detail_user = [
+				'nama'      	=> $post_regist['nama_user'],
+				'email'     	=> $post_regist['email_user'],
+				'tlp'       	=> $data_tlp,
+				'alamat'    	=> $post_regist['alamat_user'],
+				'img'       	=> 'default.jpg'
+			];
+
+			$id_detail_user = $this->user->insert_data($tbl, $data_detail_user);
+			if (!$id_detail_user) {
+				// error
+				$data = [
+					'code' => 500,
+					'status' => false,
+					'msh' => 'Gagal insert data user detail.',
+					'data' => null
+				];
+			} else {
+				$tbl = 'user';
+				$data_user_regist = [
+					'username'          => $post_regist['username'],
+					'password'          => md5($post_regist['password']),
+					'role_id'           => $post_regist['role_user'],
+					'user_detail_id'    => $id_detail_user,
+					'is_active'         => 0,
+					'create_date'       => strtotime($date),
+				];
+				$insert_user = $this->user->insert_data($tbl, $data_user_regist);
+				if (!$insert_user) {
+					$data = [
+						'code' => 500,
+						'status' => false,
+						'msh' => 'Gagal insert data user.',
+						'data' => null
+					];
+				} else {
+					$data = [
+						'code' => 200,
+						'status' => true,
+						'msg' => 'Data registarsi berhasil di simpan.',
+						'data' => $post_regist['nama_user'],
+					];
+				}
+			}
+		} else {
+			$data = [
+				'code' => 500,
+				'status' => false,
+				'msh' => 'Invalid request',
+				'data' => null
+			];
+		}
+		echo json_encode($data);
+	}
+
+
 	public function logout()
 	{
 		$this->session->unset_userdata('user_id');
