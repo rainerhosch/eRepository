@@ -120,7 +120,7 @@ class Menu extends CI_Controller
                 'create_by' => $this->session->userdata('user_id'),
                 'create_date' => date('Y-m-d')
             ];
-            $insert = $this->menu->insertData($dataInsert);
+            $insert = $this->menu->addData($dataInsert);
             if ($insert) {
                 $res = [
                     'code' => 200,

@@ -100,7 +100,8 @@ class RoleUser extends CI_Controller
             $data_post = $this->input->post();
             $data_insert = [
                 'role_type' => $data_post['role_type'],
-                'description' => $data_post['desc']
+                'description' => $data_post['desc'],
+                'editable' => 1
             ];
             $insert = $this->role->addData('user_role', $data_insert);
             if ($insert) {

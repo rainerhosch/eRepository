@@ -69,6 +69,7 @@
 </div>
 <script>
     $(document).ready(function() {
+        var roleUserLogin = '<?= $this->session->userdata('role'); ?>';
         $.ajax({
             url: "<?= base_url() ?>manajemen/user/get_user_acces_menu",
             type: "POST",
@@ -100,11 +101,21 @@
                             if (val.icon_status === '1') {
                                 icon_submenu += val.icon;
                             }
-                            html += `<ul class="nav-second-level">
-                                                <li>
-                                                    <a href="<?= base_url() ?>${val.url}" id="${val.nama_submenu}" class="">${icon_submenu} ${val.nama_submenu}</a>
-                                                </li>`;
-                            html += `</ul>`;
+                            if (roleUserLogin != 1) {
+                                if (val.url != 'manajemen/roleuser') {
+                                    html += `<ul class="nav-second-level">
+                                                    <li>
+                                                        <a href="<?= base_url() ?>${val.url}" id="${val.nama_submenu}" class="">${icon_submenu} ${val.nama_submenu}</a>
+                                                    </li>`;
+                                    html += `</ul>`;
+                                }
+                            } else {
+                                html += `<ul class="nav-second-level">
+                                                    <li>
+                                                        <a href="<?= base_url() ?>${val.url}" id="${val.nama_submenu}" class="">${icon_submenu} ${val.nama_submenu}</a>
+                                                    </li>`;
+                                html += `</ul>`;
+                            }
                         });
                         html += `</div>`;
                     }

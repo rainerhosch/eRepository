@@ -165,6 +165,9 @@
 </div>
 <script>
     $(document).ready(function() {
+        var roleUserLogin = '<?= $this->session->userdata('role'); ?>';
+        var idUserLogin = '<?= $this->session->userdata('user_id'); ?>';
+        console.log(roleUserLogin);
         $.ajax({
             url: "<?= base_url(); ?>manajemen/roleuser/getData",
             type: "POST",
@@ -175,6 +178,7 @@
                 console.log(response);
                 $.each(response.data, function(i, v) {
                     let disabled = ``;
+                    // if (v.role_id > roleUserLogin) {
                     html += `<tr>`
                     html += `<td class="text-center">${no}</td>`
                     html += `<td class="text-center">${v.role_type}</td>`
@@ -217,6 +221,7 @@
                     html += `</td>`;
                     html += `</tr>`;
                     no++;
+                    // }
                 });
                 $('tbody#tbody_role_access').html(html);
                 $('#btnAddRole').on('click', function() {

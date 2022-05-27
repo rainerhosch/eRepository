@@ -15,9 +15,9 @@
                                     <tr>
                                         <th>#</th>
                                         <th>NAMA</th>
-                                        <th class="text-center">EMAIL</th>
                                         <th class="text-center">TLP</th>
                                         <th class="text-center">ALAMAT</th>
+                                        <th class="text-center">ROLE</th>
                                         <th class="text-center">TOOLS</th>
                                     </tr>
                                 </thead>
@@ -101,38 +101,44 @@
 
 <script>
     $(document).ready(function() {
+        var roleUserLogin = '<?= $this->session->userdata('role'); ?>';
+        var idUserLogin = '<?= $this->session->userdata('user_id'); ?>';
         $.ajax({
             url: "<?= base_url(); ?>manajemen/user/getData",
             type: "POST",
             dataType: "JSON",
             success: function(response) {
-                console.log(response);
+                // console.log(response);
                 let html = ``;
                 let no = 1;
                 $.each(response.data, function(i, v) {
                     let disabled = ``;
-                    if (v.role_id == '1') {
+                    if (v.role_id == '1' || (roleUserLogin == v.role_id && v.user_id != idUserLogin)) {
                         disabled = `disabled`;
                     }
-                    html += `<tr>`;
-                    html += `<td>${no}</td>`;
-                    html += `<td>${v.nama}</td>`;
-                    html += `<td class="text-center">${v.email}</td>`;
-                    html += `<td class="text-center">${v.tlp}</td>`;
-                    html += `<td class="text-center">${v.alamat}</td>`;
+                    // if (v.role_id > roleUserLogin) {
+                    if (roleUserLogin < v.role_id) {
+                        html += `<tr>`;
+                        html += `<td>${no}</td>`;
+                        html += `<td>${v.nama}</td>`;
+                        html += `<td class="text-center">${v.tlp}</td>`;
+                        html += `<td class="text-center">${v.alamat}</td>`;
+                        html += `<td class="text-center">${v.role_type}</td>`;
 
-                    html += `<td class="text-center">`;
-                    html += `<button type="button" class="btn btn-xs btn-info btnEditUser" data-user_id="${v.user_id}" data-user_detail_id="${v.user_detail_id}" ${disabled}><i class="fas fa-pen"></i></button>`;
-                    html += ` | `;
-                    html += `<button type="button" class="btn btn-xs btn-danger btnDeleteUser" data-user_id="${v.user_id}" data-user_detail_id="${v.user_detail_id}" data-nama="${v.nama}" ${disabled}><i class="fas fa-trash-alt"></i></button>`;
-                    html += `</td>`;
-                    html += `</tr>`;
-                    no++;
+                        html += `<td class="text-center">`;
+                        html += `<button type="button" class="btn btn-xs btn-info btnEditUser" data-user_id="${v.user_id}" data-user_detail_id="${v.user_detail_id}" ${disabled}><i class="fas fa-pen"></i></button>`;
+                        html += ` | `;
+                        html += `<button type="button" class="btn btn-xs btn-danger btnDeleteUser" data-user_id="${v.user_id}" data-user_detail_id="${v.user_detail_id}" data-nama="${v.nama}" ${disabled}><i class="fas fa-trash-alt"></i></button>`;
+                        html += `</td>`;
+                        html += `</tr>`;
+                        no++;
+
+                    }
                 });
                 $('#tbody_data_user').html(html);
 
                 $('.btnEditUser').on('click', function() {
-                    let id = $(this).data('id');
+                    let id = $(this).data('user_id');
                     console.log(id);
                 });
 
@@ -188,16 +194,17 @@
         });
 
         $('#btnAddUser').on('click', function() {
+
             $.ajax({
                 url: "<?= base_url(); ?>manajemen/roleuser/getData",
                 type: "POST",
                 dataType: "JSON",
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     let html = ``;
                     html += `<option value="" hidden>Pilih Role...</option>`;
                     $.each(response.data, function(i, v) {
-                        if (v.role_id != '1' && v.role_id != '2') {
+                        if (v.role_id > roleUserLogin) {
                             html += `<option value="${v.role_id}">${v.role_type}</option>`;
                         }
                     });

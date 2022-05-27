@@ -14,6 +14,7 @@ class User extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        login_check();
         $this->load->model('manajemen/M_user', 'user');
         $this->load->model('manajemen/M_menu', 'menu');
         $this->load->model('manajemen/M_submenu', 'submenu');
