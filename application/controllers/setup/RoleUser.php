@@ -24,7 +24,7 @@ class RoleUser extends CI_Controller
         $data['title'] = 'E-Library';
         $data['page'] = 'Manajemen';
         $data['subpage'] = 'Role User';
-        $data['content'] = 'content/manajemen/v_role_access';
+        $data['content'] = 'content/setup/v_role_access';
         $this->load->view('template', $data);
     }
 
@@ -44,7 +44,7 @@ class RoleUser extends CI_Controller
                         0 => [
                             'table' => 'user_access_menu',
                             'on' => 'm_menu.id_menu = user_access_menu.id_menu',
-                            'type' => ''
+                            'type' => 'left'
                         ]
                     ];
                     $data[$key]['role_access_menu'] = $this->menu->getData($field, $where, $tbl_join)->result_array();

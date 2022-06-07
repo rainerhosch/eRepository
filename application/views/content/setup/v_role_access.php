@@ -169,7 +169,7 @@
         var idUserLogin = '<?= $this->session->userdata('user_id'); ?>';
         console.log(roleUserLogin);
         $.ajax({
-            url: "<?= base_url(); ?>manajemen/roleuser/getData",
+            url: "<?= base_url(); ?>setup/roleuser/getData",
             type: "POST",
             dataType: "JSON",
             success: function(response) {
@@ -233,7 +233,7 @@
                     $('#modalAddMenuAccess').modal("show");
                     $.ajax({
                         type: "POST",
-                        url: "<?= base_url(); ?>manajemen/roleuser/getData",
+                        url: "<?= base_url(); ?>setup/roleuser/getData",
                         data: {
                             role_id: role_id,
                         },
@@ -272,7 +272,7 @@
                     let form = $(this);
                     $.ajax({
                         type: "POST",
-                        url: "<?= base_url(); ?>manajemen/roleuser/simpan_role_baru",
+                        url: "<?= base_url(); ?>setup/roleuser/simpan_role_baru",
                         data: form.serializeArray(),
                         dataType: "json",
                         success: function(response) {
@@ -305,7 +305,7 @@
                     let form = $(this);
                     $.ajax({
                         type: "POST",
-                        url: "<?= base_url(); ?>manajemen/roleuser/simpan_menu_access",
+                        url: "<?= base_url(); ?>setup/roleuser/simpan_menu_access",
                         data: form.serializeArray(),
                         dataType: "json",
                         success: function(response) {
@@ -350,7 +350,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "POST",
-                                url: "<?= base_url(); ?>manajemen/roleuser/deleteData", // where you wanna post
+                                url: "<?= base_url(); ?>setup/roleuser/deleteData", // where you wanna post
                                 data: {
                                     id: id
                                 },
@@ -395,7 +395,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "POST",
-                                url: "<?= base_url(); ?>manajemen/roleuser/delete_menu_access", // where you wanna post
+                                url: "<?= base_url(); ?>setup/roleuser/delete_menu_access", // where you wanna post
                                 data: {
                                     id_menu: id_menu,
                                     id_role: id_role,

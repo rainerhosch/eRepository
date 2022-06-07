@@ -196,7 +196,7 @@
         $('#btnAddUser').on('click', function() {
 
             $.ajax({
-                url: "<?= base_url(); ?>manajemen/roleuser/getData",
+                url: "<?= base_url(); ?>setup/roleuser/getData",
                 type: "POST",
                 dataType: "JSON",
                 success: function(response) {

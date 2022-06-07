@@ -49,6 +49,8 @@
                         <div class="text-center mb-4">
                             <i class="fas fa-book-open" style="font-size: 24px;"></i>
                             <h3 class="mt-0" style="color:#7b80859c;">eLibrary</h3>
+                            <h5 style="color:#7b80859c;">SISTEM PERPUSTAKAAN ELEKTRONIK</h5>
+                            <h5 style="color:#7b80859c;">SMA NEGRI 6 KOTA SERANG</h5>
                         </div>
                         <div class="row" id="alert_msg">
                             <div class="col-12">
