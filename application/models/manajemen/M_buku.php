@@ -50,6 +50,24 @@ class M_buku extends CI_Model
         return $this->db->get();
     }
 
+    function updateData($data, $where)
+    {
+        $this->db->update($this->_table, $data, $where);
+        if ($this->db->affected_rows() > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function getBukuById($where)
+    {
+        $this->db->select($this->_field);
+        $this->db->from($this->_table);
+        $this->db->where($where);
+        return $this->db->get();
+    }
+
     public function getCount()
     {
         $this->db->select('*');
@@ -63,10 +81,14 @@ class M_buku extends CI_Model
         return $this->db->insert($table, $data);
     }
 
-    public function deleteData($where)
+    public function deleteData($where, $table = null)
     {
         $this->db->where($where);
-        $this->db->delete($this->_table);
+        if ($table == null) {
+            $this->db->delete($this->_table);
+        } else {
+            $this->db->delete($table);
+        }
         if ($this->db->affected_rows() > 0) {
             return TRUE;
         } else {
@@ -82,5 +104,16 @@ class M_buku extends CI_Model
             $this->db->where($where);
         }
         return $this->db->get();
+    }
+
+    public function deleteKategori($where)
+    {
+        $this->db->where($where);
+        $this->db->delete('m_kategori_buku');
+        if ($this->db->affected_rows() > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
     }
 }

@@ -148,14 +148,38 @@ class Buku extends CI_Controller
         echo json_encode($res);
     }
 
+    public function getBukuById()
+    {
+        if ($this->input->is_ajax_request()) {
+            $id = $this->input->post('id');
+            $where = ['id_buku' => $id];
+            $data = $this->buku->getBukuById($where)->row_array();
+            $res = [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Success',
+                'data' => $data,
+            ];
+        } else {
+            $res = [
+                'code' => 403,
+                'status' => false,
+                'message' => 'Forbidden',
+                'data' => null
+            ];
+        }
+        echo json_encode($res);
+    }
+
 
     public function addBuku()
     {
-        // if ($this->input->is_ajax_request()) {
         $data_post = $this->input->post();
         $data = $this->buku->getMaxId()->row_array();
         $lastid = $data['id_buku'];
         $id_buku = $lastid + 1;
+        $date = date('Y-m-d H:i:s');
+        $timestamp = strtotime($date);
 
         // config folder
         $dir = FCPATH . 'assets/img/coverbuku';
@@ -166,7 +190,7 @@ class Buku extends CI_Controller
 
         $_FILES['files']['name'];
         $file_ext = pathinfo($_FILES['files']['name'], PATHINFO_EXTENSION);
-        $new_name = $id_buku . '.' . $file_ext;
+        $new_name = $timestamp . '.' . $file_ext;
 
         $config['file_name']        = $new_name;
         $config['upload_path']      =  $dir . "/";
@@ -185,10 +209,8 @@ class Buku extends CI_Controller
 
             //Load upload library
             $this->load->library('upload', $config);
-
             // File upload
             if ($this->upload->do_upload('file')) {
-
                 // Get data about the file
                 $uploadData = $this->upload->data();
                 $filename = $uploadData;
@@ -197,7 +219,6 @@ class Buku extends CI_Controller
         } else {
             $cover = 'ebookdefault.jpg';
         }
-
 
         $data = [
             'judul_buku' => $data_post['input_judul'],
@@ -211,67 +232,129 @@ class Buku extends CI_Controller
             'id_kategori' => $data_post['input_kategori'],
             'img' => $cover,
         ];
-        // var_dump($data);
-        // die;
-
         $table = 'm_buku';
         $res = $this->buku->insert_data($table, $data);
-
-        // var_dump($this->db->last_query());
-        // die;
         if ($res) {
+            $this->session->set_flashdata('success', 'Berhasil menambahkan data!');
             redirect('manajemen/buku');
         } else {
-            echo "gagal";
+            $this->session->set_flashdata('error', 'gagal menambah data!');
+            redirect('manajemen/buku');
         }
-        //         $res = true;
-        //         if ($res) {
-        //             $res = [
-        //                 'code' => 200,
-        //                 'status' => true,
-        //                 'message' => 'Success',
-        //                 'data' => $data
-        //             ];
-        //         } else {
-        //             $res = [
-        //                 'code' => 500,
-        //                 'status' => false,
-        //                 'message' => 'Failed',
-        //                 'data' => null
-        //             ];
-        //         }
-        //     } else {
-        //         $res = [
-        //             'code' => 403,
-        //             'status' => false,
-        //             'message' => 'Forbidden',
-        //             'data' => null
-        //         ];
-        //     }
-        //     echo json_encode($res);
+    }
+
+    public function updateData()
+    {
+        $data = [];
+        $delete_file = false;
+        $data_post = $this->input->post();
+        $id = $data_post['edit_id_buku'];
+        $where = ['id_buku' => $id];
+        $resBuku = $this->buku->getBukuById($where)->row_array();
+
+        $date = date('Y-m-d H:i:s');
+        $timestamp = strtotime($date);
+        $dir = FCPATH . 'assets/img/coverbuku';
+        $file_old = $dir . "/" . $resBuku['img'];
+
+        // var_dump($resBuku);
+        $_FILES['files']['name'];
+        $file_ext = pathinfo($_FILES['files']['name'], PATHINFO_EXTENSION);
+        $new_file = $timestamp . '.' . $file_ext;
+        $config['file_name']        = $new_file;
+        $config['upload_path']      =  $dir . "/";
+        $config['allowed_types']        = 'jpeg|jpg|png';
+        $config['max_size'] = 500000; // max_size in kb
+        if (!empty($_FILES['files']['name'])) {
+            $_FILES['file']['name'] = $resBuku['img'];
+            $_FILES['file']['type'] = $_FILES['files']['type'];
+            $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'];
+            $_FILES['file']['error'] = $_FILES['files']['error'];
+            $_FILES['file']['size'] = $_FILES['files']['size'];
+
+            //Load upload library
+            $this->load->library('upload', $config);
+            // File upload
+            if ($this->upload->do_upload('file')) {
+                // Get data about the file
+                $uploadData = $this->upload->data();
+                $filename = $uploadData;
+                $cover = $filename['file_name'];
+                $data = [
+                    'judul_buku' => $data_post['edit_judul'],
+                    'penulis_buku' => $data_post['edit_penulis'],
+                    'penerbit_buku' => $data_post['edit_penerbit'],
+                    'tahun_penerbit' => $data_post['edit_tahun_terbit'],
+                    'jumlah' => $data_post['edit_jumlah'],
+                    'kode_buku' => $data_post['edit_kode_buku'],
+                    'kode_penulis' => strtoupper(substr($data_post['edit_penulis'], 0, 3)),
+                    'kode_judul' => $data_post['edit_kode_judul'],
+                    'id_kategori' => $data_post['edit_kategori'],
+                    'img' => $cover,
+                ];
+            }
+        } else {
+            $data = [
+                'judul_buku' => $data_post['edit_judul'],
+                'penulis_buku' => $data_post['edit_penulis'],
+                'penerbit_buku' => $data_post['edit_penerbit'],
+                'tahun_penerbit' => $data_post['edit_tahun_terbit'],
+                'jumlah' => $data_post['edit_jumlah'],
+                'kode_buku' => $data_post['edit_kode_buku'],
+                'kode_penulis' => strtoupper(substr($data_post['edit_penulis'], 0, 3)),
+                'kode_judul' => $data_post['edit_kode_judul'],
+                'id_kategori' => $data_post['edit_kategori']
+            ];
+        }
+        // $table = 'm_buku';
+        $res = $this->buku->updateData($data, $where);
+        if ($res) {
+            if (file_exists($file_old)) {
+                unlink($file_old);
+            }
+            $this->session->set_flashdata('success', 'Berhasil update data!');
+            redirect('manajemen/buku');
+        } else {
+            $this->session->set_flashdata('error', 'Gagal update data!');
+            redirect('manajemen/buku');
+        }
     }
 
     public function deleteData()
     {
         if ($this->input->is_ajax_request()) {
             $data_post = $this->input->post();
-            $where = [
-                'id_buku' => $data_post['id']
-            ];
-            $delete = $this->buku->deleteData($where);
-            if ($delete) {
-                $res = [
-                    'code' => 200,
-                    'status' => true,
-                    'message' => 'Berhasil menghapus data',
-                    'data' => 1
-                ];
+            if ($data_post['cover'] != 'ebookdefault.jpg') {
+                $dir = FCPATH . 'assets/img/coverbuku/';
+                $file = $dir . $data_post['cover'];
+                $delete_file = unlink($file);
+            } else {
+                $delete_file = true;
+            }
+            if ($delete_file) {
+                $where = ['id_buku' => $data_post['id']];
+                $res = $this->buku->deleteData($where);
+                if ($res) {
+                    $res = [
+                        'code' => 200,
+                        'status' => true,
+                        'message' => 'Success',
+                        'data' => $data_post
+                    ];
+                } else {
+                    $res = [
+                        'code' => 500,
+                        'status' => false,
+                        'message' => 'Internal Server Error',
+                        'data' => null
+                    ];
+                }
             } else {
                 $res = [
                     'code' => 500,
                     'status' => false,
-                    'message' => 'Internal Server Error!',
-                    'data' => 1
+                    'message' => 'Error delete image',
+                    'data' => null
                 ];
             }
         } else {
@@ -302,6 +385,55 @@ class Buku extends CI_Controller
                     'status' => false,
                     'message' => 'Internal Server Error!',
                     'data' => 1
+                ];
+            }
+        } else {
+            $res = [
+                'code' => 403,
+                'status' => false,
+                'message' => 'Forbidden',
+                'data' => null
+            ];
+        }
+        echo json_encode($res);
+    }
+
+    public function addKategori()
+    {
+        $data_post = $this->input->post();
+        $data = [
+            'nama_kategori' => $data_post['input_nama_kategori'],
+        ];
+        $table = 'm_kategori_buku';
+        $res = $this->buku->insert_data($table, $data);
+        if ($res) {
+            $this->session->set_flashdata('success', 'Berhasil menambahkan data!');
+            redirect('manajemen/buku');
+        } else {
+            $this->session->set_flashdata('error', 'gagal menambah data!');
+            redirect('manajemen/buku');
+        }
+    }
+
+    public function deleteKategori()
+    {
+        if ($this->input->is_ajax_request()) {
+            $data_post = $this->input->post();
+            $where = ['id_kategori' => $data_post['id']];
+            $delete = $this->buku->deleteKategori($where);
+            if ($delete) {
+                $res = [
+                    'code' => 200,
+                    'status' => true,
+                    'message' => 'Success',
+                    'data' => null
+                ];
+            } else {
+                $res = [
+                    'code' => 500,
+                    'status' => false,
+                    'message' => 'Internal Server Error',
+                    'data' => null
                 ];
             }
         } else {

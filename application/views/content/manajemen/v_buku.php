@@ -1,5 +1,15 @@
 <div class="content">
     <div class="container-fluid">
+        <div class="row div_alert">
+            <?php if ($this->session->flashdata('success')) {
+                echo '<div class="alert alert-success" role="alert">' . $this->session->flashdata('success') . '</div>';
+                unset($_SESSION['success']);
+            } elseif ($this->session->flashdata('error')) {
+                echo '<div class="alert alert-danger" role="alert">' . $this->session->flashdata('error') . '</div>';
+                unset($_SESSION['error']);
+            }
+            ?>
+        </div>
         <div class="row">
             <div class="col-xl-12">
                 <div class="card">
@@ -9,6 +19,7 @@
                                 <h4 class="header-title mt-0 mb-3">Data <?= $subpage; ?></h4>
                             </div>
                             <div class="col-xl-6 col-sm-6 col-xs-12">
+                                <button class="btn float-end btn-outline-primary rounded-pill waves-effect waves-light btn-xs" id="btnShowKategori" style="margin-left: 3px;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom"><i class="mdi mdi-clipboard-list me-1"></i>Data Kategori</button>
                                 <button class="btn float-end btn-outline-success rounded-pill waves-effect waves-light btn-xs" id="btnAddBuku"><i class="mdi mdi-plus me-1"></i>Add <?= $subpage; ?></button>
                             </div>
                         </div>
@@ -53,7 +64,7 @@
                             </div>
                             <!-- Paginate -->
                             <div class="col-sm-12 col-md-7 clearfix">
-                                <div class="dataTables_paginate paging_simple_numbers" id="pagination">
+                                <div class="dataTables_paginate paging_simple_numbers pagination-rounded" id="pagination">
                                 </div>
                             </div>
                         </div>
@@ -139,6 +150,138 @@
         </div>
     </div>
 
+    <!-- Modal Edit Buku -->
+    <div class="modal fade" id="modalEditBuku" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Tambah Buku</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>manajemen/buku/updateData">
+                        <div class="form-group row">
+                            <label for="edit_kategori" class="col-sm-3 col-form-label">Kategori Buku</label>
+                            <div class="col-sm-9">
+                                <select id="edit_kategori" name="edit_kategori" class="form-select parsley-success" required data-parsley-id="21">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="edit_kode_buku" class="col-sm-3 col-form-label">Kode Buku</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="edit_kode_buku" name="edit_kode_buku" placeholder="Kode buku" required>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="edit_kode_judul" class="col-sm-3 col-form-label">Kode Judul</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="edit_kode_judul" name="edit_kode_judul" placeholder="Kode judul" required>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="edit_judul" class="col-sm-3 col-form-label">Judul</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="edit_judul" name="edit_judul" placeholder="Judul Buku" required>
+                                <input type="hidden" class="form-control" id="edit_id_buku" name="edit_id_buku">
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="edit_penulis" class="col-sm-3 col-form-label">Penulis</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="edit_penulis" name="edit_penulis" placeholder="Penulis buku" required>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="edit_penerbit" class="col-sm-3 col-form-label">Penerbit</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="edit_penerbit" name="edit_penerbit" placeholder="Penerbit buku" required>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="edit_tahun_terbit" class="col-sm-3 col-form-label">Tahun Terbit</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="edit_tahun_terbit" name="edit_tahun_terbit" placeholder="Tahun Terbit" required>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="edit_jumlah" class="col-sm-3 col-form-label">Jumlah</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="edit_jumlah" name="edit_jumlah" placeholder="Jumlah buku" required>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="edit_cover" class="col-sm-3 col-form-label">Cover Buku</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="file" id="edit_cover" name="files">
+                                <!-- <input class="form-control" type="hidden" id="edit_name_cover" name="edit_name_cover"> -->
+                            </div>
+                        </div>
+                        <div class="form-group row mt-2">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-sm btn-primary btn_save_buku" style="float: right;">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Canvas -->
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Data Kategori</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="col-md-12">
+            <button class="btn btn-outline-primary waves-effect waves-light btn-xs" style="margin-left: 17px;" id="btnAddKategori"><i class="mdi mdi-plus me-1"></i>Add Kategori</button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0" id="tableBuku">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th class="text-center">KATEGORI</th>
+                            <th class="text-center">TOOLS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody_kategori">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add Kategori -->
+    <div class="modal fade" id="modalAddKategori" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Tambah Kategori</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>manajemen/buku/addKategori">
+                        <div class="form-group row">
+                            <label for="input_nama_kategori" class="col-sm-3 col-form-label">Kategori</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="input_nama_kategori" name="input_nama_kategori" placeholder="Nama Kategori Buku" required>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-2">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-sm btn-primary btn_save_kategori" style="float: right;">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal View Cover -->
     <div class="modal fade" tabindex="-1" role="dialog" id="image_show">
         <div class="modal-dialog" role="document">
@@ -163,11 +306,23 @@
 
 <script>
     $(document).ready(function() {
+        setTimeout(function() {
+            $(".div_alert").fadeOut('slow');
+        }, 2000);
+
+
         $('input[name="input_tahun_terbit"').datepicker({
             format: "yyyy",
             viewMode: "years",
             minViewMode: "years"
         });
+        $('input[name="edit_tahun_terbit"').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years"
+        });
+
+
         $('#btnAddBuku').click(function() {
             $.ajax({
                 url: '<?= base_url(); ?>manajemen/buku/getKategori',
@@ -187,34 +342,62 @@
             $('#modalAddBuku').modal('show');
         });
 
+        $('#offcanvasBottom').on('show.bs.offcanvas', function() {
+            $.ajax({
+                url: '<?= base_url(); ?>manajemen/buku/getKategori',
+                type: 'POST',
+                serverSide: true,
+                dataType: 'json',
+                success: function(response) {
+                    let html = ``;
+                    $.each(response.data, function(i, item) {
+                        html += `<tr>`;
+                        html += `<td>${i+1}</td>`;
+                        html += `<td class="text-center">${item.nama_kategori}</td>1`;
+                        html += `<td class="text-center">`;
+                        html += `<button class="btn btn-xs btn-danger rounded-pill btn_delete_kategori" data-id="${item.id_kategori}">Delete</button>`;
+                        html += `</td>`;
+                    });
+                    $('#tbody_kategori').html(html);
 
-        $('.btn_save_buku').click(function() {
-            console.log(123);
-            // $.ajax({
-            //     url: '<?= base_url(); ?>manajemen/buku/addBuku',
-            //     type: 'POST',
-            //     data: $('form#form_add_buku').serialize(),
-            //     dataType: 'json',
-            //     success: function(response) {
-            // if (response.status == 'success') {
-            //     Swal.fire({
-            //         title: 'Success',
-            //         text: 'Data berhasil disimpan',
-            //         type: 'success',
-            //         confirmButtonText: 'Ok'
-            //     });
-            //     $('#modalAddBuku').modal('hide');
-            //     $('#table_buku').DataTable().ajax.reload();
-            // } else {
-            //     Swal.fire({
-            //         title: 'Error',
-            //         text: 'Data gagal disimpan',
-            //         type: 'error',
-            //         confirmButtonText: 'Ok'
-            //     });
-            // }
-            //     }
-            // });
+                    // delete kategori
+                    $('.btn_delete_kategori').on('click', function() {
+                        let id = $(this).data('id');
+                        $.ajax({
+                            url: '<?= base_url(); ?>manajemen/buku/deleteKategori',
+                            type: 'POST',
+                            data: {
+                                id: id
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                console.log(response);
+                                let title = ``;
+                                let msg = ``;
+                                let icon = ``;
+                                if (response.code === 200) {
+                                    title = `Deleted`;
+                                    icon = `success`;
+                                } else {
+                                    title = `Error!`;
+                                    icon = `error`;
+                                }
+                                Swal.fire(
+                                    title,
+                                    response.msg,
+                                    icon
+                                )
+                                location.reload();
+                            }
+                        });
+                    });
+                }
+            });
+        });
+
+        // add kategori
+        $('#btnAddKategori').click(function() {
+            $('#modalAddKategori').modal('show');
         });
 
 
@@ -313,16 +496,16 @@
                     htmlx += `
                         <tr>
                             <td>${no++}</td>
-                            <td class="text-center">${v.nama_kategori}</td>
-                            <td class="text-center">${v.judul_buku}</td>
-                            <td class="text-center">${v.penulis_buku}</td>
-                            <td class="text-center">${v.penerbit_buku}</td>
-                            <td class="text-center">${v.tahun_penerbit}</td>
-                            <td class="text-center">${v.jumlah}</td>
+                            <td class="text-center"><small>${v.nama_kategori}</small></td>
+                            <td class="text-center"><small>${v.judul_buku}</small></td>
+                            <td class="text-center"><small>${v.penulis_buku}</small></td>
+                            <td class="text-center"><small>${v.penerbit_buku}</small></td>
+                            <td class="text-center"><small>${v.tahun_penerbit}</small></td>
+                            <td class="text-center"><small>${v.jumlah}</small></td>
                             <td class="text-center"><img class="cover" width="40" height="60" src="<?= base_url('assets/img/coverbuku') ?>/${v.img}" data-judul="${v.judul_buku}" alt="Italian Trulli"></td>
                             <td class="text-center">
                                 <button class="btn btn-outline-warning rounded-pill waves-effect waves-light btn-xs btnEditBuku" data-id="${v.id_buku}" data-judul="${v.judul_buku}"><i class="mdi mdi-pencil-outline"></i></button>
-                                <button class="btn btn-outline-danger rounded-pill waves-effect waves-light btn-xs btnDeleteBuku" data-id="${v.id_buku}" data-judul="${v.judul_buku}"><i class="mdi mdi-delete"></i></button>
+                                <button class="btn btn-outline-danger rounded-pill waves-effect waves-light btn-xs btnDeleteBuku" data-cover="${v.img}" data-id="${v.id_buku}" data-judul="${v.judul_buku}"><i class="mdi mdi-delete"></i></button>
                             </td>
                         </tr>
                     `;
@@ -350,52 +533,97 @@
 
             $('.btnEditBuku').on('click', function() {
                 let id_buku = $(this).data('id');
-                console.log('edit' + id_buku);
+                $.ajax({
+                    url: "<?= base_url(); ?>manajemen/buku/getBukuById",
+                    type: "POST",
+                    data: {
+                        id: id_buku
+                    },
+                    dataType: "JSON",
+                    success: function(response) {
+                        console.log(response)
+                        $('#edit_id_buku').val(response.data.id_buku);
+                        $('#edit_kode_buku').val(response.data.kode_buku);
+                        $('#edit_kode_judul').val(response.data.kode_judul);
+                        $('#edit_judul').val(response.data.judul_buku);
+                        $('#edit_penulis').val(response.data.penulis_buku);
+                        $('#edit_penerbit').val(response.data.penerbit_buku);
+                        $('#edit_tahun_terbit').val(response.data.tahun_penerbit);
+                        $('#edit_jumlah').val(response.data.jumlah);
+                        $('#edit_kategori').val(response.data.id_kategori);
+                        // $("#edit_cover").val();
+                        // $('input#edit_cover').val('<?= base_url('assets/img/coverbuku') ?>/' + response.data.img);
+
+                        $.ajax({
+                            url: '<?= base_url(); ?>manajemen/buku/getKategori',
+                            type: 'POST',
+                            serverSide: true,
+                            dataType: 'json',
+                            success: function(res) {
+                                let html = ``;
+                                $.each(res.data, function(i, item) {
+                                    if (item.id_kategori == response.data.id_kategori) {
+                                        html += `<option value="${item.id_kategori}" selected>${item.nama_kategori}</option>`;
+                                    } else {
+                                        html += `<option value="${item.id_kategori}">${item.nama_kategori}</option>`;
+                                    }
+                                });
+                                $('select#edit_kategori').html(html);
+                            }
+                        });
+
+                        $('#modalEditBuku').modal('show');
+
+                    }
+                });
             });
             $('.btnDeleteBuku').on('click', function() {
                 let id_buku = $(this).data('id');
                 let judul = $(this).data('judul');
-                console.log('delete' + id_buku);
-                // Swal.fire({
-                //     title: 'Are you sure?',
-                //     text: `Buku ${judul} , akan dihapus!`,
-                //     icon: 'warning',
-                //     showCancelButton: true,
-                //     confirmButtonColor: '#3085d6',
-                //     cancelButtonColor: '#d33',
-                //     confirmButtonText: 'Yes, delete it!'
-                // }).then((result) => {
-                //     console.log(result);
-                //     if (result.isConfirmed) {
-                //         $.ajax({
-                //             type: "POST",
-                //             url: "<?= base_url(); ?>manajemen/buku/deleteData", // where you wanna post
-                //             data: {
-                //                 id: id_buku
-                //             },
-                //             dataType: "json",
-                //             success: function(response) {
-                //                 // console.log(response)
-                //                 let title = ``;
-                //                 let msg = ``;
-                //                 let icon = ``;
-                //                 if (response.code === 200) {
-                //                     title = `Deleted`;
-                //                     icon = `success`;
-                //                 } else {
-                //                     title = `Error!`;
-                //                     icon = `error`;
-                //                 }
-                //                 Swal.fire(
-                //                     title,
-                //                     response.msg,
-                //                     icon
-                //                 )
-                //                 location.reload();
-                //             }
-                //         })
-                //     }
-                // })
+                let cover = $(this).data('cover');
+                // console.log('delete ' + id_buku);
+                // console.log(cover);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `Buku ${judul} , akan dihapus!`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    // console.log(result);
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: "<?= base_url(); ?>manajemen/buku/deleteData",
+                            data: {
+                                id: id_buku,
+                                cover: cover
+                            },
+                            dataType: "json",
+                            success: function(response) {
+                                // console.log(response)
+                                let title = ``;
+                                let msg = ``;
+                                let icon = ``;
+                                if (response.code === 200) {
+                                    title = `Deleted`;
+                                    icon = `success`;
+                                } else {
+                                    title = `Error!`;
+                                    icon = `error`;
+                                }
+                                Swal.fire(
+                                    title,
+                                    response.msg,
+                                    icon
+                                )
+                                location.reload();
+                            }
+                        })
+                    }
+                })
             });
         }
     });
