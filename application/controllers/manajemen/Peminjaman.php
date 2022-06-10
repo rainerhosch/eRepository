@@ -31,7 +31,8 @@ class Peminjaman extends CI_Controller
             $url_pagination = $this->input->post('url_pagination');
 
             if ($key_cari != null) {
-                $where = "uda.nama LIKE '%" . $key_cari . "%' OR m_buku.judul_buku LIKE '%" . $key_cari . "%' OR ag.username LIKE '%" . $key_cari . "%'";
+                $where = "uda.nama LIKE '%" . $key_cari . "%' OR ag.username LIKE '%" . $key_cari . "%'";
+                // $where = "uda.nama LIKE '%" . $key_cari . "%' OR m_buku.judul_buku LIKE '%" . $key_cari . "%' OR ag.username LIKE '%" . $key_cari . "%'";
             } else {
                 $where = "tr_peminjaman.status_pengembalian = '0'";
             }
@@ -52,7 +53,7 @@ class Peminjaman extends CI_Controller
             $this->load->library('pagination');
 
             $condition = [
-                'field' => 'tr_peminjaman.*, m_buku.judul_buku, uda.nama AS nama_anggota, udp.nama AS nama_petugas',
+                'field' => 'tr_peminjaman.*, uda.nama AS nama_anggota, udp.nama AS nama_petugas',
                 'limit' => $limit,
                 'offset' => $offset,
                 'where' => $where,
@@ -77,15 +78,22 @@ class Peminjaman extends CI_Controller
                         'on' => 'udp.user_detail_id=ptg.user_detail_id',
                         'join_type' => ''
                     ],
-                    4 => [
-                        'table' => 'm_buku',
-                        'on' => 'm_buku.id_buku = tr_peminjaman.id_buku',
-                        'join_type' => ''
-                    ]
+                    // 4 => [
+                    //     'table' => 'm_buku',
+                    //     'on' => 'm_buku.id_buku = tr_peminjaman.id_buku',
+                    //     'join_type' => ''
+                    // ]
                 ]
             ];
             $data['peminjaman'] = $this->peminjaman->getData($condition)->result_array();
             foreach ($data['peminjaman'] as $key => $value) {
+
+                $id_buku = explode(',', $value['id_buku']);
+                $jml_buku_dipinjam = count($id_buku);
+                foreach ($id_buku as $i => $item_buku) {
+                    $data['peminjaman'][$key]['buku_dipinjam'][$i] = $this->buku->getBukuById(['id_buku' => $item_buku])->row_array();
+                }
+
                 $tgl_now = strtotime(date('Y-m-d'));
                 $tgl_pengembalian = strtotime($value['tanggal_kembali']);
                 $datediff = $tgl_now - $tgl_pengembalian;
@@ -93,11 +101,11 @@ class Peminjaman extends CI_Controller
                 if ($tgl_now > $tgl_pengembalian) {
                     $data['peminjaman'][$key]['denda_status'] = 1;
                     $data['peminjaman'][$key]['jml_hari_denda'] =  round($datediff / (60 * 60 * 24));
-                    $data['peminjaman'][$key]['total_biaya_denda'] =  $denda['jml_denda'] * $data['peminjaman'][$key]['jml_hari_denda'];
+                    $data['peminjaman'][$key]['total_biaya_denda'] =  ($denda['jml_denda'] * $data['peminjaman'][$key]['jml_hari_denda']) * $jml_buku_dipinjam;
                 } else {
                     $data['peminjaman'][$key]['denda_status'] = 0;
                     $data['peminjaman'][$key]['jml_hari_denda'] = 0;
-                    $data['peminjaman'][$key]['total_biaya_denda'] =  $denda['jml_denda'] * $data['peminjaman'][$key]['jml_hari_denda'];
+                    $data['peminjaman'][$key]['total_biaya_denda'] =  ($denda['jml_denda'] * $data['peminjaman'][$key]['jml_hari_denda']) * $jml_buku_dipinjam;
                 }
             }
             $data['total_data'] = $this->peminjaman->getCount();
@@ -167,14 +175,36 @@ class Peminjaman extends CI_Controller
     public function addPeminjaman()
     {
         $post = $this->input->post();
+        foreach ($post as $key => $value) {
+            $waktu_peminjaman = explode(' - ', $post['input_tgl_peminjaman']);
+
+            // cek id buku
+            $postIdBuku = explode(PHP_EOL, $post['input_idbuku']);
+            foreach ($postIdBuku as $key => $value) {
+                if ($value != '') {
+                    $post['id_buku'][$key] = $value;
+                }
+            }
+            $id_buku = implode(",", $post['id_buku']);
+
+            foreach ($waktu_peminjaman as $key => $val) {
+                $waktu_peminjaman[$key] = date('Y-m-d', strtotime($val));
+            }
+        }
+        $post['input_tgl_peminjaman'] = $waktu_peminjaman[0];
+        $post['input_tgl_pengembalian'] = $waktu_peminjaman[1];
+        // var_dump($id_buku);
+        // die;
         $data_insert = [
-            'tanggal_pinjam' => $post['input_tgl_peminjaman'],
-            'tanggal_kembali' => $post['input_tgl_pengembalian'],
-            'id_buku' => $post['input_idbuku'],
+            'tanggal_pinjam' => $waktu_peminjaman[0],
+            'tanggal_kembali' => $waktu_peminjaman[1],
+            'id_buku' => $id_buku,
             'id_anggota' => $post['input_iduser'],
             'id_petugas' => $this->session->userdata('user_id'),
             'status_pengembalian' => 0,
         ];
+        // var_dump($data_insert);
+        // die;
         $insert = $this->peminjaman->insertData($data_insert);
         if ($insert) {
             $this->session->set_flashdata('success', 'Data berhasil di input!');

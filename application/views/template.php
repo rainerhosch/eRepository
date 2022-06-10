@@ -17,6 +17,7 @@
     <link href="<?= base_url('assets/template') ?>/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('assets/template') ?>/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('assets/template') ?>/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('assets/template') ?>/libs/daterangepicker/css/daterangepicker.css" rel="stylesheet" type="text/css" />
     <!-- third party css end -->
     <!-- App css -->
     <link href="<?= base_url('assets/template') ?>/css/config/default/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
@@ -30,6 +31,8 @@
     <script src="<?= base_url('assets/template') ?>/js/vendor.min.js"></script>
     <script src="<?= base_url('assets') ?>/plugins/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="<?= base_url('assets/template') ?>/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="<?= base_url('assets/template') ?>/libs/daterangepicker/js/moment.min.js"></script>
+    <script src="<?= base_url('assets/template') ?>/libs/daterangepicker/js/daterangepicker.js"></script>
 
 </head>
 

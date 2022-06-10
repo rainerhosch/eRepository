@@ -130,9 +130,8 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Buku</th>
+                                        <th>Buku Dipinjam</th>
                                         <th>Tanggal Peminjaman</th>
-                                        <th>Tgl Pengembalian</th>
                                         <th>Peminjam</th>
                                         <th>Petugas</th>
                                         <th>Denda Hari</th>
@@ -140,7 +139,66 @@
                                         <th class="text-center">Tools</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tbody_peminjaman_buku">
+                                <tbody class="tbody_peminjaman_buku" id="tbody_peminjaman_buku">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-12 col-md-5 hidden-xs">
+                                <div class="dataTables_info" id="datatable_info_peminjaman" role="status" aria-live="polite"></div>
+                            </div>
+                            <!-- Paginate -->
+                            <div class="col-sm-12 col-md-7 clearfix">
+                                <div class="dataTables_paginate paging_simple_numbers pagination-rounded" id="pagination_peminjaman">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- table pengembalian -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-xl-6 col-sm-6 col-xs-12">
+                                <h4 class="header-title mt-0 mb-3">Data Pengembalian Buku</h4>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-xl-2 col-sm-2 col-xs-12">
+                                <div class="dataTables_length"></div>
+                                <select id="datatable_length" name="datatable_length" aria-controls="datatable" class="form-select form-select-sm">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                            <div class="col-xl-10 col-sm-10 col-xs-12">
+                                <div id="datatable_filter" class="float-end dataTables_filter"><input type="search" class="form-control form-control-sm datatable_filter" placeholder="NISN, Judul, Nama" aria-controls="datatable"></div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tanggal Pengembalian</th>
+                                        <th>Buku</th>
+                                        <th>Peminjam</th>
+                                        <th>Petugas</th>
+                                        <th>Total Denda</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody_pengembalian_buku" id="tbody_pengembalian_buku">
                                 </tbody>
                             </table>
                         </div>
@@ -149,9 +207,8 @@
                             <div class="col-sm-12 col-md-5 hidden-xs">
                                 <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite"></div>
                             </div>
-                            <!-- Paginate -->
                             <div class="col-sm-12 col-md-7 clearfix">
-                                <div class="dataTables_paginate paging_simple_numbers pagination-rounded" id="pagination">
+                                <div class="dataTables_paginate paging_simple_numbers pagination-rounded" id="pagination_pengembalian">
                                 </div>
                             </div>
                         </div>
@@ -188,20 +245,15 @@
                         <div class="form-group row mt-1">
                             <label for="input_judul_buku" class="col-sm-3 col-form-label">Judul Buku</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="input_judul_buku" name="input_judul_buku" placeholder="Cari judul buku yang akan di pinjam..." required>
+                                <textarea name="input_judul_buku" id="input_judul_buku" class="form-control" rows="3" required="required" placeholder="Cari judul buku yang akan di pinjam..."></textarea>
                                 <input type="hidden" class="form-control" id="input_idbuku" name="input_idbuku">
+                                <!-- <div id="div_input_idbuku"></div> -->
                             </div>
                         </div>
                         <div class="form-group row mt-1">
-                            <label for="input_tgl_peminjaman" class="col-sm-6 col-form-label">Tanggal Peminjaman</label>
-                            <div class="col-sm-6">
-                                <input type="date" class="form-control" id="input_tgl_peminjaman" name="input_tgl_peminjaman" required>
-                            </div>
-                        </div>
-                        <div class="form-group row mt-1">
-                            <label for="input_tgl_pengembalian" class="col-sm-6 col-form-label">Tanggal Pengembalian</label>
-                            <div class="col-sm-6">
-                                <input type="date" class="form-control" id="input_tgl_pengembalian" name="input_tgl_pengembalian" required>
+                            <label for="input_tgl_peminjaman" class="col-sm-3 col-form-label">Tanggal Peminjaman</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="input_tgl_peminjaman" name="input_tgl_peminjaman" required>
                             </div>
                         </div>
                         <div class="form-group row mt-2">
@@ -215,9 +267,20 @@
         </div>
     </div>
 
+    <!-- Modal Pengembalian Buku -->
+
 </div>
 <script>
     $(document).ready(function() {
+        function getDateNow() {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
+            return today;
+        }
+
         setTimeout(function() {
             $(".div_alert").fadeOut('slow');
         }, 2000);
@@ -226,6 +289,16 @@
         setTimeout(function() {
             $(".div_alert").fadeOut('slow');
         }, 2000);
+
+        $('input[name="input_tgl_peminjaman"]').daterangepicker({
+            // locale: {
+            //     format: 'Y/M/D'
+            // },
+            opens: 'left'
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('Y-M-D') + ' to ' + end.format('Y-M-D'));
+        });
+
 
         $('select[name="datatable_length"]').on('change', function() {
             let limit = $(this).val();
@@ -241,7 +314,7 @@
             loadFilter(keyword);
         });
 
-        $('#pagination').on('click', 'a', function(e) {
+        $('#pagination_peminjaman').on('click', 'a', function(e) {
             e.preventDefault();
             let limit = $('#datatable_length').val();
             let offset = $(this).attr('data-ci-pagination-page');
@@ -267,7 +340,7 @@
                     let data_peminjaman = response.data.peminjaman;
                     let total_data = response.data.total_data;
                     let offset = response.data.current_page;
-                    $('#pagination').html(response.pagination);
+                    $('#pagination_peminjaman').html(response.pagination);
                     createTable(data_peminjaman, total_data, limit, offset);
                 }
             });
@@ -294,7 +367,7 @@
                     let data_peminjaman = response.data.peminjaman;
                     let total_data = response.data.total_data;
                     let offset = response.data.current_page;
-                    $('#pagination').html(response.data.pagination_link);
+                    $('#pagination_peminjaman').html(response.data.pagination_link);
                     $('ul.pagination li a').addClass('page-link');
                     createTable(data_peminjaman, total_data, limit, offset);
                 }
@@ -303,7 +376,7 @@
 
         function createTable(data_peminjaman, total_data, limit, offset) {
             // console.log(limit);
-            // console.log(data_peminjaman);
+            console.log(data_peminjaman);
             let html = ``;
             offset = Number(offset);
             $('table#tbody_buku').empty();
@@ -311,54 +384,63 @@
             if (data_peminjaman != 0) {
                 let no = 1;
                 let numEnd = Number(limit) + Number(offset);
-                $('#datatable_info').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Record`);
+                $('#datatable_info_peminjaman').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Record`);
                 $.each(data_peminjaman, function(k, item) {
                     html += `<tr>`;
-                    html += `<td>${no}</td>`;
-                    html += `<td>${item.judul_buku}</td>`;
-                    html += `<td>${item.tanggal_pinjam}</td>`;
-                    html += `<td>${item.tanggal_kembali}</td>`;
-                    html += `<td>${item.nama_anggota}</td>`;
-                    html += `<td>${item.nama_petugas}</td>`;
-                    html += `<td>${item.jml_hari_denda}</td>`;
-                    html += `<td>Rp.${parseInt(item.total_biaya_denda).toLocaleString()}</td>`;
+                    html += `<td><small>${no}</small></td>`;
+                    html += `<td>`;
+                    $.each(item.buku_dipinjam, function(j, item_buku) {
+                        html += `<i style="font-size:11px; font-weight: bold;">- ${item_buku.judul_buku}</i><br>`;
+                    });
+                    html += `</td>`;
+                    html += `<td><small>${item.tanggal_pinjam} s/d ${item.tanggal_kembali}</small></td>`;
+                    // html += `<td>${item.tanggal_kembali}</td>`;
+                    html += `<td><small>${item.nama_anggota}</small></td>`;
+                    html += `<td><small>${item.nama_petugas}</small></td>`;
+                    html += `<td><small>${item.jml_hari_denda}</small></td>`;
+                    html += `<td><small>Rp.${parseInt(item.total_biaya_denda).toLocaleString()}</small></td>`;
                     if (item.denda_status != 0) {
-                        html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnSetPeminjaan" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></i></button></td>`;
+                        html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.total_biaya_denda}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></i></button></td>`;
                     } else {
-                        html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnSetPeminjaan" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></button></td>`;
+                        html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.total_biaya_denda}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></button></td>`;
                     }
                     html += `</tr>`;
+                    no++;
                 });
-                no++;
             } else {
                 html += `<tr>`;
                 html += `<td colspan="7" class="text-center"><i>Tidak ada data</i></td>`;
                 html += `</tr>`;
             }
-            $('#tbody_peminjaman_buku').html(html);
-            $('.btnSetPeminjaan').click(function() {
+            $('.tbody_peminjaman_buku').html(html);
+            $('.btnToolsPeminjaan').click(function() {
                 let id = $(this).data('id');
-                console.log(id);
-            });
-        }
+                let denda = $(this).data('denda');
+                let id_buku = $(this).data('idbuku');
+                let id_anggota = $(this).data('peminjam');
+                let tgl_pengembalian = getDateNow();
 
-        function getUser(key) {
-            $.ajax({
-                url: '<?= base_url(); ?>manajemen/user/getData',
-                type: 'POST',
-                data: {
-                    filter: '4',
-                    key: key
-                },
-                serverSide: true,
-                dataType: 'json',
-                success: function(res) {
-                    let data_user = res.data;
-                    // $.each(response.data, function(k, item) {
-                    //     $('#input_user').append(`<option value="${item.user_id}">${item.username} | ${item.nama}</option>`);
-                    //     console.log(item.username);
-                    // });
-                }
+                // console.log(id);
+                // console.log(denda);
+                // console.log(id_buku);
+                // console.log(id_anggota);
+
+                $.ajax({
+                    url: '<?= base_url(); ?>manajemen/buku/insertPengembalian',
+                    type: 'post',
+                    dataType: "json",
+                    serverSide: true,
+                    data: {
+                        id_peminjaman: id,
+                        id_buku: id_buku,
+                        id_anggota: id_anggota,
+                        tgl_pengembalian: tgl_pengembalian,
+                        denda: denda
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    }
+                });
             });
         }
 
@@ -370,7 +452,6 @@
         $('#input_nisn').autocomplete({
             maxShowItems: 5,
             source: function(request, response) {
-                // console.log(request.term);
                 // Fetch data
                 $.ajax({
                     url: '<?= base_url(); ?>manajemen/user/getDataForAutoComplete',
@@ -402,18 +483,48 @@
         });
 
         // Auto complete buku
-        $('#input_judul_buku').autocomplete({
-            maxShowItems: 5,
+        // $('#input_judul_buku').autocomplete({
+        //     maxShowItems: 5,
+        //     source: function(request, response) {
+        //         // Fetch data
+        //         $.ajax({
+        //             url: '<?= base_url(); ?>manajemen/buku/getDataForAutoComplete',
+        //             type: 'post',
+        //             dataType: "json",
+        //             serverSide: true,
+        //             data: {
+        //                 search: request.term
+        //             },
+        //             success: function(res) {
+        //                 // console.log(res);
+        //                 response(res.data);
+        //             }
+        //         });
+        //     },
+        //     select: function(event, ui) {
+        //         // Set selection
+        //         $('#input_judul_buku').val(ui.item.value);
+        //         $('#input_idbuku').val(ui.item.id);
+        //         return false;
+        //     },
+        //     focus: function(event, ui) {
+        //         $("#input_judul_buku").val(ui.item.value);
+        //         $('#input_idbuku').val(ui.item.id);
+        //         return false;
+        //     },
+        // });
+
+        // multyple autocomplete
+        $("#input_judul_buku").autocomplete({
             source: function(request, response) {
-                // console.log(request.term);
-                // Fetch data
+                var searchText = extractLast(request.term);
                 $.ajax({
                     url: '<?= base_url(); ?>manajemen/buku/getDataForAutoComplete',
                     type: 'post',
                     dataType: "json",
                     serverSide: true,
                     data: {
-                        search: request.term
+                        search: searchText
                     },
                     success: function(res) {
                         // console.log(res);
@@ -422,17 +533,35 @@
                 });
             },
             select: function(event, ui) {
-                // Set selection
-                $('#input_judul_buku').val(ui.item.value); // display the selected text
-                $('#input_idbuku').val(ui.item.id); // save selected id to input
+                var terms = split($('#input_judul_buku').val());
+
+                terms.pop();
+
+                terms.push(ui.item.value);
+
+                terms.push("");
+                $('#input_judul_buku').val(terms.join("\n"));
+
+                // Id buku
+                terms = split($('#input_idbuku').val());
+                terms.pop();
+                terms.push(ui.item.id);
+                terms.push("");
+                $('#input_idbuku').val(terms.join("\n"));
+                // $('#div_input_idbuku').append(`<input type="hidden" name="id_buku[]" value="${ui.item.id}">`);
+
                 return false;
-            },
-            focus: function(event, ui) {
-                $("#input_judul_buku").val(ui.item.value);
-                $('#input_idbuku').val(ui.item.id);
-                return false;
-            },
+            }
+
         });
 
     });
+
+    function split(val) {
+        return val.split(/\n\s*/);
+    }
+
+    function extractLast(term) {
+        return split(term).pop();
+    }
 </script>
