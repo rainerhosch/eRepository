@@ -59,9 +59,13 @@ class M_peminjaman extends CI_Model
         return $this->db->get();
     }
 
-    public function insertData($data)
+    public function insertData($data, $table = null)
     {
-        $this->db->insert($this->_table, $data);
+        if ($table != null) {
+            $this->db->insert($table, $data);
+        } else {
+            $this->db->insert($this->_table, $data);
+        }
         if ($this->db->affected_rows() > 0) {
             return TRUE;
         } else {
@@ -76,9 +80,15 @@ class M_peminjaman extends CI_Model
         return $this->db->get()->num_rows();
     }
 
-    function updateData($data, $where)
+    function updateData($data, $where, $table = null)
     {
-        $this->db->update($this->_table, $data, $where);
+        if ($table != null) {
+            $this->db->where($where);
+            $this->db->update($table, $data);
+        } else {
+            $this->db->where($where);
+            $this->db->update($this->_table, $data);
+        }
         if ($this->db->affected_rows() > 0) {
             return TRUE;
         } else {

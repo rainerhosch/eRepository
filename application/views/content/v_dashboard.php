@@ -227,7 +227,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>manajemen/peminjaman/addPeminjaman">
+                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>manajemen/peminjaman/insertPeminjaman">
                         <div class="form-group row">
                             <label for="input_nisn" class="col-sm-3 col-form-label">ID ANGGOTA</label>
                             <div class="col-sm-9">
@@ -376,7 +376,7 @@
 
         function createTable(data_peminjaman, total_data, limit, offset) {
             // console.log(limit);
-            console.log(data_peminjaman);
+            // console.log(data_peminjaman);
             let html = ``;
             offset = Number(offset);
             $('table#tbody_buku').empty();
@@ -419,26 +419,38 @@
                 let id_buku = $(this).data('idbuku');
                 let id_anggota = $(this).data('peminjam');
                 let tgl_pengembalian = getDateNow();
-
                 // console.log(id);
                 // console.log(denda);
                 // console.log(id_buku);
                 // console.log(id_anggota);
 
                 $.ajax({
-                    url: '<?= base_url(); ?>manajemen/buku/insertPengembalian',
+                    url: '<?= base_url(); ?>manajemen/peminjaman/insertPengembalian',
                     type: 'post',
                     dataType: "json",
                     serverSide: true,
                     data: {
-                        id_peminjaman: id,
+                        tgl_pengembalian: tgl_pengembalian,
+                        denda: denda,
                         id_buku: id_buku,
                         id_anggota: id_anggota,
-                        tgl_pengembalian: tgl_pengembalian,
-                        denda: denda
+                        id_peminjaman: id,
                     },
                     success: function(response) {
                         console.log(response);
+                        if (response.code === 200) {
+                            title = `Success`;
+                            icon = `success`;
+                        } else {
+                            title = `Error!`;
+                            icon = `error`;
+                        }
+                        Swal.fire(
+                            title,
+                            response.message,
+                            icon
+                        )
+                        location.reload();
                     }
                 });
             });
