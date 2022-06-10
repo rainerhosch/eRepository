@@ -12,13 +12,11 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?= base_url('assets/template') ?>/images/favicon.ico">
     <!-- third party css -->
-    <!-- <link href="<?= base_url('assets/template') ?>/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" /> -->
     <link href="<?= base_url('assets/template') ?>/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
     <link href="<?= base_url('assets/template') ?>/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('assets/template') ?>/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('assets/template') ?>/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('assets/template') ?>/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
-    <!-- <link href="<?= base_url('assets/template') ?>/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" /> -->
     <!-- third party css end -->
     <!-- App css -->
     <link href="<?= base_url('assets/template') ?>/css/config/default/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
@@ -27,6 +25,7 @@
     <link href="<?= base_url('assets/template') ?>/css/config/default/app-dark.min.css" rel="stylesheet" type="text/css" id="app-dark-stylesheet" disabled="disabled" />
     <!-- icons -->
     <link href="<?= base_url('assets/template') ?>/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('assets/template'); ?>/libs/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css" />
     <!-- Vendor js -->
     <script src="<?= base_url('assets/template') ?>/js/vendor.min.js"></script>
     <script src="<?= base_url('assets') ?>/plugins/sweetalert2/sweetalert2.all.min.js"></script>

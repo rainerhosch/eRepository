@@ -194,13 +194,12 @@
         });
 
         $('#btnAddUser').on('click', function() {
-
             $.ajax({
                 url: "<?= base_url(); ?>setup/roleuser/getData",
                 type: "POST",
                 dataType: "JSON",
                 success: function(response) {
-                    console.log(response);
+                    // console.log(response);
                     let html = ``;
                     html += `<option value="" hidden>Pilih Role...</option>`;
                     $.each(response.data, function(i, v) {
@@ -212,6 +211,14 @@
                 }
             });
             $('#modalAddUser').modal('show');
+        });
+        $('#role_user').on('change', function() {
+            let role_id = $(this).val();
+            if (role_id == '4') {
+                $('input[name="username"]').attr('placeholder', 'masukan NISN untuk username');
+            } else {
+                $('input[name="username"]').attr('placeholder', 'username/email');
+            }
         });
 
         $("#form_add_user").submit(function(e) {

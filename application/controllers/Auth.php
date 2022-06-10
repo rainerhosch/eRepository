@@ -60,7 +60,7 @@ class Auth extends CI_Controller
 							'code' => 200,
 							'status' => 'success',
 							'message' => 'Success',
-							'data' => 'Data sesion berhasil di set'
+							'data' => $data_session
 						];
 					} else {
 						$response = [

@@ -16,13 +16,37 @@ class Dashboard extends CI_Controller
         parent::__construct();
         login_check();
     }
+
     public function index()
     {
-        $data['title'] = 'E-Library';
-        $data['page'] = 'Dashboard';
-        $data['content'] = 'content/v_dashboard';
-        $this->load->view('template', $data);
-        // $this->load->view('app');
+        if ($this->session->userdata('role') <= 2) {
+            redirect('dashboard/admin');
+        } else {
+            redirect('dashboard/anggota');
+        }
+    }
+
+    public function admin()
+    {
+        if ($this->session->userdata('role') <= 2) {
+            $data['title'] = 'E-Library';
+            $data['page'] = 'Dashboard Admin';
+            $data['content'] = 'content/v_dashboard';
+            $this->load->view('template', $data);
+        } else {
+            redirect('dashboard/anggota');
+        }
+    }
+    public function anggota()
+    {
+        if ($this->session->userdata('role') > 2) {
+            $data['title'] = 'E-Library';
+            $data['page'] = 'Dashboard Anggota';
+            $data['content'] = 'content/v_dashboard_anggota';
+            $this->load->view('template', $data);
+        } else {
+            redirect('dashboard/admin');
+        }
     }
 
     public function home()

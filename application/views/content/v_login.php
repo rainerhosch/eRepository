@@ -115,7 +115,7 @@
                 },
                 dataType: "JSON",
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     if (response.code != 200) {
                         if (response.code === 403) {
                             $('.notif_password').html(`<p class="text-danger"><small>${response.message}</small></p>`);
@@ -130,8 +130,7 @@
                             }, 2000);
                         }
                     } else {
-                        // 200
-                        window.location = `<?= base_url('dashboard') ?>`
+                        window.location.href = "<?= base_url('dashboard') ?>";
                     }
                 }
             });

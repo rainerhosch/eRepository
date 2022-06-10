@@ -11,7 +11,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 class M_user extends CI_Model
 {
-    public function getData($field, $where = null)
+    public function getData($field, $where = null, $search = null)
     {
         $this->db->select($field);
         $this->db->from('user');
@@ -20,6 +20,10 @@ class M_user extends CI_Model
 
         if ($where != null) {
             $this->db->where($where);
+        }
+        if ($search != null) {
+            $this->db->like('username', $search, 'after');
+            $this->db->or_like('user_detail.nama', $search, 'after');
         }
         return $this->db->get();
     }

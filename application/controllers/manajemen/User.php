@@ -34,19 +34,80 @@ class User extends CI_Controller
         if ($this->input->is_ajax_request()) {
             $data_post = $this->input->post();
             if (count($data_post) <= 0) {
-                $field = 'user.user_id, user_detail.*, user_role.role_type, user_role.role_id';
+                $field = 'user.user_id, user.username, user_detail.*, user_role.role_type, user_role.role_id';
                 $data = $this->user->getData($field)->result_array();
             } else {
-                $where = [
-                    'user_id' => $data_post['id']
-                ];
-                $data = $this->user->getData(null, $where)->row_array();
+                if (isset($data_post['filter']) && isset($data_post['search'])) {
+                    $search =  $data_post['search'];
+                    $field = 'user.user_id, user.username, user_detail.*, user_role.role_type, user_role.role_id';
+                    $where = [
+                        'user.role_id' => $data_post['filter'],
+                        'user.username' => $search
+                    ];
+                    $data = $this->user->getData($field, $where, null)->result_array();
+                } else {
+                    $where = [
+                        'user_id' => $data_post['id']
+                    ];
+                    $data = $this->user->getData(null, $where)->row_array();
+                }
             }
             $res = [
                 'code' => 200,
                 'status' => true,
                 'message' => 'Success',
-                'data' => $data
+                'data' => $data,
+                'post' => empty($data['search'])
+
+            ];
+        } else {
+            $res = [
+                'code' => 500,
+                'status' => false,
+                'message' => 'Access Denied',
+                'data' => null
+            ];
+        }
+        echo json_encode($res);
+    }
+
+    public function getDataForAutoComplete()
+    {
+        if ($this->input->is_ajax_request()) {
+            $response = [];
+            $data_post = $this->input->post();
+            if (count($data_post) <= 0) {
+                $field = 'user.user_id, user.username, user_detail.*, user_role.role_type, user_role.role_id';
+                $data = $this->user->getData($field)->result_array();
+            } else {
+                if (isset($data_post['filter']) && isset($data_post['search'])) {
+                    $search =  $data_post['search'];
+                    $field = 'user.user_id, user.username, user_detail.*, user_role.role_type, user_role.role_id';
+                    $where = [
+                        'user.role_id' => $data_post['filter']
+                    ];
+                    $data = $this->user->getData($field, $where, $search)->result_array();
+                    foreach ($data as $key => $value) {
+                        $response[$key] = [
+                            'label' => $value['nama'],
+                            'value' => $value['username'],
+                            'id' => $value['user_id']
+                        ];
+                    }
+                } else {
+                    $where = [
+                        'user_id' => $data_post['id']
+                    ];
+                    $data = $this->user->getData(null, $where)->row_array();
+                }
+            }
+            $res = [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Success',
+                'data' => $data,
+                'data_autocomplete' => $response
+
             ];
         } else {
             $res = [

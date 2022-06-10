@@ -136,6 +136,52 @@ class Buku extends CI_Controller
         echo json_encode($res);
     }
 
+    public function getDataForAutoComplete()
+    {
+        if ($this->input->is_ajax_request()) {
+            $data = [];
+            $key_cari = $this->input->post('search');
+            if ($key_cari != null) {
+                $where = "m_buku.judul_buku LIKE '%" . $key_cari . "%' OR m_buku.penulis_buku LIKE '%" . $key_cari . "%' OR m_buku.penerbit_buku LIKE '%" . $key_cari . "%'";
+            } else {
+                $where = null;
+            }
+            $condition = [
+                'field' => 'm_buku.*, m_kategori_buku.nama_kategori',
+                'where' => $where,
+                'join_tbl' => [
+                    0 => [
+                        'table' => 'm_kategori_buku',
+                        'on' => 'm_buku.id_kategori = m_kategori_buku.id_kategori',
+                        'join_type' => ''
+                    ]
+                ]
+            ];
+            $dataBuku = $this->buku->getData($condition)->result_array();
+            foreach ($dataBuku as $key => $value) {
+                $data[] = [
+                    'id' => $value['id_buku'],
+                    'value' => $value['judul_buku']
+                ];
+            }
+
+            $res = [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Success',
+                'data' => $data,
+            ];
+        } else {
+            $res = [
+                'code' => 403,
+                'status' => false,
+                'message' => 'Forbidden',
+                'data' => null
+            ];
+        }
+        echo json_encode($res);
+    }
+
     public function getMaxId()
     {
         $data = $this->buku->getMaxId()->row_array();
