@@ -18,6 +18,11 @@
     <link href="<?= base_url('assets/template') ?>/libs/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('assets/template') ?>/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('assets/template') ?>/libs/daterangepicker/css/daterangepicker.css" rel="stylesheet" type="text/css" />
+    <!-- select css -->
+    <link href="<?= base_url('assets/template') ?>/libs/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('assets/template') ?>/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('assets/template') ?>/libs/selectize/css/selectize.bootstrap3.css" rel="stylesheet" type="text/css" />
+
     <!-- third party css end -->
     <!-- App css -->
     <link href="<?= base_url('assets/template') ?>/css/config/default/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
@@ -33,6 +38,10 @@
     <script src="<?= base_url('assets/template') ?>/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="<?= base_url('assets/template') ?>/libs/daterangepicker/js/moment.min.js"></script>
     <script src="<?= base_url('assets/template') ?>/libs/daterangepicker/js/daterangepicker.js"></script>
+    <!-- select js -->
+    <script src="<?= base_url('assets/template') ?>/libs/selectize/js/standalone/selectize.min.js"></script>
+    <script src="<?= base_url('assets/template') ?>/libs/multiselect/js/jquery.multi-select.js"></script>
+    <script src="<?= base_url('assets/template') ?>/libs/select2/js/select2.min.js"></script>
 
 </head>
 

@@ -15,10 +15,19 @@ class Peminjaman extends CI_Controller
     {
         parent::__construct();
         login_check();
-        $this->load->model('manajemen/M_peminjaman', 'peminjaman');
+        $this->load->model('transaksi/M_peminjaman', 'peminjaman');
         $this->load->model('manajemen/M_buku', 'buku');
         $this->load->model('manajemen/M_user', 'user');
         $this->load->model('manajemen/M_denda', 'denda');
+    }
+
+    public function index()
+    {
+        $data['title'] = 'E-Library';
+        $data['page'] = 'Transaksi';
+        $data['subpage'] = 'Peminjaman';
+        $data['content'] = 'content/transaksi/v_peminjaman';
+        $this->load->view('template', $data);
     }
 
     public function getData()
@@ -97,18 +106,21 @@ class Peminjaman extends CI_Controller
                 $tgl_now = strtotime(date('Y-m-d'));
                 $tgl_pengembalian = strtotime($value['tanggal_kembali']);
                 $datediff = $tgl_now - $tgl_pengembalian;
-                $denda = $this->denda->getData()->row_array();
+                $denda = $this->denda->getData(['jenis_denda' => 'telat'])->row_array();
                 if ($tgl_now > $tgl_pengembalian) {
                     $data['peminjaman'][$key]['denda_status'] = 1;
                     $data['peminjaman'][$key]['jml_hari_denda'] =  round($datediff / (60 * 60 * 24));
-                    $data['peminjaman'][$key]['total_biaya_denda'] =  ($denda['jml_denda'] * $data['peminjaman'][$key]['jml_hari_denda']) * $jml_buku_dipinjam;
+                    $data['peminjaman'][$key]['denda_telat'] =  ($denda['jml_denda'] * $data['peminjaman'][$key]['jml_hari_denda']) * $jml_buku_dipinjam;
                 } else {
                     $data['peminjaman'][$key]['denda_status'] = 0;
                     $data['peminjaman'][$key]['jml_hari_denda'] = 0;
-                    $data['peminjaman'][$key]['total_biaya_denda'] =  ($denda['jml_denda'] * $data['peminjaman'][$key]['jml_hari_denda']) * $jml_buku_dipinjam;
+                    $data['peminjaman'][$key]['denda_telat'] =  ($denda['jml_denda'] * $data['peminjaman'][$key]['jml_hari_denda']) * $jml_buku_dipinjam;
                 }
             }
-            $data['total_data'] = $this->peminjaman->getCount();
+            $where_total = [
+                'tr_peminjaman.status_pengembalian' => '0'
+            ];
+            $data['total_data'] = $this->peminjaman->getCount($where_total);
             $total_page = ($data['total_data'] / $limit);
             $convert_data = intval(preg_replace('/[^\d.]/', '', $total_page));
             $data['total_page'] =  $convert_data;
@@ -169,6 +181,75 @@ class Peminjaman extends CI_Controller
             ];
         }
 
+        echo json_encode($res);
+    }
+
+    public function getDataById()
+    {
+        if ($this->input->is_ajax_request()) {
+            $id = $this->input->post('id');
+            $where = ['id_peminjaman' => $id];
+            $field = [
+                'tr_peminjaman.*',
+                'uda.nama AS nama_anggota',
+                'ag.username AS nisn'
+            ];
+            $tbl_join = [
+                0 => [
+                    'table' => 'user as ag',
+                    'on' => 'ag.user_id=tr_peminjaman.id_anggota',
+                    'join_type' => ''
+                ],
+                1 => [
+                    'table' => 'user_detail as uda',
+                    'on' => 'uda.user_detail_id=ag.user_detail_id',
+                    'join_type' => ''
+                ],
+            ];
+            $data = $this->peminjaman->getDataById($where, $field, $tbl_join)->row_array();
+            $id_buku = explode(',', $data['id_buku']);
+            $jml_buku_dipinjam = count($id_buku);
+            foreach ($id_buku as $i => $item_buku) {
+                $data['buku_dipinjam'][$i] = $this->buku->getBukuById(['id_buku' => $item_buku])->row_array();
+            }
+
+            $tgl_now = strtotime(date('Y-m-d'));
+            $tgl_pengembalian = strtotime($data['tanggal_kembali']);
+            $datediff = $tgl_now - $tgl_pengembalian;
+
+            // denda telat
+            $dendaTelat = $this->denda->getData(['jenis_denda' => 'telat'])->row_array();
+            $data['biaya_denda_telat'] = (int)$dendaTelat['jml_denda'];
+            if ($tgl_now > $tgl_pengembalian) {
+                $data['denda_status'] = 1;
+                $data['jml_hari_denda'] =  round($datediff / (60 * 60 * 24));
+                // $data['denda_telat'] =  ($dendaTelat['jml_denda'] * $data['jml_hari_denda']) * $jml_buku_dipinjam;
+            } else {
+                $data['denda_status'] = 0;
+                $data['jml_hari_denda'] = 0;
+                // $data['denda_telat'] =  ($dendaTelat['jml_denda'] * $data['jml_hari_denda']) * $jml_buku_dipinjam;
+            }
+
+            // denda hilang
+            $denda_hilang = $this->denda->getData(['jenis_denda' => 'hilang'])->row_array();
+            $data['biaya_denda_hilang'] = (int)$denda_hilang['jml_denda'];
+
+            // $tgl_now = strtotime(date('Y-m-d'));
+            $res = [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Success',
+                'data' => $data,
+                // 'query' => $this->last->query(),
+            ];
+        } else {
+            $res = [
+                'code' => 403,
+                'status' => false,
+                'message' => 'Forbidden',
+                'data' => null
+            ];
+        }
         echo json_encode($res);
     }
 

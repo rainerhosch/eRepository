@@ -74,7 +74,7 @@ class M_user extends CI_Model
         if ($where != null) {
             $this->db->where($where);
         }
-        $this->db->order_by('user_access_menu.id_menu', 'ASC');
+        $this->db->order_by('LENGTH(m_menu.id_menu) DESC', 'LENGTH(m_menu.nama_menu) ASC');
         return $this->db->get();
     }
 }

@@ -18,11 +18,23 @@ class M_peminjaman extends CI_Model
     private $_join_tbl = null;
 
 
-    public function getDataById($id)
+    public function getDataById($where = null, $field = null, $join_tbl = null)
     {
-        $this->db->select($this->_field);
+        if ($field != null) {
+            $this->_field = $field;
+            $this->db->select($field);
+        } else {
+            $this->db->select($this->_field);
+        }
         $this->db->from($this->_table);
-        $this->db->where('id_peminjaman', $id);
+        if ($join_tbl != null) {
+            foreach ($join_tbl as $key => $value) {
+                $this->db->join($value['table'], $value['on'], $value['join_type']);
+            }
+        }
+        if ($where != null) {
+            $this->db->where($where);
+        }
         return $this->db->get();
     }
 
@@ -73,10 +85,13 @@ class M_peminjaman extends CI_Model
         }
     }
 
-    public function getCount()
+    public function getCount($where = null)
     {
         $this->db->select('*');
         $this->db->from($this->_table);
+        if ($where != null) {
+            $this->db->where($where);
+        }
         return $this->db->get()->num_rows();
     }
 

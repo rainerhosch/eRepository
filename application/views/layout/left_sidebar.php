@@ -90,8 +90,7 @@
                         html += `<a href="<?= base_url() ?>${v.link_menu}">${v.icon}
                         <span> ${v.nama_menu} </span></a>`;
                     } else {
-                        html += `<a href="#li-${v.link_menu}" data-bs-toggle="collapse">
-                                    <i class="mdi mdi-file-multiple"></i>
+                        html += `<a href="#li-${v.link_menu}" data-bs-toggle="collapse">${v.icon}
                                     <span> ${v.nama_menu} </span>
                                     <span class="menu-arrow"></span>
                                 </a>`;

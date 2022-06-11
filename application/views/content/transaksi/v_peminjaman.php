@@ -11,81 +11,13 @@
         max-width: 1000px;
         margin: 1.75rem auto;
     }
+
+    .input-group-text {
+        width: 12rem;
+    }
 </style>
 <div class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mt-0 mb-4">Total Revenue</h4>
-                        <div class="widget-chart-1">
-                            <div class="widget-chart-box-1 float-start" dir="ltr">
-                                <input data-plugin="knob" data-width="70" data-height="70" data-fgColor="#f05050 " data-bgColor="#F9B9B9" value="58" data-skin="tron" data-angleOffset="180" data-readOnly=true data-thickness=".15" />
-                            </div>
-                            <div class="widget-detail-1 text-end">
-                                <h2 class="fw-normal pt-2 mb-1"> 256 </h2>
-                                <p class="text-muted mb-1">Revenue today</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mt-0 mb-3">Sales Analytics</h4>
-                        <div class="widget-box-2">
-                            <div class="widget-detail-2 text-end">
-                                <span class="badge bg-success rounded-pill float-start mt-3">32% <i class="mdi mdi-trending-up"></i> </span>
-                                <h2 class="fw-normal mb-1"> 8451 </h2>
-                                <p class="text-muted mb-3">Revenue today</p>
-                            </div>
-                            <div class="progress progress-bar-alt-success progress-sm">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;">
-                                    <span class="visually-hidden">77% Complete</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mt-0 mb-4">Statistics</h4>
-                        <div class="widget-chart-1">
-                            <div class="widget-chart-box-1 float-start" dir="ltr">
-                                <input data-plugin="knob" data-width="70" data-height="70" data-fgColor="#ffbd4a" data-bgColor="#FFE6BA" value="80" data-skin="tron" data-angleOffset="180" data-readOnly=true data-thickness=".15" />
-                            </div>
-                            <div class="widget-detail-1 text-end">
-                                <h2 class="fw-normal pt-2 mb-1"> 4569 </h2>
-                                <p class="text-muted mb-1">Revenue today</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mt-0 mb-3">Daily Sales</h4>
-                        <div class="widget-box-2">
-                            <div class="widget-detail-2 text-end">
-                                <span class="badge bg-pink rounded-pill float-start mt-3">32% <i class="mdi mdi-trending-up"></i> </span>
-                                <h2 class="fw-normal mb-1"> 158 </h2>
-                                <p class="text-muted mb-3">Revenue today</p>
-                            </div>
-                            <div class="progress progress-bar-alt-pink progress-sm">
-                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;">
-                                    <span class="visually-hidden">77% Complete</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row div_alert">
             <?php if ($this->session->flashdata('success')) {
                 echo '<div class="alert alert-success" role="alert">' . $this->session->flashdata('success') . '</div>';
@@ -158,64 +90,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- table pengembalian -->
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-xl-6 col-sm-6 col-xs-12">
-                                <h4 class="header-title mt-0 mb-3">Data Pengembalian Buku</h4>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-xl-2 col-sm-2 col-xs-12">
-                                <div class="dataTables_length"></div>
-                                <select id="datatable_length" name="datatable_length" aria-controls="datatable" class="form-select form-select-sm">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                            <div class="col-xl-10 col-sm-10 col-xs-12">
-                                <div id="datatable_filter" class="float-end dataTables_filter"><input type="search" class="form-control form-control-sm datatable_filter" placeholder="NISN, Judul, Nama" aria-controls="datatable"></div>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tanggal Pengembalian</th>
-                                        <th>Buku</th>
-                                        <th>Peminjam</th>
-                                        <th>Petugas</th>
-                                        <th>Total Denda</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="tbody_pengembalian_buku" id="tbody_pengembalian_buku">
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-sm-12 col-md-5 hidden-xs">
-                                <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite"></div>
-                            </div>
-                            <div class="col-sm-12 col-md-7 clearfix">
-                                <div class="dataTables_paginate paging_simple_numbers pagination-rounded" id="pagination_pengembalian">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Modal Add Peminjaman -->
@@ -227,7 +101,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>manajemen/peminjaman/insertPeminjaman">
+                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>transaksi/peminjaman/insertPeminjaman">
                         <div class="form-group row">
                             <label for="input_nisn" class="col-sm-3 col-form-label">ID ANGGOTA</label>
                             <div class="col-sm-9">
@@ -268,6 +142,90 @@
     </div>
 
     <!-- Modal Pengembalian Buku -->
+    <div class="modal fade" id="modalAddPengembalian" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Input Pengembalian</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>transaksi/pengembalian/insertPengembalian">
+                        <div class="form-group row">
+                            <label for="input_nisn_pengembalian" class="col-sm-3 col-form-label">ID ANGGOTA</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="input_nisn_pengembalian" name="input_nisn_pengembalian" placeholder="search by nisn anggota" disabled>
+                                <input type="hidden" class="form-control" id="input_iduser_pengembalian" name="input_iduser_pengembalian">
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="input_nama_pengembalian" class="col-sm-3 col-form-label">Nama</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="input_nama_pengembalian" name="input_nama_pengembalian" placeholder="Nama Anggota" disabled>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group row mt-1">
+                            <label for="input_judul_buku_pengembalian" class="col-sm-3 col-form-label">Buku Kembali</label>
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <select multiple id="input_buku_dikembalikan" name="input_buku_dikembalikan[]">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="input_buku_hilang" class="col-sm-3 col-form-label">Buku Hilang</label>
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <select multiple id="input_buku_hilang" name="input_buku_hilang[]">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-1">
+                            <label for="input_denda_telat" class="col-sm-3 col-form-label">Data Denda</label>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">Total hari telat</span>
+                                            <input type="text" class="form-control" id="input_jml_hari_telat" name="input_jml_hari_telat" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">Biaya Denda Telat</span>
+                                            <input type="text" class="form-control" id="input_denda_telat" name="input_denda_telat" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">Jml Buku Hilang</span>
+                                            <input type="text" class="form-control" id="input_jumlah_buku_hilang" name="input_jumlah_buku_hilang" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">Biaya Denda Buku Hilang</span>
+                                            <input type="text" class="form-control" id="input_denda_buku_hilang" name="input_denda_buku_hilang" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mt-2">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-sm btn-primary btn_save_buku" style="float: right;">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 <script>
@@ -375,16 +333,19 @@
         }
 
         function createTable(data_peminjaman, total_data, limit, offset) {
-            // console.log(limit);
             // console.log(data_peminjaman);
             let html = ``;
             offset = Number(offset);
             $('table#tbody_buku').empty();
 
             if (data_peminjaman != 0) {
-                let no = 1;
                 let numEnd = Number(limit) + Number(offset);
-                $('#datatable_info_peminjaman').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Record`);
+                if (parseInt(total_data) < parseInt(numEnd)) {
+                    $('#datatable_info_peminjaman').html(`<strong>${offset+1}</strong>-<strong>${total_data}</strong> dari <strong>${total_data}</strong> Data`);
+                } else {
+                    $('#datatable_info_peminjaman').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Data`);
+                }
+                let no = 1;
                 $.each(data_peminjaman, function(k, item) {
                     html += `<tr>`;
                     html += `<td><small>${no}</small></td>`;
@@ -400,9 +361,9 @@
                     html += `<td><small>${item.jml_hari_denda}</small></td>`;
                     html += `<td><small>Rp.${parseInt(item.denda_telat).toLocaleString()}</small></td>`;
                     if (item.denda_status != 0) {
-                        html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></i></button></td>`;
+                        html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-backup-restore"></i></button></td>`;
                     } else {
-                        html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></button></td>`;
+                        html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-backup-restore"></button></td>`;
                     }
                     html += `</tr>`;
                     no++;
@@ -415,44 +376,119 @@
             $('.tbody_peminjaman_buku').html(html);
             $('.btnToolsPeminjaan').click(function() {
                 let id = $(this).data('id');
-                let denda = $(this).data('denda');
-                let id_buku = $(this).data('idbuku');
-                let id_anggota = $(this).data('peminjam');
-                let tgl_pengembalian = getDateNow();
+                // let denda = $(this).data('denda');
+                // let id_buku = $(this).data('idbuku');
+                // let id_anggota = $(this).data('peminjam');
+                // let tgl_pengembalian = getDateNow();
                 // console.log(id);
                 // console.log(denda);
                 // console.log(id_buku);
                 // console.log(id_anggota);
-
                 $.ajax({
-                    url: '<?= base_url(); ?>transaksi/peminjaman/insertPengembalian',
+                    url: '<?= base_url(); ?>transaksi/peminjaman/getDataById',
                     type: 'post',
                     dataType: "json",
                     serverSide: true,
                     data: {
-                        tgl_pengembalian: tgl_pengembalian,
-                        denda: denda,
-                        id_buku: id_buku,
-                        id_anggota: id_anggota,
-                        id_peminjaman: id,
+                        id: id,
                     },
                     success: function(response) {
+                        var data = response.data;
+                        var buku_dipinjam = data.buku_dipinjam.length;
+                        var jml_hari_telat = data.jml_hari_denda;
+                        var buku_kembali = 0;
+                        var denda_telat = data.biaya_denda_telat;
+                        var total_denda_telat = buku_dipinjam * denda_telat * jml_hari_telat;
+                        // buku hilang
+                        var jml_buku_hilang = 0;
+                        var denda_buku_hilang = data.biaya_denda_hilang;
+                        var total_denda_buku_hilang = jml_buku_hilang * denda_buku_hilang;
+
                         console.log(response);
-                        if (response.code === 200) {
-                            title = `Success`;
-                            icon = `success`;
-                        } else {
-                            title = `Error!`;
-                            icon = `error`;
-                        }
-                        Swal.fire(
-                            title,
-                            response.message,
-                            icon
-                        )
-                        location.reload();
+                        $('#input_nisn_pengembalian').val(data.nisn);
+                        $('#input_nama_pengembalian').val(data.nama_anggota);
+                        $('#input_judul_buku_pengembalian').val(data.judul_buku);
+                        $('#input_jml_hari_telat').val(data.jml_hari_denda);
+                        $('#input_denda_telat').val(total_denda_telat);
+                        $('#input_jumlah_buku_hilang').val(jml_buku_hilang);
+                        $('#input_denda_buku_hilang').val(total_denda_buku_hilang);
+                        $.each(data.buku_dipinjam, function(k, item) {
+                            $('#input_buku_dikembalikan').append(`<option value="${item.id_buku}" selected>${item.judul_buku}</option>`);
+                            // $('#input_buku_hilang').append(`<option value="${item.id_buku}">${item.judul_buku}</option>`);
+                        });
+
+                        $('#input_buku_dikembalikan, #input_buku_hilang').selectize({
+                            plugins: ["remove_button"],
+                            maxItems: null,
+                            delimiter: ',',
+                            persist: true,
+                            create: function(input) {
+                                return {
+                                    value: input,
+                                    text: input
+                                }
+                            }
+                        });
+
+
+                        $('#input_buku_dikembalikan').on('change', function() {
+                            buku_kembali = $("#input_buku_dikembalikan :selected").length;
+                            total_denda_telat = buku_kembali * denda_telat * jml_hari_telat;
+                            jml_buku_hilang = buku_dipinjam - buku_kembali;
+                            total_denda_buku_hilang = jml_buku_hilang * denda_buku_hilang;
+                            $('#input_denda_telat').val(total_denda_telat);
+                            $('#input_jumlah_buku_hilang').val(jml_buku_hilang);
+                            $('#input_denda_buku_hilang').val(total_denda_buku_hilang);
+
+                            // let idBukuKembali = $('#input_buku_dikembalikan').val();
+                            // console.log(idBukuKembali);
+                        });
+
+
+                        // var dataIdBuku = [];
+                        // $('#input_buku_dikembalikan > option:selected').each(function() {
+                        //     dataIdBuku.push($(this).val());
+                        // });
+                        // console.log(dataIdBuku);
+                        // $('.item').on('click', function() {
+                        //     let data = $(this).data('value');
+                        //     $('#input_buku_hilang[value="' + data + '"]').remove();
+                        // });
+
+
                     }
                 });
+                $('#modalAddPengembalian').modal('show');
+
+                // $.ajax({
+                //     url: '<?= base_url(); ?>transaksi/peminjaman/insertPengembalian',
+                //     type: 'post',
+                //     dataType: "json",
+                //     serverSide: true,
+                //     data: {
+                //         tgl_pengembalian: tgl_pengembalian,
+                //         denda: denda,
+                //         id_buku: id_buku,
+                //         id_anggota: id_anggota,
+                //         id_peminjaman: id,
+                //     },
+                //     success: function(response) {
+                //         console.log(response);
+                //         if (response.code === 200) {
+                //             title = `Success`;
+                //             icon = `success`;
+                //         } else {
+                //             title = `Error!`;
+                //             icon = `error`;
+                //         }
+                //         Swal.fire(
+                //             title,
+                //             response.message,
+                //             icon
+                //         )
+                //         location.reload();
+                //     }
+                // });
             });
         }
 
@@ -560,7 +596,6 @@
                 terms.push(ui.item.id);
                 terms.push("");
                 $('#input_idbuku').val(terms.join("\n"));
-                // $('#div_input_idbuku').append(`<input type="hidden" name="id_buku[]" value="${ui.item.id}">`);
 
                 return false;
             }

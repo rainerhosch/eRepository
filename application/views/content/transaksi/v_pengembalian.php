@@ -14,78 +14,6 @@
 </style>
 <div class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mt-0 mb-4">Total Revenue</h4>
-                        <div class="widget-chart-1">
-                            <div class="widget-chart-box-1 float-start" dir="ltr">
-                                <input data-plugin="knob" data-width="70" data-height="70" data-fgColor="#f05050 " data-bgColor="#F9B9B9" value="58" data-skin="tron" data-angleOffset="180" data-readOnly=true data-thickness=".15" />
-                            </div>
-                            <div class="widget-detail-1 text-end">
-                                <h2 class="fw-normal pt-2 mb-1"> 256 </h2>
-                                <p class="text-muted mb-1">Revenue today</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mt-0 mb-3">Sales Analytics</h4>
-                        <div class="widget-box-2">
-                            <div class="widget-detail-2 text-end">
-                                <span class="badge bg-success rounded-pill float-start mt-3">32% <i class="mdi mdi-trending-up"></i> </span>
-                                <h2 class="fw-normal mb-1"> 8451 </h2>
-                                <p class="text-muted mb-3">Revenue today</p>
-                            </div>
-                            <div class="progress progress-bar-alt-success progress-sm">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;">
-                                    <span class="visually-hidden">77% Complete</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mt-0 mb-4">Statistics</h4>
-                        <div class="widget-chart-1">
-                            <div class="widget-chart-box-1 float-start" dir="ltr">
-                                <input data-plugin="knob" data-width="70" data-height="70" data-fgColor="#ffbd4a" data-bgColor="#FFE6BA" value="80" data-skin="tron" data-angleOffset="180" data-readOnly=true data-thickness=".15" />
-                            </div>
-                            <div class="widget-detail-1 text-end">
-                                <h2 class="fw-normal pt-2 mb-1"> 4569 </h2>
-                                <p class="text-muted mb-1">Revenue today</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mt-0 mb-3">Daily Sales</h4>
-                        <div class="widget-box-2">
-                            <div class="widget-detail-2 text-end">
-                                <span class="badge bg-pink rounded-pill float-start mt-3">32% <i class="mdi mdi-trending-up"></i> </span>
-                                <h2 class="fw-normal mb-1"> 158 </h2>
-                                <p class="text-muted mb-3">Revenue today</p>
-                            </div>
-                            <div class="progress progress-bar-alt-pink progress-sm">
-                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;">
-                                    <span class="visually-hidden">77% Complete</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row div_alert">
             <?php if ($this->session->flashdata('success')) {
                 echo '<div class="alert alert-success" role="alert">' . $this->session->flashdata('success') . '</div>';
@@ -102,10 +30,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-xl-6 col-sm-6 col-xs-12">
-                                <h4 class="header-title mt-0 mb-3">Data Dalam Peminjaman</h4>
+                                <h4 class="header-title mt-0 mb-3">Data Dalam Pengambalian</h4>
                             </div>
                             <div class="col-xl-6 col-sm-6 col-xs-12">
-                                <button class="btn float-end btn-outline-success rounded-pill waves-effect waves-light btn-xs" id="btn_inputPeminjaman"><i class="mdi mdi-plus me-1"></i>Input Peminjaman</button>
+                                <button class="btn float-end btn-outline-success rounded-pill waves-effect waves-light btn-xs" id="btn_inputPengambalian"><i class="mdi mdi-plus me-1"></i>Input Pengambalian</button>
                             </div>
                         </div>
                         <hr>
@@ -131,71 +59,11 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Buku Dipinjam</th>
-                                        <th>Tanggal Peminjaman</th>
+                                        <th>Tanggal Pengambalian</th>
                                         <th>Peminjam</th>
                                         <th>Petugas</th>
-                                        <th>Denda Hari</th>
                                         <th>Total Denda</th>
                                         <th class="text-center">Tools</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="tbody_peminjaman_buku" id="tbody_peminjaman_buku">
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-sm-12 col-md-5 hidden-xs">
-                                <div class="dataTables_info" id="datatable_info_peminjaman" role="status" aria-live="polite"></div>
-                            </div>
-                            <!-- Paginate -->
-                            <div class="col-sm-12 col-md-7 clearfix">
-                                <div class="dataTables_paginate paging_simple_numbers pagination-rounded" id="pagination_peminjaman">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- table pengembalian -->
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-xl-6 col-sm-6 col-xs-12">
-                                <h4 class="header-title mt-0 mb-3">Data Pengembalian Buku</h4>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-xl-2 col-sm-2 col-xs-12">
-                                <div class="dataTables_length"></div>
-                                <select id="datatable_length" name="datatable_length" aria-controls="datatable" class="form-select form-select-sm">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                            <div class="col-xl-10 col-sm-10 col-xs-12">
-                                <div id="datatable_filter" class="float-end dataTables_filter"><input type="search" class="form-control form-control-sm datatable_filter" placeholder="NISN, Judul, Nama" aria-controls="datatable"></div>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tanggal Pengembalian</th>
-                                        <th>Buku</th>
-                                        <th>Peminjam</th>
-                                        <th>Petugas</th>
-                                        <th>Total Denda</th>
                                     </tr>
                                 </thead>
                                 <tbody class="tbody_pengembalian_buku" id="tbody_pengembalian_buku">
@@ -205,8 +73,9 @@
 
                         <div class="row mt-3">
                             <div class="col-sm-12 col-md-5 hidden-xs">
-                                <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite"></div>
+                                <div class="dataTables_info" id="datatable_info_pengembalian" role="status" aria-live="polite"></div>
                             </div>
+                            <!-- Paginate -->
                             <div class="col-sm-12 col-md-7 clearfix">
                                 <div class="dataTables_paginate paging_simple_numbers pagination-rounded" id="pagination_pengembalian">
                                 </div>
@@ -218,16 +87,16 @@
         </div>
     </div>
 
-    <!-- Modal Add Peminjaman -->
-    <div class="modal fade" id="modalAddPeminjaman" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal Add Pengambalian -->
+    <div class="modal fade" id="modalAddPengambalian" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Input Peminjaman</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Input Pengambalian</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>manajemen/peminjaman/insertPeminjaman">
+                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>transaksi/pengembalian/insertPengambalian">
                         <div class="form-group row">
                             <label for="input_nisn" class="col-sm-3 col-form-label">ID ANGGOTA</label>
                             <div class="col-sm-9">
@@ -251,9 +120,9 @@
                             </div>
                         </div>
                         <div class="form-group row mt-1">
-                            <label for="input_tgl_peminjaman" class="col-sm-3 col-form-label">Tanggal Peminjaman</label>
+                            <label for="input_tgl_pengembalian" class="col-sm-3 col-form-label">Tanggal Pengambalian</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="input_tgl_peminjaman" name="input_tgl_peminjaman" required>
+                                <input type="text" class="form-control" id="input_tgl_pengembalian" name="input_tgl_pengembalian" required>
                             </div>
                         </div>
                         <div class="form-group row mt-2">
@@ -290,7 +159,7 @@
             $(".div_alert").fadeOut('slow');
         }, 2000);
 
-        $('input[name="input_tgl_peminjaman"]').daterangepicker({
+        $('input[name="input_tgl_pengembalian"]').daterangepicker({
             // locale: {
             //     format: 'Y/M/D'
             // },
@@ -314,7 +183,7 @@
             loadFilter(keyword);
         });
 
-        $('#pagination_peminjaman').on('click', 'a', function(e) {
+        $('#pagination_pengembalian').on('click', 'a', function(e) {
             e.preventDefault();
             let limit = $('#datatable_length').val();
             let offset = $(this).attr('data-ci-pagination-page');
@@ -324,24 +193,24 @@
         // Load filter
         function loadFilter(keyword) {
             $.ajax({
-                url: '<?= base_url(); ?>transaksi/peminjaman/getData',
+                url: '<?= base_url(); ?>transaksi/pengembalian/getData',
                 type: 'POST',
                 data: {
                     keyword: keyword,
                     limit: limit,
-                    url_pagination: 'DataPeminjamanBuku'
+                    url_pagination: 'DataPengambalianBuku'
                 },
                 serverSide: true,
                 dataType: 'json',
                 success: function(response) {
 
-                    // console.log(response);
+                    console.log(response);
                     let limit = response.data.limit_per_page;
-                    let data_peminjaman = response.data.peminjaman;
+                    let data_pengembalian = response.data.pengembalian;
                     let total_data = response.data.total_data;
                     let offset = response.data.current_page;
-                    $('#pagination_peminjaman').html(response.pagination);
-                    createTable(data_peminjaman, total_data, limit, offset);
+                    $('#pagination_pengembalian').html(response.pagination);
+                    createTable(data_pengembalian, total_data, limit, offset);
                 }
             });
         }
@@ -351,41 +220,45 @@
             offset = typeof offset !== 'undefined' ? offset : 0;
             let page = offset * limit;
             $.ajax({
-                url: '<?= base_url(); ?>transaksi/peminjaman/getData/' + offset,
+                url: '<?= base_url(); ?>transaksi/pengembalian/getData/' + offset,
                 type: 'POST',
                 data: {
                     offset: offset,
                     limit: limit,
                     // page: page,
-                    url_pagination: 'DataPeminjamanBuku'
+                    url_pagination: 'DataPengambalianBuku'
                 },
                 serverSide: true,
                 dataType: 'json',
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     let limit = response.data.limit_per_page;
-                    let data_peminjaman = response.data.peminjaman;
+                    let data_pengembalian = response.data.pengembalian;
                     let total_data = response.data.total_data;
                     let offset = response.data.current_page;
-                    $('#pagination_peminjaman').html(response.data.pagination_link);
+                    $('#pagination_pengembalian').html(response.data.pagination_link);
                     $('ul.pagination li a').addClass('page-link');
-                    createTable(data_peminjaman, total_data, limit, offset);
+                    createTable(data_pengembalian, total_data, limit, offset);
                 }
             });
         }
 
-        function createTable(data_peminjaman, total_data, limit, offset) {
-            // console.log(limit);
-            // console.log(data_peminjaman);
+        function createTable(data_pengembalian, total_data, limit, offset) {
+            // console.log(data_pengembalian);
             let html = ``;
             offset = Number(offset);
             $('table#tbody_buku').empty();
 
-            if (data_peminjaman != 0) {
-                let no = 1;
+            if (data_pengembalian != 0) {
                 let numEnd = Number(limit) + Number(offset);
-                $('#datatable_info_peminjaman').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Record`);
-                $.each(data_peminjaman, function(k, item) {
+                // console.log(numEnd);
+                if (total_data < numEnd) {
+                    $('#datatable_info_pengembalian').html(`<strong>${offset+1}</strong>-<strong>${total_data}</strong> dari <strong>${total_data}</strong> Data`);
+                } else {
+                    $('#datatable_info_pengembalian').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Data`);
+                }
+                let no = 1;
+                $.each(data_pengembalian, function(k, item) {
                     html += `<tr>`;
                     html += `<td><small>${no}</small></td>`;
                     html += `<td>`;
@@ -393,16 +266,14 @@
                         html += `<i style="font-size:11px; font-weight: bold;">- ${item_buku.judul_buku}</i><br>`;
                     });
                     html += `</td>`;
-                    html += `<td><small>${item.tanggal_pinjam} s/d ${item.tanggal_kembali}</small></td>`;
-                    // html += `<td>${item.tanggal_kembali}</td>`;
+                    html += `<td><small>${item.tanggal_pengembalian}</small></td>`;
                     html += `<td><small>${item.nama_anggota}</small></td>`;
                     html += `<td><small>${item.nama_petugas}</small></td>`;
-                    html += `<td><small>${item.jml_hari_denda}</small></td>`;
-                    html += `<td><small>Rp.${parseInt(item.denda_telat).toLocaleString()}</small></td>`;
+                    html += `<td><small>Rp.${parseInt(item.total_biaya_denda).toLocaleString()}</small></td>`;
                     if (item.denda_status != 0) {
-                        html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></i></button></td>`;
+                        html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.total_biaya_denda}" data-id="${item.id_pengembalian}"><i class="mdi mdi-pencil"></i></button></td>`;
                     } else {
-                        html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></button></td>`;
+                        html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.total_biaya_denda}" data-id="${item.id_pengembalian}"><i class="mdi mdi-pencil"></button></td>`;
                     }
                     html += `</tr>`;
                     no++;
@@ -412,7 +283,7 @@
                 html += `<td colspan="7" class="text-center"><i>Tidak ada data</i></td>`;
                 html += `</tr>`;
             }
-            $('.tbody_peminjaman_buku').html(html);
+            $('.tbody_pengembalian_buku').html(html);
             $('.btnToolsPeminjaan').click(function() {
                 let id = $(this).data('id');
                 let denda = $(this).data('denda');
@@ -425,7 +296,7 @@
                 // console.log(id_anggota);
 
                 $.ajax({
-                    url: '<?= base_url(); ?>transaksi/peminjaman/insertPengembalian',
+                    url: '<?= base_url(); ?>transaksi/pengembalian/insertPengembalian',
                     type: 'post',
                     dataType: "json",
                     serverSide: true,
@@ -434,7 +305,7 @@
                         denda: denda,
                         id_buku: id_buku,
                         id_anggota: id_anggota,
-                        id_peminjaman: id,
+                        id_pengembalian: id,
                     },
                     success: function(response) {
                         console.log(response);
@@ -456,8 +327,8 @@
             });
         }
 
-        $('#btn_inputPeminjaman').click(function() {
-            $('#modalAddPeminjaman').modal('show');
+        $('#btn_inputPengambalian').click(function() {
+            $('#modalAddPengambalian').modal('show');
         });
 
         // Auto complete user
@@ -560,7 +431,6 @@
                 terms.push(ui.item.id);
                 terms.push("");
                 $('#input_idbuku').val(terms.join("\n"));
-                // $('#div_input_idbuku').append(`<input type="hidden" name="id_buku[]" value="${ui.item.id}">`);
 
                 return false;
             }
