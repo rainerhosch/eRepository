@@ -78,8 +78,10 @@ class M_peminjaman extends CI_Model
         } else {
             $this->db->insert($this->_table, $data);
         }
-        if ($this->db->affected_rows() > 0) {
-            return TRUE;
+
+        $insert_id = $this->db->insert_id();
+        if ($insert_id != null) {
+            return  $insert_id;
         } else {
             return FALSE;
         }

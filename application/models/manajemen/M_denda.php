@@ -11,19 +11,31 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 class M_denda extends CI_Model
 {
-    private $_table = 'm_denda';
+    private $_table = 'm_biaya_denda';
     private $_field = '*';
     private $_limit = 10;
     private $_offset;
     private $_join_tbl = null;
 
-    public function getData($where = null)
+    public function getDataMasterDenda($where = null)
     {
         $this->db->select($this->_field);
         $this->db->from($this->_table);
         if ($where != null) {
             $this->db->where($where);
         }
+        return $this->db->get();
+    }
+
+    public function getData($where = null)
+    {
+        $this->db->select('tr_denda.*, m_buku.judul_buku, m_biaya_denda.desc_denda');
+        $this->db->from('tr_denda');
+        if ($where != null) {
+            $this->db->where($where);
+        }
+        $this->db->join('m_biaya_denda', 'm_biaya_denda.id_biaya_denda = tr_denda.jenis_denda', '');
+        $this->db->join('m_buku', 'm_buku.id_buku = tr_denda.id_buku', '');
         return $this->db->get();
     }
 

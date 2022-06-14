@@ -11,6 +11,10 @@
         max-width: 1000px;
         margin: 1.75rem auto;
     }
+
+    .hiddenRow {
+        padding: 0 !important;
+    }
 </style>
 <div class="content">
     <div class="container-fluid">
@@ -269,12 +273,37 @@
                     html += `<td><small>${item.tanggal_pengembalian}</small></td>`;
                     html += `<td><small>${item.nama_anggota}</small></td>`;
                     html += `<td><small>${item.nama_petugas}</small></td>`;
-                    html += `<td><small>Rp.${parseInt(item.total_biaya_denda).toLocaleString()}</small></td>`;
-                    if (item.denda_status != 0) {
-                        html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.total_biaya_denda}" data-id="${item.id_pengembalian}"><i class="mdi mdi-pencil"></i></button></td>`;
-                    } else {
-                        html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.total_biaya_denda}" data-id="${item.id_pengembalian}"><i class="mdi mdi-pencil"></button></td>`;
-                    }
+                    let total_denda = 0;
+                    $.each(item.data_denda, function(j, val) {
+                        total_denda = total_denda + Number(val.jml_denda);
+                    });
+                    html += `<td><small>Rp.${parseInt(total_denda).toLocaleString()}</small></td>`;
+                    html += `<td><button data-toggle="collapse" data-target="#demo${item.id_pengembalian}" class="btn btn-dark rounded-pill waves-effect waves-dark btn-xs btnShowDetail"><i class="mdi mdi-chevron-double-down"></i></button> </td>`;
+                    html += `</tr>`;
+
+                    html += `<tr>`;
+                    html += `<td colspan="12" class="hiddenRow">`;
+                    html += `<div id="demo${item.id_pengembalian}" class="accordian-body collapse detailMenuAccess">`;
+                    html += `<table class="table table-striped table-bordered table-sm">`;
+                    html += `<thead>`;
+                    html += `<tr>`;
+                    html += `<th class="text-center">Jumlah Denda</th>`;
+                    html += `<th class="text-center">Nama Buku</th>`;
+                    html += `<th class="text-center">Jenis Denda</th>`;
+                    html += `</tr>`;
+                    html += `</thead>`;
+                    $.each(item.data_denda, function(i, denda) {
+                        html += `<tbody>`;
+                        html += `<tr>`;
+                        html += `<td class="text-center">${denda.desc_denda}</td>`;
+                        html += `<td class="text-center">${denda.judul_buku}</td>`;
+                        html += `<td class="text-center">${denda.jml_denda}</td>`;
+                        html += `</tr>`;
+                        html += `</tbody>`;
+                    });
+                    html += `</table>`;
+                    html += `</div>`;
+                    html += `</td>`;
                     html += `</tr>`;
                     no++;
                 });
@@ -284,6 +313,11 @@
                 html += `</tr>`;
             }
             $('.tbody_pengembalian_buku').html(html);
+            $('.btnShowDetail').on('click', function() {
+                let id = $(this).attr('data-target');
+                $('.detailMenuAccess').removeClass('show');
+                $(id).collapse('toggle');
+            });
             $('.btnToolsPeminjaan').click(function() {
                 let id = $(this).data('id');
                 let denda = $(this).data('denda');
@@ -293,37 +327,7 @@
                 // console.log(id);
                 // console.log(denda);
                 // console.log(id_buku);
-                // console.log(id_anggota);
-
-                $.ajax({
-                    url: '<?= base_url(); ?>transaksi/pengembalian/insertPengembalian',
-                    type: 'post',
-                    dataType: "json",
-                    serverSide: true,
-                    data: {
-                        tgl_pengembalian: tgl_pengembalian,
-                        denda: denda,
-                        id_buku: id_buku,
-                        id_anggota: id_anggota,
-                        id_pengembalian: id,
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        if (response.code === 200) {
-                            title = `Success`;
-                            icon = `success`;
-                        } else {
-                            title = `Error!`;
-                            icon = `error`;
-                        }
-                        Swal.fire(
-                            title,
-                            response.message,
-                            icon
-                        )
-                        location.reload();
-                    }
-                });
+                console.log(id_anggota);
             });
         }
 

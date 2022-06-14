@@ -136,7 +136,7 @@
                                         <th>Petugas</th>
                                         <th>Denda Hari</th>
                                         <th>Total Denda</th>
-                                        <th class="text-center">Tools</th>
+                                        <!-- <th class="text-center">Tools</th> -->
                                     </tr>
                                 </thead>
                                 <tbody class="tbody_peminjaman_buku" id="tbody_peminjaman_buku">
@@ -399,11 +399,11 @@
                     html += `<td><small>${item.nama_petugas}</small></td>`;
                     html += `<td><small>${item.jml_hari_denda}</small></td>`;
                     html += `<td><small>Rp.${parseInt(item.denda_telat).toLocaleString()}</small></td>`;
-                    if (item.denda_status != 0) {
-                        html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></i></button></td>`;
-                    } else {
-                        html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></button></td>`;
-                    }
+                    // if (item.denda_status != 0) {
+                    //     html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></i></button></td>`;
+                    // } else {
+                    //     html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></button></td>`;
+                    // }
                     html += `</tr>`;
                     no++;
                 });

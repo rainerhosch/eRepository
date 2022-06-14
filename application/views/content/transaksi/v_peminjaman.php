@@ -156,6 +156,8 @@
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="input_nisn_pengembalian" name="input_nisn_pengembalian" placeholder="search by nisn anggota" disabled>
                                 <input type="hidden" class="form-control" id="input_iduser_pengembalian" name="input_iduser_pengembalian">
+                                <input type="hidden" class="form-control" id="input_tgl_pengembalian" name="input_tgl_pengembalian">
+                                <input type="hidden" class="form-control" id="input_id_peminjaman" name="input_id_peminjaman">
                             </div>
                         </div>
                         <div class="form-group row mt-1">
@@ -168,18 +170,19 @@
                         <div class="form-group row mt-1">
                             <label for="input_judul_buku_pengembalian" class="col-sm-3 col-form-label">Buku Kembali</label>
                             <div class="col-sm-9">
-                                <div class="form-group">
-                                    <select multiple id="input_buku_dikembalikan" name="input_buku_dikembalikan[]">
-                                    </select>
+                                <div class="form-group div_buku_dikembalikan">
+                                    <input type="hidden" class="form-control" id="input_jumlah_buku_kembali" name="input_jumlah_buku_kembali">
+                                    <!-- <select multiple id="input_buku_dikembalikan" name="input_buku_dikembalikan[]">
+                                    </select> -->
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row mt-1">
                             <label for="input_buku_hilang" class="col-sm-3 col-form-label">Buku Hilang</label>
                             <div class="col-sm-9">
-                                <div class="form-group">
-                                    <select multiple id="input_buku_hilang" name="input_buku_hilang[]">
-                                    </select>
+                                <div class="form-group div_buku_hilang">
+                                    <!-- <select multiple id="input_buku_hilang" name="input_buku_hilang[]">
+                                    </select> -->
                                 </div>
                             </div>
                         </div>
@@ -214,6 +217,16 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="form-group row mt-1">
+                                    <div class="col-sm-6"></div>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">Total Harus Dibayar</span>
+                                            <input type="text" class="form-control" id="input_total_denda" name="input_total_denda" aria-describedby="basic-addon1" disabled>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row mt-2">
@@ -230,6 +243,10 @@
 </div>
 <script>
     $(document).ready(function() {
+        $('.btn-close').on('click', function() {
+            location.reload();
+        });
+
         function getDateNow() {
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
@@ -379,7 +396,6 @@
                 // let denda = $(this).data('denda');
                 // let id_buku = $(this).data('idbuku');
                 // let id_anggota = $(this).data('peminjam');
-                // let tgl_pengembalian = getDateNow();
                 // console.log(id);
                 // console.log(denda);
                 // console.log(id_buku);
@@ -404,7 +420,13 @@
                         var denda_buku_hilang = data.biaya_denda_hilang;
                         var total_denda_buku_hilang = jml_buku_hilang * denda_buku_hilang;
 
+                        var total_denda = total_denda_telat + total_denda_buku_hilang;
+
+
                         console.log(response);
+                        $('#input_iduser_pengembalian').val(data.id_anggota);
+                        $('#input_tgl_pengembalian').val(getDateNow());
+                        $('#input_id_peminjaman').val(data.id_peminjaman);
                         $('#input_nisn_pengembalian').val(data.nisn);
                         $('#input_nama_pengembalian').val(data.nama_anggota);
                         $('#input_judul_buku_pengembalian').val(data.judul_buku);
@@ -412,12 +434,17 @@
                         $('#input_denda_telat').val(total_denda_telat);
                         $('#input_jumlah_buku_hilang').val(jml_buku_hilang);
                         $('#input_denda_buku_hilang').val(total_denda_buku_hilang);
+                        $('#input_jumlah_buku_kembali').val(buku_dipinjam);
+                        $('#input_total_denda').val(total_denda);
                         $.each(data.buku_dipinjam, function(k, item) {
-                            $('#input_buku_dikembalikan').append(`<option value="${item.id_buku}" selected>${item.judul_buku}</option>`);
-                            // $('#input_buku_hilang').append(`<option value="${item.id_buku}">${item.judul_buku}</option>`);
+                            $('.div_buku_dikembalikan').append(`<input type="hidden" class="form-control" name="input_buku_dipinjam[]" value="${item.id_buku}">`);
+                            $('.div_buku_dikembalikan').append(`<input class="form-check-input input_buku_dikembalikan" type="checkbox" value="${item.id_buku}" id="input_buku_dikembalikan_${item.id_buku}" name="input_buku_dikembalikan[]" checked>
+                            <label class="form-check-label" for="input_buku_dikembalikan${item.id_buku}">${item.judul_buku}</label><br for="input_buku_dikembalikan${item.id_buku}">`);
+                            $('.div_buku_hilang').append(`<input class="form-check-input input_buku_hilang" type="checkbox" value="${item.id_buku}" id="input_buku_hilang_${item.id_buku}" name="input_buku_hilang[]">
+                            <label class="form-check-label" for="input_buku_hilang_${item.id_buku}">${item.judul_buku}</label><br for="input_buku_hilang_${item.id_buku}">`);
                         });
 
-                        $('#input_buku_dikembalikan, #input_buku_hilang').selectize({
+                        $('#input_buku_hilang').selectize({
                             plugins: ["remove_button"],
                             maxItems: null,
                             delimiter: ',',
@@ -430,32 +457,27 @@
                             }
                         });
 
-
-                        $('#input_buku_dikembalikan').on('change', function() {
-                            buku_kembali = $("#input_buku_dikembalikan :selected").length;
+                        $('.input_buku_dikembalikan').on('click', function() {
+                            let checked = $(this).is(':checked');
+                            let id_buku = $(this).val();
+                            buku_kembali = $('.div_buku_dikembalikan input:checkbox:checked').length;
+                            $('#input_jumlah_buku_kembali').val(buku_kembali);
                             total_denda_telat = buku_kembali * denda_telat * jml_hari_telat;
                             jml_buku_hilang = buku_dipinjam - buku_kembali;
                             total_denda_buku_hilang = jml_buku_hilang * denda_buku_hilang;
+                            total_denda = total_denda_telat + total_denda_buku_hilang;
                             $('#input_denda_telat').val(total_denda_telat);
                             $('#input_jumlah_buku_hilang').val(jml_buku_hilang);
                             $('#input_denda_buku_hilang').val(total_denda_buku_hilang);
-
-                            // let idBukuKembali = $('#input_buku_dikembalikan').val();
-                            // console.log(idBukuKembali);
+                            $('#input_total_denda').val(total_denda);
+                            if (checked == false) {
+                                $('#input_buku_hilang_' + id_buku).prop('checked', true);
+                                // $('#input_buku_hilang_' + id_buku).removeAttr("disabled");
+                            } else {
+                                $('#input_buku_hilang_' + id_buku).prop('checked', false);
+                                // $('#input_buku_hilang' + id_buku).addAttr("disabled");
+                            }
                         });
-
-
-                        // var dataIdBuku = [];
-                        // $('#input_buku_dikembalikan > option:selected').each(function() {
-                        //     dataIdBuku.push($(this).val());
-                        // });
-                        // console.log(dataIdBuku);
-                        // $('.item').on('click', function() {
-                        //     let data = $(this).data('value');
-                        //     $('#input_buku_hilang[value="' + data + '"]').remove();
-                        // });
-
-
                     }
                 });
                 $('#modalAddPengembalian').modal('show');
@@ -529,39 +551,6 @@
                 return false;
             },
         });
-
-        // Auto complete buku
-        // $('#input_judul_buku').autocomplete({
-        //     maxShowItems: 5,
-        //     source: function(request, response) {
-        //         // Fetch data
-        //         $.ajax({
-        //             url: '<?= base_url(); ?>manajemen/buku/getDataForAutoComplete',
-        //             type: 'post',
-        //             dataType: "json",
-        //             serverSide: true,
-        //             data: {
-        //                 search: request.term
-        //             },
-        //             success: function(res) {
-        //                 // console.log(res);
-        //                 response(res.data);
-        //             }
-        //         });
-        //     },
-        //     select: function(event, ui) {
-        //         // Set selection
-        //         $('#input_judul_buku').val(ui.item.value);
-        //         $('#input_idbuku').val(ui.item.id);
-        //         return false;
-        //     },
-        //     focus: function(event, ui) {
-        //         $("#input_judul_buku").val(ui.item.value);
-        //         $('#input_idbuku').val(ui.item.id);
-        //         return false;
-        //     },
-        // });
-
         // multyple autocomplete
         $("#input_judul_buku").autocomplete({
             source: function(request, response) {

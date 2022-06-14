@@ -106,7 +106,7 @@ class Peminjaman extends CI_Controller
                 $tgl_now = strtotime(date('Y-m-d'));
                 $tgl_pengembalian = strtotime($value['tanggal_kembali']);
                 $datediff = $tgl_now - $tgl_pengembalian;
-                $denda = $this->denda->getData(['jenis_denda' => 'telat'])->row_array();
+                $denda = $this->denda->getDataMasterDenda(['jenis_denda' => 'telat'])->row_array();
                 if ($tgl_now > $tgl_pengembalian) {
                     $data['peminjaman'][$key]['denda_status'] = 1;
                     $data['peminjaman'][$key]['jml_hari_denda'] =  round($datediff / (60 * 60 * 24));
@@ -218,7 +218,7 @@ class Peminjaman extends CI_Controller
             $datediff = $tgl_now - $tgl_pengembalian;
 
             // denda telat
-            $dendaTelat = $this->denda->getData(['jenis_denda' => 'telat'])->row_array();
+            $dendaTelat = $this->denda->getDataMasterDenda(['jenis_denda' => 'telat'])->row_array();
             $data['biaya_denda_telat'] = (int)$dendaTelat['jml_denda'];
             if ($tgl_now > $tgl_pengembalian) {
                 $data['denda_status'] = 1;
@@ -231,7 +231,7 @@ class Peminjaman extends CI_Controller
             }
 
             // denda hilang
-            $denda_hilang = $this->denda->getData(['jenis_denda' => 'hilang'])->row_array();
+            $denda_hilang = $this->denda->getDataMasterDenda(['jenis_denda' => 'hilang'])->row_array();
             $data['biaya_denda_hilang'] = (int)$denda_hilang['jml_denda'];
 
             // $tgl_now = strtotime(date('Y-m-d'));
@@ -297,35 +297,35 @@ class Peminjaman extends CI_Controller
     }
 
 
-    public function insertPengembalian()
-    {
-        $post = $this->input->post();
-        $id_peminjaman = $post['id_peminjaman'];
-        // $table_insert = 'tr_pengembalian';
-        $data_insert = [
-            'tanggal_pengembalian' => $post['tgl_pengembalian'],
-            'denda' => $post['denda'],
-            'id_buku' => $post['id_buku'],
-            'id_anggota' => $post['id_anggota'],
-            'id_petugas' => $this->session->userdata('user_id')
-        ];
-        $insert = $this->peminjaman->insertData($data_insert, 'tr_pengembalian');
-        if ($insert) {
-            $update = $this->peminjaman->updateData(['status_pengembalian' => 1], ['id_peminjaman' => $id_peminjaman], 'tr_peminjaman');
-            $res = [
-                'code' => 200,
-                'status' => true,
-                'message' => 'Berhasil tersimapan',
-                'data' => $update,
-            ];
-        } else {
-            $res = [
-                'code' => 500,
-                'status' => false,
-                'message' => 'Internal Server Error',
-                'data' => null
-            ];
-        }
-        echo json_encode($res);
-    }
+    // public function insertPengembalian()
+    // {
+    //     $post = $this->input->post();
+    //     $id_peminjaman = $post['id_peminjaman'];
+    //     // $table_insert = 'tr_pengembalian';
+    //     $data_insert = [
+    //         'tanggal_pengembalian' => $post['tgl_pengembalian'],
+    //         // 'denda' => $post['denda'],
+    //         'id_buku' => $post['id_buku'],
+    //         'id_anggota' => $post['id_anggota'],
+    //         'id_petugas' => $this->session->userdata('user_id')
+    //     ];
+    //     $insert = $this->peminjaman->insertData($data_insert, 'tr_pengembalian');
+    //     if ($insert) {
+    //         $update = $this->peminjaman->updateData(['status_pengembalian' => 1], ['id_peminjaman' => $id_peminjaman], 'tr_peminjaman');
+    //         $res = [
+    //             'code' => 200,
+    //             'status' => true,
+    //             'message' => 'Berhasil tersimapan',
+    //             'data' => $update,
+    //         ];
+    //     } else {
+    //         $res = [
+    //             'code' => 500,
+    //             'status' => false,
+    //             'message' => 'Internal Server Error',
+    //             'data' => null
+    //         ];
+    //     }
+    //     echo json_encode($res);
+    // }
 }

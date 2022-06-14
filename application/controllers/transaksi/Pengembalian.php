@@ -19,6 +19,7 @@ class Pengembalian extends CI_Controller
         $this->load->model('transaksi/M_peminjaman', 'peminjaman');
         $this->load->model('manajemen/M_buku', 'buku');
         $this->load->model('manajemen/M_user', 'user');
+        $this->load->model('manajemen/M_denda', 'denda');
     }
     public function index()
     {
@@ -61,27 +62,33 @@ class Pengembalian extends CI_Controller
             $this->load->library('pagination');
 
             $condition = [
-                'field' => 'tr_pengembalian.*, uda.nama AS nama_anggota, udp.nama AS nama_petugas',
+                // 'field' => 'tr_pengembalian.*, uda.nama AS nama_anggota, udp.nama AS nama_petugas',
+                'field' => 'tr_pengembalian.*, uda.nama AS nama_anggota, udp.nama AS nama_petugas, tr_peminjaman.id_buku AS id_buku',
                 'limit' => $limit,
                 'offset' => $offset,
                 'where' => $where,
                 'join_tbl' => [
                     0 => [
+                        'table' => 'tr_peminjaman',
+                        'on' => 'tr_pengembalian.id_peminjaman=tr_peminjaman.id_peminjaman',
+                        'join_type' => ''
+                    ],
+                    1 => [
                         'table' => 'user as ag',
                         'on' => 'ag.user_id=tr_pengembalian.id_anggota',
                         'join_type' => ''
                     ],
-                    1 => [
+                    2 => [
                         'table' => 'user_detail as uda',
                         'on' => 'uda.user_detail_id=ag.user_detail_id',
                         'join_type' => ''
                     ],
-                    2 => [
-                        'table' => 'user ptg',
+                    3 => [
+                        'table' => 'user as ptg',
                         'on' => 'ptg.user_id=tr_pengembalian.id_petugas',
                         'join_type' => ''
                     ],
-                    3 => [
+                    4 => [
                         'table' => 'user_detail as udp',
                         'on' => 'udp.user_detail_id=ptg.user_detail_id',
                         'join_type' => ''
@@ -89,27 +96,17 @@ class Pengembalian extends CI_Controller
                 ]
             ];
             $data['pengembalian'] = $this->pengembalian->getData($condition)->result_array();
+            // var_dump($this->db->last_query());
+            // die;
             foreach ($data['pengembalian'] as $key => $value) {
+
+                $data['pengembalian'][$key]['data_denda'] = $this->denda->getData(['id_pengembalian' => $value['id_pengembalian']], 'tr_denda')->result_array();
 
                 $id_buku = explode(',', $value['id_buku']);
                 $jml_buku_dipinjam = count($id_buku);
                 foreach ($id_buku as $i => $item_buku) {
                     $data['pengembalian'][$key]['buku_dipinjam'][$i] = $this->buku->getBukuById(['id_buku' => $item_buku])->row_array();
                 }
-
-                // $tgl_now = strtotime(date('Y-m-d'));
-                // $tgl_pengembalian = strtotime($value['tanggal_kembali']);
-                // $datediff = $tgl_now - $tgl_pengembalian;
-                // $denda = $this->denda->getData(['jenis_denda' => 'telat'])->row_array();
-                // if ($tgl_now > $tgl_pengembalian) {
-                //     $data['pengembalian'][$key]['denda_status'] = 1;
-                //     $data['pengembalian'][$key]['jml_hari_denda'] =  round($datediff / (60 * 60 * 24));
-                //     $data['pengembalian'][$key]['total_biaya_denda'] =  ($denda['jml_denda'] * $data['pengembalian'][$key]['jml_hari_denda']) * $jml_buku_dipinjam;
-                // } else {
-                //     $data['pengembalian'][$key]['denda_status'] = 0;
-                //     $data['pengembalian'][$key]['jml_hari_denda'] = 0;
-                //     $data['pengembalian'][$key]['total_biaya_denda'] =  ($denda['jml_denda'] * $data['pengembalian'][$key]['jml_hari_denda']) * $jml_buku_dipinjam;
-                // }
             }
             $data['total_data'] = $this->pengembalian->getCount();
             $total_page = ($data['total_data'] / $limit);
@@ -173,5 +170,56 @@ class Pengembalian extends CI_Controller
         }
 
         echo json_encode($res);
+    }
+
+    public function insertPengembalian()
+    {
+        $post = $this->input->post();
+        // var_dump($post);
+        // die;
+        $data = [];
+        $data_denda = [];
+
+        $data_insert = [
+            'tanggal_pengembalian' => $post['input_tgl_pengembalian'],
+            'id_peminjaman' => $post['input_id_peminjaman'],
+            'id_anggota' => $post['input_iduser_pengembalian'],
+            'id_petugas' => $this->session->userdata('user_id')
+        ];
+        $insert = $this->peminjaman->insertData($data_insert, 'tr_pengembalian');
+        if ($insert) {
+            $id_pengembalian = $insert;
+            $update = $this->peminjaman->updateData(['status_pengembalian' => 1], ['id_peminjaman' => $post['input_id_peminjaman']], 'tr_peminjaman');
+            if ($post['input_jumlah_buku_hilang'] > 0) {
+                $jenis_denda = $this->denda->getData(['jenis_denda' => 'hilang'])->row_array();
+                $data_denda[] = [
+                    'jenis_denda' => $jenis_denda['id_biaya_denda'],
+                    'id_buku' => implode(",", $post['input_buku_hilang']),
+                    'jml_denda' => count($post['input_buku_hilang']) * $jenis_denda['jml_denda'],
+                    'id_pengembalian' => $id_pengembalian,
+                ];
+            }
+
+            if ($post['input_denda_telat'] > 0) {
+                $jenis_denda = $this->denda->getData(['jenis_denda' => 'telat'])->row_array();
+                $data_denda[] = [
+                    'jenis_denda' => $jenis_denda['id_biaya_denda'],
+                    'id_buku' => implode(",", $post['input_buku_dikembalikan']),
+                    'jml_denda' => count($post['input_buku_dikembalikan']) * $jenis_denda['jml_denda'],
+                    'id_pengembalian' => $id_pengembalian,
+                ];
+            }
+            foreach ($data_denda as $key => $value) {
+                $this->peminjaman->insertData($value, 'tr_denda');
+            }
+
+
+            $this->session->set_flashdata('success', 'Data berhasil di input!');
+            redirect('transaksi/peminjaman');
+        } else {
+            // error
+            $this->session->set_flashdata('error', 'Gagal input data!');
+            redirect('transaksi/peminjaman');
+        }
     }
 }

@@ -60,7 +60,7 @@ class M_pengembalian extends CI_Model
         } elseif (isset($data['offset'])) {
             $this->db->limit($this->_limit, $data['offset']);
         }
-        $this->db->order_by('id_pengembalian', 'DESC');
+        $this->db->order_by('tr_pengembalian.id_pengembalian', 'DESC');
         return $this->db->get();
     }
     // insert data
