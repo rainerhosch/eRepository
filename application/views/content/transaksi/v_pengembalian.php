@@ -36,9 +36,9 @@
                             <div class="col-xl-6 col-sm-6 col-xs-12">
                                 <h4 class="header-title mt-0 mb-3">Data Dalam Pengambalian</h4>
                             </div>
-                            <div class="col-xl-6 col-sm-6 col-xs-12">
+                            <!-- <div class="col-xl-6 col-sm-6 col-xs-12">
                                 <button class="btn float-end btn-outline-success rounded-pill waves-effect waves-light btn-xs" id="btn_inputPengambalian"><i class="mdi mdi-plus me-1"></i>Input Pengambalian</button>
-                            </div>
+                            </div> -->
                         </div>
                         <hr>
                         <div class="row">
@@ -368,38 +368,6 @@
                 return false;
             },
         });
-
-        // Auto complete buku
-        // $('#input_judul_buku').autocomplete({
-        //     maxShowItems: 5,
-        //     source: function(request, response) {
-        //         // Fetch data
-        //         $.ajax({
-        //             url: '<?= base_url(); ?>manajemen/buku/getDataForAutoComplete',
-        //             type: 'post',
-        //             dataType: "json",
-        //             serverSide: true,
-        //             data: {
-        //                 search: request.term
-        //             },
-        //             success: function(res) {
-        //                 // console.log(res);
-        //                 response(res.data);
-        //             }
-        //         });
-        //     },
-        //     select: function(event, ui) {
-        //         // Set selection
-        //         $('#input_judul_buku').val(ui.item.value);
-        //         $('#input_idbuku').val(ui.item.id);
-        //         return false;
-        //     },
-        //     focus: function(event, ui) {
-        //         $("#input_judul_buku").val(ui.item.value);
-        //         $('#input_idbuku').val(ui.item.id);
-        //         return false;
-        //     },
-        // });
 
         // multyple autocomplete
         $("#input_judul_buku").autocomplete({

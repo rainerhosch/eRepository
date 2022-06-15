@@ -261,14 +261,7 @@
         }, 2000);
         var limit = $('select[name="datatable_length"]').val();
 
-        setTimeout(function() {
-            $(".div_alert").fadeOut('slow');
-        }, 2000);
-
         $('input[name="input_tgl_peminjaman"]').daterangepicker({
-            // locale: {
-            //     format: 'Y/M/D'
-            // },
             opens: 'left'
         }, function(start, end, label) {
             console.log("A new date selection was made: " + start.format('Y-M-D') + ' to ' + end.format('Y-M-D'));
@@ -350,7 +343,7 @@
         }
 
         function createTable(data_peminjaman, total_data, limit, offset) {
-            // console.log(data_peminjaman);
+            console.log(data_peminjaman);
             let html = ``;
             offset = Number(offset);
             $('table#tbody_buku').empty();
@@ -378,9 +371,9 @@
                     html += `<td><small>${item.jml_hari_denda}</small></td>`;
                     html += `<td><small>Rp.${parseInt(item.denda_telat).toLocaleString()}</small></td>`;
                     if (item.denda_status != 0) {
-                        html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-backup-restore"></i></button></td>`;
+                        html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}">Input Pengembalian</button></td>`;
                     } else {
-                        html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-backup-restore"></button></td>`;
+                        html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}">Input Pengembalian</button></td>`;
                     }
                     html += `</tr>`;
                     no++;

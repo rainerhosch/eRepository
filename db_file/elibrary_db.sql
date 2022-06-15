@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Jun 2022 pada 12.53
+-- Waktu pembuatan: 15 Jun 2022 pada 10.57
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -414,7 +414,9 @@ INSERT INTO `m_buku` (`id_buku`, `judul_buku`, `penulis_buku`, `penerbit_buku`, 
 
 CREATE TABLE `m_denda` (
   `id_denda` int(11) NOT NULL,
+  `nama_denda` varchar(20) NOT NULL,
   `jml_denda` int(50) NOT NULL,
+  `desc_denda` varchar(128) NOT NULL,
   `update_by` int(11) NOT NULL,
   `update_date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -423,8 +425,9 @@ CREATE TABLE `m_denda` (
 -- Dumping data untuk tabel `m_denda`
 --
 
-INSERT INTO `m_denda` (`id_denda`, `jml_denda`, `update_by`, `update_date`) VALUES
-(1, 5000, 1, '2022-06-09');
+INSERT INTO `m_denda` (`id_denda`, `nama_denda`, `jml_denda`, `desc_denda`, `update_by`, `update_date`) VALUES
+(1, 'telat', 5000, 'telat pengembalian buku', 1, '2022-06-09'),
+(2, 'hilang', 50000, 'menghilangkan buku', 1, '2022-06-11');
 
 -- --------------------------------------------------------
 
@@ -446,7 +449,8 @@ CREATE TABLE `m_kategori_buku` (
 INSERT INTO `m_kategori_buku` (`id_kategori`, `nama_kategori`, `create_by`, `create_date`) VALUES
 (1, 'Non Fiksi', 1, '2022-05-28'),
 (2, 'Novel', 1, '2022-05-28'),
-(3, 'Ensiklopedia', 1, '2022-05-28');
+(3, 'Ensiklopedia', 1, '2022-05-28'),
+(9, 'Teknologi', 0, '2022-06-11');
 
 -- --------------------------------------------------------
 
@@ -471,9 +475,10 @@ CREATE TABLE `m_menu` (
 --
 
 INSERT INTO `m_menu` (`id_menu`, `nama_menu`, `link_menu`, `type`, `icon`, `is_active`, `editable`, `create_by`, `create_date`) VALUES
-(1, 'Dashboard', 'dashboard', '1', '<i class=\"mdi mdi-microsoft-windows\"></i>', 1, 'YES', 0, '2022-05-21'),
-(2, 'Manajemen', 'manajemen', '2', '<i class=\"fas fa-columns\"></i>', 1, 'YES', 0, '2022-05-21'),
-(4, 'Setup', 'setup', '2', '<i class=\"fas fa-columns\"></i>', 1, 'N/A', 0, '2022-05-21');
+(2, 'Manajemen', 'manajemen', '2', '<i class=\"mdi mdi-cog-outline\"></i>', 1, 'YES', 0, '2022-05-21'),
+(4, 'Setup', 'setup', '2', '<i class=\"mdi mdi-cog-outline\"></i>', 1, 'N/A', 0, '2022-05-21'),
+(14, 'Dashboard', 'dashboard', '1', '<i class=\"mdi mdi-microsoft-windows\"></i>', 1, 'YES', 0, '2022-05-21'),
+(15, 'Transaksi', 'transaksi', '2', '<i class=\"mdi mdi-ballot\"></i>', 1, 'YES', 1, '2022-06-11');
 
 -- --------------------------------------------------------
 
@@ -514,10 +519,36 @@ INSERT INTO `m_submenu` (`id_submenu`, `id_menu`, `nama_submenu`, `url`, `icon`,
 (1, 4, 'Menu', 'setup/menu', '<i class=\"mdi mdi-layers\"></i>', 1, 1, 'N/A', 0, '2022-05-21'),
 (3, 4, 'Submenu', 'setup/submenu', '<i class=\"mdi mdi-layers-triple\"></i>', 1, 1, 'N/A', 0, '2022-05-21'),
 (5, 4, 'Role User', 'setup/roleuser', '<i class=\"fas fa-cogs\"></i>', 1, 1, 'N/A', 0, '2022-05-21'),
-(32, 2, 'User', 'manajemen/user', '<i class=\"fas fa-user\"></i>', 1, 1, 'YES', 1, '2022-05-24'),
+(32, 2, 'User', 'manajemen/user', '<i class=\"mdi mdi-account-cog\"></i>', 1, 1, 'YES', 1, '2022-05-24'),
 (35, 2, 'Buku', 'manajemen/buku', '<i class=\"mdi mdi-book\"></i>', 1, 1, 'YES', 1, '2022-05-28'),
 (36, 2, 'Kategori Buku', 'manajemen/kategori', '<i class=\"mdi mdi-book-cog\"></i>', 1, 0, 'YES', 1, '2022-06-07'),
-(37, 2, 'Denda', 'manajemen/denda', '<i class=\"mdi mdi-currency-usd-circle\"></i>', 1, 1, 'YES', 1, '2022-06-09');
+(37, 2, 'Denda', 'manajemen/denda', '<i class=\"mdi mdi-currency-usd-circle\"></i>', 1, 1, 'YES', 1, '2022-06-09'),
+(38, 15, 'Peminjaman', 'transaksi/peminjaman', '<i class=\"mdi mdi-arrow-right-box\"></i>', 1, 1, 'YES', 1, '2022-06-11'),
+(39, 15, 'Pengembalian', 'transaksi/pengembalian', '<i class=\"mdi mdi-arrow-left-box\"></i>', 1, 1, 'YES', 1, '2022-06-11');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tr_denda`
+--
+
+CREATE TABLE `tr_denda` (
+  `id_tr_denda` int(11) NOT NULL,
+  `jenis_denda` int(11) NOT NULL,
+  `id_buku` int(11) NOT NULL,
+  `jml_denda` int(50) NOT NULL,
+  `id_pengembalian` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tr_denda`
+--
+
+INSERT INTO `tr_denda` (`id_tr_denda`, `jenis_denda`, `id_buku`, `jml_denda`, `id_pengembalian`) VALUES
+(1, 2, 331, 50000, 1),
+(2, 1, 348, 15000, 2),
+(3, 2, 328, 50000, 3),
+(4, 1, 343, 10000, 3);
 
 -- --------------------------------------------------------
 
@@ -545,8 +576,10 @@ INSERT INTO `tr_peminjaman` (`id_peminjaman`, `tanggal_pinjam`, `tanggal_kembali
 (3, '2022-06-10', '2022-06-13', '356', 11, 1, 0),
 (4, '2022-06-08', '2022-06-10', '375', 11, 1, 0),
 (5, '2022-06-01', '2022-06-04', '296', 11, 1, 0),
-(6, '2022-06-10', '2022-06-15', '346', 9, 1, 0),
-(7, '2022-06-10', '2022-06-13', '343,356,328', 11, 1, 0);
+(6, '2022-06-10', '2022-06-15', '346', 9, 1, 1),
+(7, '2022-06-10', '2022-06-13', '343,356,328', 11, 1, 1),
+(8, '2022-06-08', '2022-06-10', '348,328,325', 12, 1, 1),
+(9, '2022-06-12', '2022-06-14', '297,346,331', 13, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -557,11 +590,20 @@ INSERT INTO `tr_peminjaman` (`id_peminjaman`, `tanggal_pinjam`, `tanggal_kembali
 CREATE TABLE `tr_pengembalian` (
   `id_pengembalian` int(11) NOT NULL,
   `tanggal_pengembalian` date NOT NULL,
-  `denda` int(20) NOT NULL,
-  `id_buku` int(11) NOT NULL,
+  `id_peminjaman` int(11) NOT NULL,
   `id_anggota` int(11) NOT NULL,
   `id_petugas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tr_pengembalian`
+--
+
+INSERT INTO `tr_pengembalian` (`id_pengembalian`, `tanggal_pengembalian`, `id_peminjaman`, `id_anggota`, `id_petugas`) VALUES
+(1, '2022-06-14', 9, 13, 1),
+(2, '2022-06-14', 8, 12, 1),
+(3, '2022-06-14', 7, 11, 1),
+(4, '2022-06-14', 6, 9, 1);
 
 -- --------------------------------------------------------
 
@@ -588,7 +630,9 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `role_id`, `user_detail_i
 (2, 'admin', '202cb962ac59075b964b07152d234b70', 2, 2, 1, '0000-00-00'),
 (9, '1234567', 'e9335e177b288c7af4af8f1225c3f938', 4, 11, 1, '0000-00-00'),
 (10, 'admin33', 'e9335e177b288c7af4af8f1225c3f938', 2, 12, 1, '0000-00-00'),
-(11, '12345678', 'e9335e177b288c7af4af8f1225c3f938', 4, 13, 0, '0000-00-00');
+(11, '12345678', 'e9335e177b288c7af4af8f1225c3f938', 4, 13, 0, '0000-00-00'),
+(12, '56544864', 'e9335e177b288c7af4af8f1225c3f938', 4, 14, 0, '0000-00-00'),
+(13, '84654876', 'e9335e177b288c7af4af8f1225c3f938', 4, 15, 0, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -615,7 +659,10 @@ INSERT INTO `user_access_menu` (`id`, `role_id`, `id_menu`, `create_by`, `create
 (10, 2, 2, 1, '2022-05-27'),
 (11, 1, 14, 1, '2022-05-27'),
 (12, 1, 1, 1, '2022-06-08'),
-(13, 4, 1, 1, '2022-06-08');
+(13, 4, 1, 1, '2022-06-08'),
+(14, 1, 15, 1, '2022-06-11'),
+(15, 2, 15, 1, '2022-06-11'),
+(16, 4, 15, 1, '2022-06-11');
 
 -- --------------------------------------------------------
 
@@ -641,7 +688,9 @@ INSERT INTO `user_detail` (`user_detail_id`, `nama`, `email`, `tlp`, `alamat`, `
 (2, 'Admin Perpus', 'admin.perpus@gmail.com', '62', 'Purwakarta, Indonesia', 'default.jpg'),
 (11, 'Bayu Prasetyo', 'bayu@gmail.com', '6287790001615', 'Galudra', 'default.jpg'),
 (12, 'Rizky Oktan', 'admin2@gmail.com', '6287790001615', 'New Jersey', 'default.jpg'),
-(13, 'Valentino Asep', 'v.asep@gmail.com', '6287790001615', 'Spanyol', 'default.jpg');
+(13, 'Valentino Asep', 'v.asep@gmail.com', '6287790001615', 'Spanyol', 'default.jpg'),
+(14, 'Lionel Mawang', 'mawang@gmail.com', '6287790001615', 'Argentina', 'default.jpg'),
+(15, 'Toni Stroke', 'starkindusty@gmail.com', '6287790001615', 'New Jersey', 'default.jpg');
 
 -- --------------------------------------------------------
 
@@ -711,10 +760,22 @@ ALTER TABLE `m_submenu`
   ADD KEY `id_menu` (`id_menu`);
 
 --
+-- Indeks untuk tabel `tr_denda`
+--
+ALTER TABLE `tr_denda`
+  ADD PRIMARY KEY (`id_tr_denda`);
+
+--
 -- Indeks untuk tabel `tr_peminjaman`
 --
 ALTER TABLE `tr_peminjaman`
   ADD PRIMARY KEY (`id_peminjaman`);
+
+--
+-- Indeks untuk tabel `tr_pengembalian`
+--
+ALTER TABLE `tr_pengembalian`
+  ADD PRIMARY KEY (`id_pengembalian`);
 
 --
 -- Indeks untuk tabel `user`
@@ -757,19 +818,19 @@ ALTER TABLE `m_buku`
 -- AUTO_INCREMENT untuk tabel `m_denda`
 --
 ALTER TABLE `m_denda`
-  MODIFY `id_denda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_denda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `m_kategori_buku`
 --
 ALTER TABLE `m_kategori_buku`
-  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `m_menu`
 --
 ALTER TABLE `m_menu`
-  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `m_rak`
@@ -781,31 +842,43 @@ ALTER TABLE `m_rak`
 -- AUTO_INCREMENT untuk tabel `m_submenu`
 --
 ALTER TABLE `m_submenu`
-  MODIFY `id_submenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_submenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT untuk tabel `tr_denda`
+--
+ALTER TABLE `tr_denda`
+  MODIFY `id_tr_denda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `tr_peminjaman`
 --
 ALTER TABLE `tr_peminjaman`
-  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT untuk tabel `tr_pengembalian`
+--
+ALTER TABLE `tr_pengembalian`
+  MODIFY `id_pengembalian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_detail`
 --
 ALTER TABLE `user_detail`
-  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_role`

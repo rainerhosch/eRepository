@@ -106,7 +106,7 @@ class Peminjaman extends CI_Controller
                 $tgl_now = strtotime(date('Y-m-d'));
                 $tgl_pengembalian = strtotime($value['tanggal_kembali']);
                 $datediff = $tgl_now - $tgl_pengembalian;
-                $denda = $this->denda->getDataMasterDenda(['jenis_denda' => 'telat'])->row_array();
+                $denda = $this->denda->getDataMasterDenda(['nama_denda' => 'telat'])->row_array();
                 if ($tgl_now > $tgl_pengembalian) {
                     $data['peminjaman'][$key]['denda_status'] = 1;
                     $data['peminjaman'][$key]['jml_hari_denda'] =  round($datediff / (60 * 60 * 24));
@@ -218,7 +218,7 @@ class Peminjaman extends CI_Controller
             $datediff = $tgl_now - $tgl_pengembalian;
 
             // denda telat
-            $dendaTelat = $this->denda->getDataMasterDenda(['jenis_denda' => 'telat'])->row_array();
+            $dendaTelat = $this->denda->getDataMasterDenda(['nama_denda' => 'telat'])->row_array();
             $data['biaya_denda_telat'] = (int)$dendaTelat['jml_denda'];
             if ($tgl_now > $tgl_pengembalian) {
                 $data['denda_status'] = 1;
@@ -231,7 +231,7 @@ class Peminjaman extends CI_Controller
             }
 
             // denda hilang
-            $denda_hilang = $this->denda->getDataMasterDenda(['jenis_denda' => 'hilang'])->row_array();
+            $denda_hilang = $this->denda->getDataMasterDenda(['nama_denda' => 'hilang'])->row_array();
             $data['biaya_denda_hilang'] = (int)$denda_hilang['jml_denda'];
 
             // $tgl_now = strtotime(date('Y-m-d'));
