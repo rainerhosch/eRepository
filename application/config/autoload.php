@@ -60,7 +60,9 @@ $autoload['packages'] = array();
 */
 $autoload['libraries'] = [
     'database',
-    'session'
+    'session',
+    'formattanggal',
+    'formattanggal2',
 ];
 
 /*

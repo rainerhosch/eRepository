@@ -15,6 +15,7 @@ class Pengembalian extends CI_Controller
     {
         parent::__construct();
         login_check();
+        date_default_timezone_set('Asia/Jakarta');
         $this->load->model('transaksi/M_pengembalian', 'pengembalian');
         $this->load->model('transaksi/M_peminjaman', 'peminjaman');
         $this->load->model('manajemen/M_buku', 'buku');
@@ -33,15 +34,24 @@ class Pengembalian extends CI_Controller
     public function getData()
     {
         if ($this->input->is_ajax_request()) {
+            $date_now = date('Y-m-d');
             $post_limit = $this->input->post('limit');
             $post_offset = $this->input->post('offset');
             $key_cari = $this->input->post('keyword');
+            $filter_date = $this->input->post('filter_mounth');
             $post_page = $this->input->post('page');
             $url_pagination = $this->input->post('url_pagination');
 
-            if ($key_cari != null) {
-                $where = "uda.nama LIKE '%" . $key_cari . "%' OR ag.username LIKE '%" . $key_cari . "%'";
-                // $where = "uda.nama LIKE '%" . $key_cari . "%' OR m_buku.judul_buku LIKE '%" . $key_cari . "%' OR ag.username LIKE '%" . $key_cari . "%'";
+            if ($key_cari != null || $filter_date != null) {
+                if (!empty($filter_date)) {
+                    if ($filter_date === 'date') {
+                        $where = "tr_pengembalian.tanggal_pengembalian='" . $date_now . "'";
+                    } else {
+                        $where = "SUBSTR(tr_pengembalian.tanggal_pengembalian, 1,7)='" . substr($date_now, 0, 7) . "'";
+                    }
+                } else {
+                    $where = "uda.nama LIKE '%" . $key_cari . "%' OR ag.username LIKE '%" . $key_cari . "%'";
+                }
             } else {
                 $where = null;
             }

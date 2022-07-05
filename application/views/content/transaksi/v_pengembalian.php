@@ -36,9 +36,6 @@
                             <div class="col-xl-6 col-sm-6 col-xs-12">
                                 <h4 class="header-title mt-0 mb-3">Data Dalam Pengambalian</h4>
                             </div>
-                            <!-- <div class="col-xl-6 col-sm-6 col-xs-12">
-                                <button class="btn float-end btn-outline-success rounded-pill waves-effect waves-light btn-xs" id="btn_inputPengambalian"><i class="mdi mdi-plus me-1"></i>Input Pengambalian</button>
-                            </div> -->
                         </div>
                         <hr>
                         <div class="row">
@@ -248,7 +245,7 @@
         }
 
         function createTable(data_pengembalian, total_data, limit, offset) {
-            // console.log(data_pengembalian);
+            console.log(data_pengembalian);
             let html = ``;
             offset = Number(offset);
             $('table#tbody_buku').empty();
@@ -287,9 +284,9 @@
                     html += `<table class="table table-striped table-bordered table-sm">`;
                     html += `<thead>`;
                     html += `<tr>`;
-                    html += `<th class="text-center">Jumlah Denda</th>`;
-                    html += `<th class="text-center">Nama Buku</th>`;
                     html += `<th class="text-center">Jenis Denda</th>`;
+                    html += `<th class="text-center">Nama Buku</th>`;
+                    html += `<th class="text-center">Jumlah Denda</th>`;
                     html += `</tr>`;
                     html += `</thead>`;
                     $.each(item.data_denda, function(i, denda) {

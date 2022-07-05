@@ -18,33 +18,11 @@
             <div class="col-xl-3 col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="header-title mt-0 mb-4">Total Revenue</h4>
-                        <div class="widget-chart-1">
-                            <div class="widget-chart-box-1 float-start" dir="ltr">
-                                <input data-plugin="knob" data-width="70" data-height="70" data-fgColor="#f05050 " data-bgColor="#F9B9B9" value="58" data-skin="tron" data-angleOffset="180" data-readOnly=true data-thickness=".15" />
-                            </div>
-                            <div class="widget-detail-1 text-end">
-                                <h2 class="fw-normal pt-2 mb-1"> 256 </h2>
-                                <p class="text-muted mb-1">Revenue today</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mt-0 mb-3">Sales Analytics</h4>
+                        <h4 class="header-title mt-0 mb-3 text-end">Pengunjung</h4>
                         <div class="widget-box-2">
-                            <div class="widget-detail-2 text-end">
-                                <span class="badge bg-success rounded-pill float-start mt-3">32% <i class="mdi mdi-trending-up"></i> </span>
-                                <h2 class="fw-normal mb-1"> 8451 </h2>
-                                <p class="text-muted mb-3">Revenue today</p>
-                            </div>
-                            <div class="progress progress-bar-alt-success progress-sm">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;">
-                                    <span class="visually-hidden">77% Complete</span>
-                                </div>
+                            <div class="widget-detail-2 text-end row">
+                                <h2 class="fw-normal mb-1" id="jml_kunjungan_mounth"></h2>
+                                <p class="text-muted mb-1 today_date"></p>
                             </div>
                         </div>
                     </div>
@@ -53,33 +31,37 @@
             <div class="col-xl-3 col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="header-title mt-0 mb-4">Statistics</h4>
-                        <div class="widget-chart-1">
-                            <div class="widget-chart-box-1 float-start" dir="ltr">
-                                <input data-plugin="knob" data-width="70" data-height="70" data-fgColor="#ffbd4a" data-bgColor="#FFE6BA" value="80" data-skin="tron" data-angleOffset="180" data-readOnly=true data-thickness=".15" />
-                            </div>
-                            <div class="widget-detail-1 text-end">
-                                <h2 class="fw-normal pt-2 mb-1"> 4569 </h2>
-                                <p class="text-muted mb-1">Revenue today</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mt-0 mb-3">Daily Sales</h4>
+                        <h4 class="header-title mt-0 mb-3 text-end">Data Pengembalian</h4>
                         <div class="widget-box-2">
-                            <div class="widget-detail-2 text-end">
-                                <span class="badge bg-pink rounded-pill float-start mt-3">32% <i class="mdi mdi-trending-up"></i> </span>
-                                <h2 class="fw-normal mb-1"> 158 </h2>
-                                <p class="text-muted mb-3">Revenue today</p>
+                            <div class="widget-detail-2 text-end row">
+                                <h2 class="fw-normal mb-1" id="jml_pengembalian_mounth"></h2>
+                                <p class="text-muted mb-1 today_date"></p>
                             </div>
-                            <div class="progress progress-bar-alt-pink progress-sm">
-                                <div class="progress-bar bg-pink" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;">
-                                    <span class="visually-hidden">77% Complete</span>
-                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mt-0 mb-3 text-end">Data Peminjaman</h4>
+                        <div class="widget-box-2">
+                            <div class="widget-detail-2 text-end row">
+                                <h2 class="fw-normal mb-1" id="jml_peminjaman_mounth"></h2>
+                                <p class="text-muted mb-1 today_date"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title mt-0 mb-3 text-end">Kas Denda</h4>
+                        <div class="widget-box-2">
+                            <div class="widget-detail-2 text-end row">
+                                <h2 class="fw-normal mb-1 float-start" id="jml_denda_mounth"></h2>
+                                <p class="text-muted mb-1 this_mounth"></p>
                             </div>
                         </div>
                     </div>
@@ -100,73 +82,21 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-xl-6 col-sm-6 col-xs-12">
-                                <h4 class="header-title mt-0 mb-3">Data Dalam Peminjaman</h4>
-                            </div>
-                            <div class="col-xl-6 col-sm-6 col-xs-12">
-                                <button class="btn float-end btn-outline-success rounded-pill waves-effect waves-light btn-xs" id="btn_inputPeminjaman"><i class="mdi mdi-plus me-1"></i>Input Peminjaman</button>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-xl-2 col-sm-2 col-xs-12">
-                                <div class="dataTables_length"></div>
-                                <select id="datatable_length" name="datatable_length" aria-controls="datatable" class="form-select form-select-sm">
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                            <div class="col-xl-10 col-sm-10 col-xs-12">
-                                <div id="datatable_filter" class="float-end dataTables_filter"><input type="search" class="form-control form-control-sm datatable_filter" placeholder="NISN, Judul, Nama" aria-controls="datatable"></div>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Buku Dipinjam</th>
-                                        <th>Tanggal Peminjaman</th>
-                                        <th>Peminjam</th>
-                                        <th>Petugas</th>
-                                        <th>Denda Hari</th>
-                                        <th>Total Denda</th>
-                                        <!-- <th class="text-center">Tools</th> -->
-                                    </tr>
-                                </thead>
-                                <tbody class="tbody_peminjaman_buku" id="tbody_peminjaman_buku">
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-sm-12 col-md-5 hidden-xs">
-                                <div class="dataTables_info" id="datatable_info_peminjaman" role="status" aria-live="polite"></div>
-                            </div>
-                            <!-- Paginate -->
-                            <div class="col-sm-12 col-md-7 clearfix">
-                                <div class="dataTables_paginate paging_simple_numbers pagination-rounded" id="pagination_peminjaman">
-                                </div>
-                            </div>
-                        </div>
+                        <form action="#" id="form_insert_pengunjung">
+                            <input type="text" class="form-control form-control-sm insert_nisn" name="insert_nisn" placeholder="insert nisn pengunjung">
+                            <small id="insertNisnHelp" class="form-text text-muted" hidden></small>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- table pengembalian -->
         <div class="row">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-xl-6 col-sm-6 col-xs-12">
-                                <h4 class="header-title mt-0 mb-3">Data Pengembalian Buku</h4>
+                                <h4 class="header-title mt-0 mb-3">Data Pengunjung</h4>
                             </div>
                         </div>
                         <hr>
@@ -182,7 +112,7 @@
                                 </select>
                             </div>
                             <div class="col-xl-10 col-sm-10 col-xs-12">
-                                <div id="datatable_filter" class="float-end dataTables_filter"><input type="search" class="form-control form-control-sm datatable_filter" placeholder="NISN, Judul, Nama" aria-controls="datatable"></div>
+                                <div id="datatable_filter" class="float-end dataTables_filter"><input type="search" class="form-control form-control-sm datatable_filter" placeholder="NISN, Nama" aria-controls="datatable"></div>
                             </div>
                         </div>
 
@@ -191,24 +121,27 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Tanggal Pengembalian</th>
-                                        <th>Buku</th>
-                                        <th>Peminjam</th>
-                                        <th>Petugas</th>
-                                        <th>Total Denda</th>
+                                        <th>Tanggal</th>
+                                        <th>Jam</th>
+                                        <th>NISN</th>
+                                        <th>NAMA</th>
+                                        <!-- <th>Alamat</th> -->
+                                        <!-- <th>Tlpn</th> -->
+                                        <!-- <th class="text-center">Tools</th> -->
                                     </tr>
                                 </thead>
-                                <tbody class="tbody_pengembalian_buku" id="tbody_pengembalian_buku">
+                                <tbody class="tbody_kunjungan" id="tbody_kunjungan">
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="row mt-3">
                             <div class="col-sm-12 col-md-5 hidden-xs">
-                                <div class="dataTables_info" id="datatable_info" role="status" aria-live="polite"></div>
+                                <div class="dataTables_info" id="datatable_info_kunjungan" role="status" aria-live="polite"></div>
                             </div>
+                            <!-- Paginate -->
                             <div class="col-sm-12 col-md-7 clearfix">
-                                <div class="dataTables_paginate paging_simple_numbers pagination-rounded" id="pagination_pengembalian">
+                                <div class="dataTables_paginate paging_simple_numbers pagination-rounded" id="pagination_kunjungan">
                                 </div>
                             </div>
                         </div>
@@ -227,7 +160,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>manajemen/peminjaman/insertPeminjaman">
+                    <form id="form_add_buku" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>manajemen/kunjungan/insertPeminjaman">
                         <div class="form-group row">
                             <label for="input_nisn" class="col-sm-3 col-form-label">ID ANGGOTA</label>
                             <div class="col-sm-9">
@@ -251,9 +184,9 @@
                             </div>
                         </div>
                         <div class="form-group row mt-1">
-                            <label for="input_tgl_peminjaman" class="col-sm-3 col-form-label">Tanggal Peminjaman</label>
+                            <label for="input_tgl_kunjungan" class="col-sm-3 col-form-label">Tanggal Peminjaman</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="input_tgl_peminjaman" name="input_tgl_peminjaman" required>
+                                <input type="text" class="form-control" id="input_tgl_kunjungan" name="input_tgl_kunjungan" required>
                             </div>
                         </div>
                         <div class="form-group row mt-2">
@@ -272,6 +205,97 @@
 </div>
 <script>
     $(document).ready(function() {
+        $('.insert_nisn').on('input', function() {
+            let nisn = $(this).val();
+            let msg = '';
+            $.ajax({
+                url: '<?= base_url(); ?>kunjungan/insertData',
+                type: 'POST',
+                data: {
+                    nisn: nisn
+                },
+                serverSide: true,
+                dataType: 'json',
+                success: function(response) {
+                    msg += response.message;
+                    console.log(response)
+                    if (response.code === 200) {
+                        Swal.fire({
+                            icon: "success",
+                            title: msg,
+                            showConfirmButton: false,
+                            timer: 1500,
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    } else {
+                        $('#insertNisnHelp').html(`<i><code>${msg}</i>`);
+                        $('#insertNisnHelp').prop('hidden', false);
+                        setTimeout(function() {
+                            $('#insertNisnHelp').prop('hidden', true);
+                        }, 1500);
+                    }
+                }
+            });
+        });
+        $.ajax({
+            url: '<?= base_url(); ?>transaksi/pengembalian/getData',
+            type: 'POST',
+            data: {
+                filter_mounth: 'date'
+            },
+            serverSide: true,
+            dataType: 'json',
+            success: function(response) {
+                // console.log(response)
+                let data_pengembalian = response.data.pengembalian;
+                let total_denda = 0;
+                $.each(data_pengembalian, function(k, item) {
+                    if (item.data_denda.length != 0) {
+                        $.each(item.data_denda, function(k, val) {
+                            total_denda += parseInt(val.jml_denda);
+                        });
+                    }
+                });
+                $('#jml_pengembalian_mounth').append(data_pengembalian.length);
+                $('#jml_denda_mounth').append(`<i>Rp.${parseInt(total_denda).toLocaleString()}</i>`);
+            }
+        });
+        $.ajax({
+            url: '<?= base_url(); ?>transaksi/peminjaman/getData',
+            type: 'POST',
+            data: {
+                filter_mounth: 'date'
+            },
+            serverSide: true,
+            dataType: 'json',
+            success: function(response) {
+                let jml_peminjaman = response.data.peminjaman.length;
+                $('#jml_peminjaman_mounth').append(jml_peminjaman);
+            }
+        });
+
+        $.ajax({
+            url: '<?= base_url(); ?>kunjungan/getDataPerBulan',
+            type: 'POST',
+            serverSide: true,
+            data: {
+                filter_mounth: true
+            },
+            dataType: 'json',
+            success: function(response) {
+                // console.log(response)
+                let jml_kunjungan_bulan_ini = response.data.kunjungan_bulan_ini;
+                let bulan = response.data.bulan_ini;
+                let date_now = response.data.tgl_bulan_ini;
+                $('#jml_kunjungan_mounth').append(jml_kunjungan_bulan_ini);
+                $('.this_mounth').append('Bulan ' + bulan);
+                $('.today_date').append(date_now);
+            }
+        });
+
+
+
         function getDateNow() {
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
@@ -290,7 +314,7 @@
             $(".div_alert").fadeOut('slow');
         }, 2000);
 
-        $('input[name="input_tgl_peminjaman"]').daterangepicker({
+        $('input[name="input_tgl_kunjungan"]').daterangepicker({
             // locale: {
             //     format: 'Y/M/D'
             // },
@@ -314,7 +338,7 @@
             loadFilter(keyword);
         });
 
-        $('#pagination_peminjaman').on('click', 'a', function(e) {
+        $('#pagination_kunjungan').on('click', 'a', function(e) {
             e.preventDefault();
             let limit = $('#datatable_length').val();
             let offset = $(this).attr('data-ci-pagination-page');
@@ -324,12 +348,12 @@
         // Load filter
         function loadFilter(keyword) {
             $.ajax({
-                url: '<?= base_url(); ?>transaksi/peminjaman/getData',
+                url: '<?= base_url(); ?>kunjungan/getData',
                 type: 'POST',
                 data: {
                     keyword: keyword,
                     limit: limit,
-                    url_pagination: 'DataPeminjamanBuku'
+                    url_pagination: 'DataKunjungan'
                 },
                 serverSide: true,
                 dataType: 'json',
@@ -337,11 +361,11 @@
 
                     // console.log(response);
                     let limit = response.data.limit_per_page;
-                    let data_peminjaman = response.data.peminjaman;
+                    let data_kunjungan = response.data.kunjungan;
                     let total_data = response.data.total_data;
                     let offset = response.data.current_page;
-                    $('#pagination_peminjaman').html(response.pagination);
-                    createTable(data_peminjaman, total_data, limit, offset);
+                    $('#pagination_kunjungan').html(response.pagination);
+                    createTable(data_kunjungan, total_data, limit, offset);
                 }
             });
         }
@@ -351,59 +375,47 @@
             offset = typeof offset !== 'undefined' ? offset : 0;
             let page = offset * limit;
             $.ajax({
-                url: '<?= base_url(); ?>transaksi/peminjaman/getData/' + offset,
+                url: '<?= base_url(); ?>kunjungan/getData/' + offset,
                 type: 'POST',
                 data: {
                     offset: offset,
                     limit: limit,
                     // page: page,
-                    url_pagination: 'DataPeminjamanBuku'
+                    url_pagination: 'DataKunjungan'
                 },
                 serverSide: true,
                 dataType: 'json',
                 success: function(response) {
                     // console.log(response);
                     let limit = response.data.limit_per_page;
-                    let data_peminjaman = response.data.peminjaman;
+                    let data_kunjungan = response.data.kunjungan;
                     let total_data = response.data.total_data;
                     let offset = response.data.current_page;
-                    $('#pagination_peminjaman').html(response.data.pagination_link);
+                    $('#pagination_kunjungan').html(response.data.pagination_link);
                     $('ul.pagination li a').addClass('page-link');
-                    createTable(data_peminjaman, total_data, limit, offset);
+                    createTable(data_kunjungan, total_data, limit, offset);
                 }
             });
         }
 
-        function createTable(data_peminjaman, total_data, limit, offset) {
+        function createTable(data_kunjungan, total_data, limit, offset) {
             // console.log(limit);
-            // console.log(data_peminjaman);
+            // console.log(data_kunjungan);
             let html = ``;
             offset = Number(offset);
             $('table#tbody_buku').empty();
 
-            if (data_peminjaman != 0) {
+            if (data_kunjungan != 0) {
                 let no = 1;
                 let numEnd = Number(limit) + Number(offset);
-                $('#datatable_info_peminjaman').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Record`);
-                $.each(data_peminjaman, function(k, item) {
+                $('#datatable_info_kunjungan').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Record`);
+                $.each(data_kunjungan, function(k, item) {
                     html += `<tr>`;
                     html += `<td><small>${no}</small></td>`;
-                    html += `<td>`;
-                    $.each(item.buku_dipinjam, function(j, item_buku) {
-                        html += `<i style="font-size:11px; font-weight: bold;">- ${item_buku.judul_buku}</i><br>`;
-                    });
-                    html += `</td>`;
-                    html += `<td><small>${item.tanggal_pinjam} s/d ${item.tanggal_kembali}</small></td>`;
-                    // html += `<td>${item.tanggal_kembali}</td>`;
-                    html += `<td><small>${item.nama_anggota}</small></td>`;
-                    html += `<td><small>${item.nama_petugas}</small></td>`;
-                    html += `<td><small>${item.jml_hari_denda}</small></td>`;
-                    html += `<td><small>Rp.${parseInt(item.denda_telat).toLocaleString()}</small></td>`;
-                    // if (item.denda_status != 0) {
-                    //     html += `<td class="text-center"><button class="btn btn-danger waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></i></button></td>`;
-                    // } else {
-                    //     html += `<td class="text-center"><button class="btn btn-info waves-effect waves-light btn-xs btnToolsPeminjaan" data-idbuku="${item.id_buku}" data-peminjam="${item.id_anggota}" data-denda="${item.denda_telat}" data-id="${item.id_peminjaman}"><i class="mdi mdi-pencil"></button></td>`;
-                    // }
+                    html += `<td>${item.tgl_kunjungan}</td>`;
+                    html += `<td>${item.time_kunjungan}</td>`;
+                    html += `<td>${item.nisn}</td>`;
+                    html += `<td>${item.nama}</td>`;
                     html += `</tr>`;
                     no++;
                 });
@@ -412,53 +424,8 @@
                 html += `<td colspan="7" class="text-center"><i>Tidak ada data</i></td>`;
                 html += `</tr>`;
             }
-            $('.tbody_peminjaman_buku').html(html);
-            $('.btnToolsPeminjaan').click(function() {
-                let id = $(this).data('id');
-                let denda = $(this).data('denda');
-                let id_buku = $(this).data('idbuku');
-                let id_anggota = $(this).data('peminjam');
-                let tgl_pengembalian = getDateNow();
-                // console.log(id);
-                // console.log(denda);
-                // console.log(id_buku);
-                // console.log(id_anggota);
-
-                $.ajax({
-                    url: '<?= base_url(); ?>transaksi/peminjaman/insertPengembalian',
-                    type: 'post',
-                    dataType: "json",
-                    serverSide: true,
-                    data: {
-                        tgl_pengembalian: tgl_pengembalian,
-                        denda: denda,
-                        id_buku: id_buku,
-                        id_anggota: id_anggota,
-                        id_peminjaman: id,
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        if (response.code === 200) {
-                            title = `Success`;
-                            icon = `success`;
-                        } else {
-                            title = `Error!`;
-                            icon = `error`;
-                        }
-                        Swal.fire(
-                            title,
-                            response.message,
-                            icon
-                        )
-                        location.reload();
-                    }
-                });
-            });
+            $('.tbody_kunjungan').html(html);
         }
-
-        $('#btn_inputPeminjaman').click(function() {
-            $('#modalAddPeminjaman').modal('show');
-        });
 
         // Auto complete user
         $('#input_nisn').autocomplete({
@@ -492,79 +459,6 @@
                 $("#input_nama").val(ui.item.label);
                 return false;
             },
-        });
-
-        // Auto complete buku
-        // $('#input_judul_buku').autocomplete({
-        //     maxShowItems: 5,
-        //     source: function(request, response) {
-        //         // Fetch data
-        //         $.ajax({
-        //             url: '<?= base_url(); ?>manajemen/buku/getDataForAutoComplete',
-        //             type: 'post',
-        //             dataType: "json",
-        //             serverSide: true,
-        //             data: {
-        //                 search: request.term
-        //             },
-        //             success: function(res) {
-        //                 // console.log(res);
-        //                 response(res.data);
-        //             }
-        //         });
-        //     },
-        //     select: function(event, ui) {
-        //         // Set selection
-        //         $('#input_judul_buku').val(ui.item.value);
-        //         $('#input_idbuku').val(ui.item.id);
-        //         return false;
-        //     },
-        //     focus: function(event, ui) {
-        //         $("#input_judul_buku").val(ui.item.value);
-        //         $('#input_idbuku').val(ui.item.id);
-        //         return false;
-        //     },
-        // });
-
-        // multyple autocomplete
-        $("#input_judul_buku").autocomplete({
-            source: function(request, response) {
-                var searchText = extractLast(request.term);
-                $.ajax({
-                    url: '<?= base_url(); ?>manajemen/buku/getDataForAutoComplete',
-                    type: 'post',
-                    dataType: "json",
-                    serverSide: true,
-                    data: {
-                        search: searchText
-                    },
-                    success: function(res) {
-                        // console.log(res);
-                        response(res.data);
-                    }
-                });
-            },
-            select: function(event, ui) {
-                var terms = split($('#input_judul_buku').val());
-
-                terms.pop();
-
-                terms.push(ui.item.value);
-
-                terms.push("");
-                $('#input_judul_buku').val(terms.join("\n"));
-
-                // Id buku
-                terms = split($('#input_idbuku').val());
-                terms.pop();
-                terms.push(ui.item.id);
-                terms.push("");
-                $('#input_idbuku').val(terms.join("\n"));
-                // $('#div_input_idbuku').append(`<input type="hidden" name="id_buku[]" value="${ui.item.id}">`);
-
-                return false;
-            }
-
         });
 
     });

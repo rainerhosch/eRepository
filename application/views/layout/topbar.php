@@ -13,7 +13,7 @@
         </li>
 
         <!-- Notifikasi -->
-        <li class="dropdown notification-list topbar-dropdown">
+        <!-- <li class="dropdown notification-list topbar-dropdown">
             <a class="nav-link dropdown-toggle waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <i class="fe-bell noti-icon"></i>
                 <span class="badge bg-danger rounded-circle noti-icon-badge">9</span>
@@ -28,65 +28,12 @@
                         </span>Notification
                     </h5>
                 </div>
-                <!-- <div class="noti-scroll" data-simplebar>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                        <div class="notify-icon">
-                            <img src="<?= base_url('assets/template') ?>/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="" />
-                        </div>
-                        <p class="notify-details">Cristina Pride</p>
-                        <p class="text-muted mb-0 user-msg">
-                            <small>Hi, How are you? What about our next meeting</small>
-                        </p>
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-primary">
-                            <i class="mdi mdi-comment-account-outline"></i>
-                        </div>
-                        <p class="notify-details">Caleb Flakelar commented on Admin
-                            <small class="text-muted">1 min ago</small>
-                        </p>
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon">
-                            <img src="<?= base_url('assets/template') ?>/images/users/user-4.jpg" class="img-fluid rounded-circle" alt="" />
-                        </div>
-                        <p class="notify-details">Karen Robinson</p>
-                        <p class="text-muted mb-0 user-msg">
-                            <small>Wow ! this admin looks good and awesome design</small>
-                        </p>
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-warning">
-                            <i class="mdi mdi-account-plus"></i>
-                        </div>
-                        <p class="notify-details">New user registered.
-                            <small class="text-muted">5 hours ago</small>
-                        </p>
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-info">
-                            <i class="mdi mdi-comment-account-outline"></i>
-                        </div>
-                        <p class="notify-details">Caleb Flakelar commented on Admin
-                            <small class="text-muted">4 days ago</small>
-                        </p>
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <div class="notify-icon bg-secondary">
-                            <i class="mdi mdi-heart"></i>
-                        </div>
-                        <p class="notify-details">Carlos Crouch liked
-                            <b>Admin</b>
-                            <small class="text-muted">13 days ago</small>
-                        </p>
-                    </a>
-                </div> -->
                 <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
                     View all
                     <i class="fe-arrow-right"></i>
                 </a>
             </div>
-        </li>
+        </li> -->
 
         <li class="dropdown notification-list topbar-dropdown">
             <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -99,14 +46,14 @@
                 <div class="dropdown-header noti-title">
                     <h6 class="text-overflow m-0">Welcome !</h6>
                 </div>
-                <a href="contacts-profile.html" class="dropdown-item notify-item">
+                <a href="#profile" class="dropdown-item notify-item user_profile">
                     <i class="fe-user"></i>
-                    <span>My Account</span>
+                    <span>Profile</span>
                 </a>
-                <a href="auth-lock-screen.html" class="dropdown-item notify-item">
+                <!-- <a href="auth-lock-screen.html" class="dropdown-item notify-item">
                     <i class="fe-lock"></i>
                     <span>Lock Screen</span>
-                </a>
+                </a> -->
                 <div class="dropdown-divider"></div>
                 <a href="<?= base_url('auth'); ?>/logout" class="dropdown-item notify-item">
                     <i class="fe-log-out"></i>
@@ -160,4 +107,12 @@
     <div class="clearfix"></div>
 
 </div>
+<script>
+    $(document).ready(function() {
+        $('.user_profile').on('click', function() {
+            alert('modul belum tersedia!')
+        });
+
+    });
+</script>
 <!-- end Topbar -->
