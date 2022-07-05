@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 15 Jun 2022 pada 10.57
+-- Waktu pembuatan: 05 Jul 2022 pada 09.45
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -20,6 +20,38 @@ SET time_zone = "+00:00";
 --
 -- Database: `elibrary_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `data_kunjungan`
+--
+
+CREATE TABLE `data_kunjungan` (
+  `id_kunjungan` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `tgl_kunjungan` date NOT NULL DEFAULT current_timestamp(),
+  `time_kunjungan` time NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `data_kunjungan`
+--
+
+INSERT INTO `data_kunjungan` (`id_kunjungan`, `id_user`, `tgl_kunjungan`, `time_kunjungan`) VALUES
+(1, 11, '2022-07-01', '07:03:00'),
+(2, 12, '2022-07-05', '15:30:33'),
+(3, 13, '2022-07-05', '14:11:58'),
+(4, 9, '2022-07-05', '14:15:04'),
+(5, 11, '2022-07-05', '14:32:28'),
+(6, 12, '2022-07-05', '14:32:42'),
+(7, 9, '2022-07-05', '14:33:34'),
+(8, 11, '2022-07-05', '14:34:03'),
+(9, 12, '2022-07-05', '14:34:16'),
+(10, 12, '2022-07-05', '14:34:35'),
+(11, 13, '2022-07-05', '14:39:41'),
+(12, 9, '2022-07-05', '14:39:58'),
+(13, 11, '2022-07-05', '14:41:55');
 
 -- --------------------------------------------------------
 
@@ -721,6 +753,12 @@ INSERT INTO `user_role` (`role_id`, `role_type`, `description`, `editable`, `cre
 --
 
 --
+-- Indeks untuk tabel `data_kunjungan`
+--
+ALTER TABLE `data_kunjungan`
+  ADD PRIMARY KEY (`id_kunjungan`);
+
+--
 -- Indeks untuk tabel `m_buku`
 --
 ALTER TABLE `m_buku`
@@ -807,6 +845,12 @@ ALTER TABLE `user_role`
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
+
+--
+-- AUTO_INCREMENT untuk tabel `data_kunjungan`
+--
+ALTER TABLE `data_kunjungan`
+  MODIFY `id_kunjungan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `m_buku`
