@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class FormatTanggal2
+class formattanggal2
 {
     function konversi($tgl)
     {

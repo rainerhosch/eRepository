@@ -76,8 +76,8 @@ class Kunjungan extends CI_Controller
             $bln = $pecah_date[1];
             $tgl = $pecah_date[2];
             $bln_lalu = $bln - 1;
-            $FormatTanggal = new FormatTanggal;
-            $nm_bln = $FormatTanggal->konversiBulan($bln);
+            $formattanggal = new formattanggal;
+            $nm_bln = $formattanggal->konversiBulan($bln);
             $data['bulan_ini'] = $nm_bln . ' ' . $thn;
             $data['tgl_bulan_ini'] = $tgl . ' ' . $nm_bln . ' ' . $thn;
 
