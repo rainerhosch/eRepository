@@ -15,6 +15,7 @@ class Dashboard extends CI_Controller
     {
         parent::__construct();
         login_check();
+        $this->load->model('manajemen/M_user', 'user');
     }
 
     public function index()
@@ -43,6 +44,11 @@ class Dashboard extends CI_Controller
             $data['title'] = 'E-Library';
             $data['page'] = 'Dashboard Anggota';
             $data['content'] = 'content/v_dashboard_anggota';
+            $where = [
+                'user.user_id' => $this->session->userdata('user_id')
+            ];
+            $field = 'user.user_id, user.username, user.password, user.qrcode_img, user_detail.*, user_role.role_type, user_role.role_id';
+            $data['user'] = $this->user->getData($field, $where)->row_array();
             $this->load->view('template', $data);
         } else {
             redirect('dashboard/admin');

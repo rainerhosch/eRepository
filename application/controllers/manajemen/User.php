@@ -18,6 +18,8 @@ class User extends CI_Controller
         $this->load->model('manajemen/M_user', 'user');
         $this->load->model('manajemen/M_menu', 'menu');
         $this->load->model('manajemen/M_submenu', 'submenu');
+        // $this->load->library('phpqrcode/qrlib');
+        include APPPATH . 'libraries\phpqrcode\qrlib.php';
     }
 
     public function index()
@@ -28,6 +30,107 @@ class User extends CI_Controller
         $data['content'] = 'content/manajemen/v_user';
         $this->load->view('template', $data);
     }
+
+    public function generateQRCode()
+    {
+        $dir = FCPATH . 'assets/img/qrcode/';
+        // JIKA DIREKTORI TAHUN TIDAK ADA
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+        $field = 'user.user_id, user.username';
+        $data_user = $this->user->getData($field)->result_array();
+        foreach ($data_user as $i => $val) {
+            $file_name = $val['username']  . date("Ymd") . rand() . ".png";
+            $file_path = $dir . $file_name;
+            $update_user = $this->user->update_data('user', $val['user_id'], ['qrcode_img' => $file_name]);
+            if ($update_user) {
+                QRcode::png($file_name, $file_path, QR_ECLEVEL_L, 10);
+            }
+        }
+    }
+
+    public function updateData()
+    {
+        if ($this->input->is_ajax_request()) {
+            $data_post = $this->input->post();
+            $password = '';
+            if (isset($data_post['password_baru'])) {
+                $password = md5($data_post['password_baru']);
+            } else {
+                $password = $data_post['password_lama'];
+            }
+            $user_id = $data_post['user_id'];
+            $user_detail_id = $data_post['user_detail_id'];
+            $data_update_detail = [
+                'nama'          => $data_post['nama_user'],
+                'email'         => $data_post['email_user'],
+                'tlp'           => $data_post['tlp_user'],
+                'alamat'        => $data_post['alamat_user'],
+                'img'           => 'default.jpg'
+            ];
+            $update = $this->user->update_data('user_detail', $user_detail_id, $data_update_detail);
+            $data['update'] = $update;
+            // $data['query'] = $this->db->last_query();
+            if ($update) {
+                $data_update_user = [
+                    'password' => $password
+                ];
+                $this->user->update_data('user', $user_id, $data_update_user);
+                $res = [
+                    'code' => 200,
+                    'status' => true,
+                    'message' => 'Success',
+                    'data' => $data,
+
+                ];
+            } else {
+                $res = [
+                    'code' => 500,
+                    'status' => true,
+                    'message' => 'Gagal update.',
+                    'data' => $data,
+
+                ];
+            }
+        } else {
+            $res = [
+                'code' => 500,
+                'status' => false,
+                'message' => 'Access Denied',
+                'data' => null
+            ];
+        }
+        echo json_encode($res);
+    }
+
+    public function getDataById()
+    {
+        if ($this->input->is_ajax_request()) {
+            $data_post = $this->input->post();
+            $where = [
+                'user.user_id' => $data_post['id']
+            ];
+            $field = 'user.user_id, user.username, user.password, user_detail.*, user_role.role_type, user_role.role_id';
+            $data = $this->user->getData($field, $where)->row_array();
+            $res = [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Success',
+                'data' => $data,
+
+            ];
+        } else {
+            $res = [
+                'code' => 500,
+                'status' => false,
+                'message' => 'Access Denied',
+                'data' => null
+            ];
+        }
+        echo json_encode($res);
+    }
+
 
     public function getData()
     {

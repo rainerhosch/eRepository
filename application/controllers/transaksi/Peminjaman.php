@@ -195,6 +195,80 @@ class Peminjaman extends CI_Controller
         echo json_encode($res);
     }
 
+    public function getDataPeminjamanOneUser()
+    {
+        if ($this->input->is_ajax_request()) {
+            $data_post = $this->input->post();
+            $where = "ag.username ='" . $data_post['username'] . "'";
+            $condition = [
+                'field' => 'tr_peminjaman.*, uda.nama AS nama_anggota, udp.nama AS nama_petugas',
+                'limit' => 9999999999,
+                'offset' => 0,
+                'where' => $where,
+                'join_tbl' => [
+                    0 => [
+                        'table' => 'user as ag',
+                        'on' => 'ag.user_id=tr_peminjaman.id_anggota',
+                        'join_type' => ''
+                    ],
+                    1 => [
+                        'table' => 'user_detail as uda',
+                        'on' => 'uda.user_detail_id=ag.user_detail_id',
+                        'join_type' => ''
+                    ],
+                    2 => [
+                        'table' => 'user ptg',
+                        'on' => 'ptg.user_id=tr_peminjaman.id_petugas',
+                        'join_type' => ''
+                    ],
+                    3 => [
+                        'table' => 'user_detail as udp',
+                        'on' => 'udp.user_detail_id=ptg.user_detail_id',
+                        'join_type' => ''
+                    ],
+                ]
+            ];
+            $data['peminjaman'] = $this->peminjaman->getData($condition)->result_array();
+            foreach ($data['peminjaman'] as $key => $value) {
+
+                $id_buku = explode(',', $value['id_buku']);
+                $jml_buku_dipinjam = count($id_buku);
+                foreach ($id_buku as $i => $item_buku) {
+                    $data['peminjaman'][$key]['buku_dipinjam'][$i] = $this->buku->getBukuById(['id_buku' => $item_buku])->row_array();
+                }
+
+                $tgl_now = strtotime(date('Y-m-d'));
+                $tgl_pengembalian = strtotime($value['tanggal_kembali']);
+                $datediff = $tgl_now - $tgl_pengembalian;
+                $denda = $this->denda->getDataMasterDenda(['nama_denda' => 'telat'])->row_array();
+                if ($tgl_now > $tgl_pengembalian) {
+                    $data['peminjaman'][$key]['denda_status'] = 1;
+                    $data['peminjaman'][$key]['jml_hari_denda'] =  round($datediff / (60 * 60 * 24));
+                    $data['peminjaman'][$key]['denda_telat'] =  ($denda['jml_denda'] * $data['peminjaman'][$key]['jml_hari_denda']) * $jml_buku_dipinjam;
+                } else {
+                    $data['peminjaman'][$key]['denda_status'] = 0;
+                    $data['peminjaman'][$key]['jml_hari_denda'] = 0;
+                    $data['peminjaman'][$key]['denda_telat'] =  ($denda['jml_denda'] * $data['peminjaman'][$key]['jml_hari_denda']) * $jml_buku_dipinjam;
+                }
+            }
+            $res = [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Success',
+                'data' => $data,
+            ];
+        } else {
+            $res = [
+                'code' => 403,
+                'status' => false,
+                'message' => 'Forbidden',
+                'data' => null
+            ];
+        }
+
+        echo json_encode($res);
+    }
+
     public function getDataById()
     {
         if ($this->input->is_ajax_request()) {
@@ -300,10 +374,10 @@ class Peminjaman extends CI_Controller
         $insert = $this->peminjaman->insertData($data_insert);
         if ($insert) {
             $this->session->set_flashdata('success', 'Data berhasil di input!');
-            redirect('dashboard');
+            redirect('transaksi/peminjaman');
         } else {
             $this->session->set_flashdata('error', 'Gagal input data!');
-            redirect('dashboard');
+            redirect('transaksi/peminjaman');
         }
     }
 

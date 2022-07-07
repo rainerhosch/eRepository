@@ -41,7 +41,7 @@ class Auth extends CI_Controller
 		if ($this->input->is_ajax_request()) {
 			$email_or_username = $this->input->post('email_or_username');
 			$password = $this->input->post('password');
-			$field = 'user.user_id,user.username, user.password, user.is_active, user.role_id as role, user_detail.*';
+			$field = 'user.user_id,user.username, user.password, user.is_active, user.role_id as role, user.qrcode_img, user_detail.*';
 			$contition = "user.username='" . $email_or_username . "' OR user_detail.email='" . $email_or_username . "'";
 			$data_user = $this->user->getData($field, $contition)->row_array();
 			if ($data_user) {
@@ -52,7 +52,10 @@ class Auth extends CI_Controller
 							'username' => $data_user['username'],
 							'email' => $data_user['email'],
 							'fullname' => $data_user['nama'],
+							'tlp' => $data_user['tlp'],
+							'alamat' => $data_user['alamat'],
 							'role' => $data_user['role'],
+							'qrcode_img' => $data_user['qrcode_img'],
 							'is_login' => true
 						];
 						$this->session->set_userdata($data_session);
@@ -128,6 +131,13 @@ class Auth extends CI_Controller
 					'data' => null
 				];
 			} else {
+				$dir = FCPATH . 'assets/img/qrcode/';
+				// JIKA DIREKTORI TAHUN TIDAK ADA
+				if (!is_dir($dir)) {
+					mkdir($dir, 0777, true);
+				}
+				$qrcode_filename = $post_regist['username']  . date("Ymd") . rand() . ".png";
+				$file_path = $dir . $qrcode_filename;
 				$tbl = 'user';
 				$data_user_regist = [
 					'username'          => $post_regist['username'],
@@ -136,6 +146,7 @@ class Auth extends CI_Controller
 					'user_detail_id'    => $id_detail_user,
 					'is_active'         => 0,
 					'create_date'       => strtotime($date),
+					'qrcode_img'		=> $qrcode_filename
 				];
 				$insert_user = $this->user->insert_data($tbl, $data_user_regist);
 				if (!$insert_user) {
@@ -146,6 +157,7 @@ class Auth extends CI_Controller
 						'data' => null
 					];
 				} else {
+					QRcode::png($qrcode_filename, $file_path, QR_ECLEVEL_L, 10);
 					$data = [
 						'code' => 200,
 						'status' => true,

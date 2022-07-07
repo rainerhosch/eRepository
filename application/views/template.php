@@ -42,6 +42,12 @@
     <script src="<?= base_url('assets/template') ?>/libs/selectize/js/standalone/selectize.min.js"></script>
     <script src="<?= base_url('assets/template') ?>/libs/multiselect/js/jquery.multi-select.js"></script>
     <script src="<?= base_url('assets/template') ?>/libs/select2/js/select2.min.js"></script>
+    <style>
+        body.swal2-shown>[aria-hidden="true"] {
+            transition: 0.1s filter;
+            filter: blur(10px);
+        }
+    </style>
 
 </head>
 

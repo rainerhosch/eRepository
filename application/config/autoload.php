@@ -62,7 +62,7 @@ $autoload['libraries'] = [
     'database',
     'session',
     'formattanggal',
-    'formattanggal2',
+    'formattanggal2'
 ];
 
 /*
