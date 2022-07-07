@@ -15,6 +15,7 @@ class Auth extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('manajemen/M_user', 'user');
+		include APPPATH . 'libraries\phpqrcode\qrlib.php';
 	}
 
 	public function index()

@@ -168,6 +168,7 @@
                                 },
                                 dataType: "json",
                                 success: function(response) {
+                                    console.log(response)
                                     let title = ``;
                                     let msg = ``;
                                     let icon = ``;
@@ -178,12 +179,15 @@
                                         title = `Error!`;
                                         icon = `error`;
                                     }
-                                    Swal.fire(
-                                        title,
-                                        response.msg,
-                                        icon
-                                    )
-                                    location.reload();
+                                    Swal.fire({
+                                        icon: icon,
+                                        title: title,
+                                        text: response.msg,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(function(isConfirm) {
+                                        location.reload()
+                                    });
                                 }
                             })
                         }

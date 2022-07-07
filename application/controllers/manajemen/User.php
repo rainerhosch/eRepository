@@ -18,6 +18,8 @@ class User extends CI_Controller
         $this->load->model('manajemen/M_user', 'user');
         $this->load->model('manajemen/M_menu', 'menu');
         $this->load->model('manajemen/M_submenu', 'submenu');
+        $this->load->model('transaksi/M_peminjaman', 'peminjaman');
+        $this->load->model('transaksi/M_pengembalian', 'pengembalian');
         // $this->load->library('phpqrcode/qrlib');
         include APPPATH . 'libraries\phpqrcode\qrlib.php';
     }
@@ -230,6 +232,13 @@ class User extends CI_Controller
             $id = $this->input->post('user_id');
             $user_detail_id = $this->input->post('user_detail_id');
             $table = $this->input->post('table');
+            // get data user
+            $where2 = [
+                'user.user_id' => $id
+            ];
+            $field2 = 'user.user_id, user.username, user.password, user.qrcode_img, user_detail.*, user_role.role_type, user_role.role_id';
+            $data_user = $this->user->getData($field2, $where2)->row_array();
+
             $field = $table . '_id';
             $where = [
                 '' . $field . '' => $id
@@ -259,6 +268,14 @@ class User extends CI_Controller
                         'data' => null
                     ];
                 } else {
+                    $wherex = [
+                        'id_anggota' => $data_user['user_id']
+                    ];
+                    $delete_peminjaman = $this->peminjaman->deleteData($wherex);
+                    $delete_pengembalian = $this->pengembalian->deleteData($wherex);
+                    $dir = FCPATH . 'assets/img/qrcode/';
+                    $file_path = $dir . $data_user['qrcode_img'];
+                    unlink($file_path);
                     $data = [
                         'code' => 200,
                         'status' => true,
