@@ -25,6 +25,7 @@ class M_user extends CI_Model
             $this->db->like('username', $search, 'after');
             $this->db->or_like('user_detail.nama', $search, 'after');
         }
+        $this->db->order_by('user.user_id', 'DESC');
         return $this->db->get();
     }
 

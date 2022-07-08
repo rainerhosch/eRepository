@@ -474,36 +474,6 @@
                     }
                 });
                 $('#modalAddPengembalian').modal('show');
-
-                // $.ajax({
-                //     url: '<?= base_url(); ?>transaksi/peminjaman/insertPengembalian',
-                //     type: 'post',
-                //     dataType: "json",
-                //     serverSide: true,
-                //     data: {
-                //         tgl_pengembalian: tgl_pengembalian,
-                //         denda: denda,
-                //         id_buku: id_buku,
-                //         id_anggota: id_anggota,
-                //         id_peminjaman: id,
-                //     },
-                //     success: function(response) {
-                //         console.log(response);
-                //         if (response.code === 200) {
-                //             title = `Success`;
-                //             icon = `success`;
-                //         } else {
-                //             title = `Error!`;
-                //             icon = `error`;
-                //         }
-                //         Swal.fire(
-                //             title,
-                //             response.message,
-                //             icon
-                //         )
-                //         location.reload();
-                //     }
-                // });
             });
         }
 

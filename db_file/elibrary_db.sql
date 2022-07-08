@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Jul 2022 pada 09.45
+-- Waktu pembuatan: 08 Jul 2022 pada 10.40
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.10
 
@@ -39,19 +39,10 @@ CREATE TABLE `data_kunjungan` (
 --
 
 INSERT INTO `data_kunjungan` (`id_kunjungan`, `id_user`, `tgl_kunjungan`, `time_kunjungan`) VALUES
-(1, 11, '2022-07-01', '07:03:00'),
-(2, 12, '2022-07-05', '15:30:33'),
-(3, 13, '2022-07-05', '14:11:58'),
 (4, 9, '2022-07-05', '14:15:04'),
-(5, 11, '2022-07-05', '14:32:28'),
-(6, 12, '2022-07-05', '14:32:42'),
 (7, 9, '2022-07-05', '14:33:34'),
-(8, 11, '2022-07-05', '14:34:03'),
-(9, 12, '2022-07-05', '14:34:16'),
-(10, 12, '2022-07-05', '14:34:35'),
-(11, 13, '2022-07-05', '14:39:41'),
 (12, 9, '2022-07-05', '14:39:58'),
-(13, 11, '2022-07-05', '14:41:55');
+(14, 9, '2022-07-08', '15:18:23');
 
 -- --------------------------------------------------------
 
@@ -605,13 +596,13 @@ CREATE TABLE `tr_peminjaman` (
 INSERT INTO `tr_peminjaman` (`id_peminjaman`, `tanggal_pinjam`, `tanggal_kembali`, `id_buku`, `id_anggota`, `id_petugas`, `status_pengembalian`) VALUES
 (1, '2022-06-05', '2022-06-07', '20,356,55', 9, 1, 0),
 (2, '2022-06-09', '2022-06-14', '55', 9, 2, 0),
-(3, '2022-06-10', '2022-06-13', '356', 11, 1, 0),
-(4, '2022-06-08', '2022-06-10', '375', 11, 1, 0),
-(5, '2022-06-01', '2022-06-04', '296', 11, 1, 0),
 (6, '2022-06-10', '2022-06-15', '346', 9, 1, 1),
-(7, '2022-06-10', '2022-06-13', '343,356,328', 11, 1, 1),
-(8, '2022-06-08', '2022-06-10', '348,328,325', 12, 1, 1),
-(9, '2022-06-12', '2022-06-14', '297,346,331', 13, 1, 1);
+(10, '2022-07-07', '2022-07-07', '340,315', 9, 1, 0),
+(11, '2022-07-05', '2022-07-08', '336,343,339', 9, 1, 0),
+(12, '2022-07-01', '2022-07-04', '312,330', 9, 1, 0),
+(13, '2022-07-14', '2022-07-16', '346,306', 9, 1, 0),
+(14, '2022-07-07', '2022-07-09', '140,285', 9, 1, 0),
+(15, '2022-07-09', '2022-07-11', '350,105', 9, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -632,9 +623,6 @@ CREATE TABLE `tr_pengembalian` (
 --
 
 INSERT INTO `tr_pengembalian` (`id_pengembalian`, `tanggal_pengembalian`, `id_peminjaman`, `id_anggota`, `id_petugas`) VALUES
-(1, '2022-06-14', 9, 13, 1),
-(2, '2022-06-14', 8, 12, 1),
-(3, '2022-06-14', 7, 11, 1),
 (4, '2022-06-14', 6, 9, 1);
 
 -- --------------------------------------------------------
@@ -650,21 +638,18 @@ CREATE TABLE `user` (
   `role_id` int(11) NOT NULL,
   `user_detail_id` int(11) NOT NULL,
   `is_active` int(1) NOT NULL,
-  `create_date` date NOT NULL DEFAULT current_timestamp()
+  `create_date` date NOT NULL DEFAULT current_timestamp(),
+  `qrcode_img` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `user`
 --
 
-INSERT INTO `user` (`user_id`, `username`, `password`, `role_id`, `user_detail_id`, `is_active`, `create_date`) VALUES
-(1, 'administrator', '202cb962ac59075b964b07152d234b70', 1, 1, 1, '0000-00-00'),
-(2, 'admin', '202cb962ac59075b964b07152d234b70', 2, 2, 1, '0000-00-00'),
-(9, '1234567', 'e9335e177b288c7af4af8f1225c3f938', 4, 11, 1, '0000-00-00'),
-(10, 'admin33', 'e9335e177b288c7af4af8f1225c3f938', 2, 12, 1, '0000-00-00'),
-(11, '12345678', 'e9335e177b288c7af4af8f1225c3f938', 4, 13, 0, '0000-00-00'),
-(12, '56544864', 'e9335e177b288c7af4af8f1225c3f938', 4, 14, 0, '0000-00-00'),
-(13, '84654876', 'e9335e177b288c7af4af8f1225c3f938', 4, 15, 0, '0000-00-00');
+INSERT INTO `user` (`user_id`, `username`, `password`, `role_id`, `user_detail_id`, `is_active`, `create_date`, `qrcode_img`) VALUES
+(1, 'administrator', '202cb962ac59075b964b07152d234b70', 1, 1, 1, '0000-00-00', 'administrator202207071162578319.png'),
+(2, 'admin', '202cb962ac59075b964b07152d234b70', 2, 2, 1, '0000-00-00', 'admin202207071521145726.png'),
+(9, '1234567', '202cb962ac59075b964b07152d234b70', 4, 11, 1, '0000-00-00', '123456720220707979494004.png');
 
 -- --------------------------------------------------------
 
@@ -694,7 +679,7 @@ INSERT INTO `user_access_menu` (`id`, `role_id`, `id_menu`, `create_by`, `create
 (13, 4, 1, 1, '2022-06-08'),
 (14, 1, 15, 1, '2022-06-11'),
 (15, 2, 15, 1, '2022-06-11'),
-(16, 4, 15, 1, '2022-06-11');
+(17, 4, 14, 1, '2022-07-05');
 
 -- --------------------------------------------------------
 
@@ -716,13 +701,9 @@ CREATE TABLE `user_detail` (
 --
 
 INSERT INTO `user_detail` (`user_detail_id`, `nama`, `email`, `tlp`, `alamat`, `img`) VALUES
-(1, 'Admin System', 'system@gmail.com', '62', '-', 'default.jpg'),
+(1, 'Admin System', 'system.admin@gmail.com', '6287790001615', '-', 'default.jpg'),
 (2, 'Admin Perpus', 'admin.perpus@gmail.com', '62', 'Purwakarta, Indonesia', 'default.jpg'),
-(11, 'Bayu Prasetyo', 'bayu@gmail.com', '6287790001615', 'Galudra', 'default.jpg'),
-(12, 'Rizky Oktan', 'admin2@gmail.com', '6287790001615', 'New Jersey', 'default.jpg'),
-(13, 'Valentino Asep', 'v.asep@gmail.com', '6287790001615', 'Spanyol', 'default.jpg'),
-(14, 'Lionel Mawang', 'mawang@gmail.com', '6287790001615', 'Argentina', 'default.jpg'),
-(15, 'Toni Stroke', 'starkindusty@gmail.com', '6287790001615', 'New Jersey', 'default.jpg');
+(11, 'Bayu Prasetyo1', 'bayu@gmail.com', '6287790001615', 'Galudra', 'default.jpg');
 
 -- --------------------------------------------------------
 
@@ -850,7 +831,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT untuk tabel `data_kunjungan`
 --
 ALTER TABLE `data_kunjungan`
-  MODIFY `id_kunjungan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_kunjungan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `m_buku`
@@ -898,7 +879,7 @@ ALTER TABLE `tr_denda`
 -- AUTO_INCREMENT untuk tabel `tr_peminjaman`
 --
 ALTER TABLE `tr_peminjaman`
-  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `tr_pengembalian`
@@ -910,19 +891,19 @@ ALTER TABLE `tr_pengembalian`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_detail`
 --
 ALTER TABLE `user_detail`
-  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_role`

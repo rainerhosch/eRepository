@@ -67,7 +67,8 @@ class Kunjungan extends CI_Controller
         echo json_encode($res);
     }
 
-    public function getDataPerBulan()
+
+    public function fungsiKonfersiDate()
     {
         if ($this->input->is_ajax_request()) {
             $date_now = date('Y-m-d');
@@ -80,6 +81,37 @@ class Kunjungan extends CI_Controller
             $nm_bln = $formattanggal->konversiBulan($bln);
             $data['bulan_ini'] = $nm_bln . ' ' . $thn;
             $data['tgl_bulan_ini'] = $tgl . ' ' . $nm_bln . ' ' . $thn;
+            $res = [
+                'code' => 200,
+                'status' => true,
+                'message' => 'Success',
+                'data' => $data,
+            ];
+        } else {
+            $res = [
+                'code' => 403,
+                'status' => false,
+                'message' => 'Forbidden',
+                'data' => null
+            ];
+        }
+
+        echo json_encode($res);
+    }
+
+    public function getDataPerBulan()
+    {
+        if ($this->input->is_ajax_request()) {
+            $date_now = date('Y-m-d');
+            // $pecah_date = explode('-', $date_now);
+            // $thn = $pecah_date[0];
+            // $bln = $pecah_date[1];
+            // $tgl = $pecah_date[2];
+            // $bln_lalu = $bln - 1;
+            // $formattanggal = new formattanggal;
+            // $nm_bln = $formattanggal->konversiBulan($bln);
+            // $data['bulan_ini'] = $nm_bln . ' ' . $thn;
+            // $data['tgl_bulan_ini'] = $tgl . ' ' . $nm_bln . ' ' . $thn;
 
 
             $where = "SUBSTR(data_kunjungan.tgl_kunjungan, 1,7)='" . substr($date_now, 0, 7) . "'";
@@ -161,7 +193,9 @@ class Kunjungan extends CI_Controller
                 ]
             ];
             $data['kunjungan'] = $this->kunjungan->getData($condition)->result_array();
-            $data['total_data'] = $this->kunjungan->getCount();
+            $data['query'] = $this->db->last_query();
+            $data['total_data'] = $this->kunjungan->getCount($where);
+            $data['query2'] = $this->db->last_query();
             $total_page = ($data['total_data'] / $limit);
             $convert_data = intval(preg_replace('/[^\d.]/', '', $total_page));
             $data['total_page'] =  $convert_data;

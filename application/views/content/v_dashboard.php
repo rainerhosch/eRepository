@@ -2,6 +2,8 @@
 <script src="<?= base_url('assets/template'); ?>/libs/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?= base_url('assets/template'); ?>/libs/jquery-ui/jquery.ui.autocomplete.scroll.min.js"></script>
 <script src="<?= base_url('assets/template'); ?>/js/autocomplete.js"></script>
+<script type="text/javascript" src="<?= base_url('assets'); ?>/plugins/vue/2.1.10/vue.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 <style>
     .ui-autocomplete {
         z-index: 2147483647;
@@ -12,6 +14,7 @@
         margin: 1.75rem auto;
     }
 </style>
+<!-- <link href="<?= base_url('assets'); ?>/webcodecamjs-master/css/style.css" rel="stylesheet"> -->
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -80,12 +83,41 @@
         </div>
         <div class="row">
             <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form action="#" id="form_insert_pengunjung">
-                            <input type="text" class="form-control form-control-sm insert_nisn" name="insert_nisn" placeholder="insert nisn pengunjung">
-                            <small id="insertNisnHelp" class="form-text text-muted" hidden></small>
-                        </form>
+                <div id="app">
+                    <div class="card">
+                        <div class="card-header">
+                            <form action="#" id="form_insert_pengunjung">
+                                <input type="text" class="form-control form-control-sm insert_nisn" id="insert_nisn" name="insert_nisn" placeholder="insert nisn pengunjung">
+                                <small id="insertNisnHelp" class="form-text text-muted" hidden></small>
+                            </form>
+                        </div>
+                        <div class=" card-body">
+                            <div class="sidebar">
+                                <section class="scans">
+                                    <h3>Scan Or type</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <section class="cameras">
+                                                <ul>
+                                                    <li v-if="cameras.length === 0" class="empty">No cameras found</li>
+                                                    <li v-for="camera in cameras">
+                                                        <span v-if="camera.id == activeCameraId" :title="formatName(camera.name)" class="active">{{ formatName(camera.name) }}</span>
+                                                        <span v-if="camera.id != activeCameraId" :title="formatName(camera.name)">
+                                                            <a @click.stop="selectCamera(camera)">{{ formatName(camera.name) }}</a>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </section>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="preview-container float-end">
+                                                <video id="preview" style="width:200px; border-style: solid; border-radius:5%;"></video>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -125,9 +157,6 @@
                                         <th>Jam</th>
                                         <th>NISN</th>
                                         <th>NAMA</th>
-                                        <!-- <th>Alamat</th> -->
-                                        <!-- <th>Tlpn</th> -->
-                                        <!-- <th class="text-center">Tools</th> -->
                                     </tr>
                                 </thead>
                                 <tbody class="tbody_kunjungan" id="tbody_kunjungan">
@@ -204,9 +233,87 @@
 
 </div>
 <script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            scanner: null,
+            activeCameraId: null,
+            cameras: [],
+            scans: []
+        },
+        mounted: function() {
+            var self = this;
+            self.scanner = new Instascan.Scanner({
+                video: document.getElementById('preview'),
+                scanPeriod: 5
+            });
+            self.scanner.addListener('scan', function(content, image) {
+                self.scans.unshift({
+                    date: +(Date.now()),
+                    content: content
+                });
+                $('#insert_nisn').val(content);
+
+                let msg = '';
+                $.ajax({
+                    url: '<?= base_url(); ?>kunjungan/insertData',
+                    type: 'POST',
+                    data: {
+                        nisn: content
+                    },
+                    serverSide: true,
+                    dataType: 'json',
+                    success: function(response) {
+                        msg += response.message;
+                        console.log(response)
+                        if (response.code === 200) {
+                            Swal.fire({
+                                icon: "success",
+                                title: msg,
+                                showConfirmButton: false,
+                                timer: 1500,
+                            }).then((result) => {
+                                location.reload();
+                            });
+                        } else {
+                            $('#insertNisnHelp').html(`<i><code>${msg}</i>`);
+                            $('#insertNisnHelp').prop('hidden', false);
+                            setTimeout(function() {
+                                $('#insertNisnHelp').prop('hidden', true);
+                            }, 1500);
+                        }
+                    }
+                });
+
+            });
+            Instascan.Camera.getCameras().then(function(cameras) {
+                self.cameras = cameras;
+                if (cameras.length > 0) {
+                    self.activeCameraId = cameras[0].id;
+                    self.scanner.start(cameras[0]);
+                } else {
+                    console.error('No cameras found.');
+                }
+            }).catch(function(e) {
+                console.error(e);
+            });
+        },
+        methods: {
+            formatName: function(name) {
+                return name || '(unknown)';
+            },
+            selectCamera: function(camera) {
+                this.activeCameraId = camera.id;
+                this.scanner.start(camera);
+            }
+        }
+    });
+</script>
+<script>
     $(document).ready(function() {
-        $('.insert_nisn').on('input', function() {
+        $('input[name=insert_nisn]').on('input', function() {
             let nisn = $(this).val();
+            // console.log(nisn)
             let msg = '';
             $.ajax({
                 url: '<?= base_url(); ?>kunjungan/insertData',
@@ -238,6 +345,55 @@
                 }
             });
         });
+        // $('.insert_nisn').on('type', function() {
+        //     let nisn = $(this).val();
+        //     console.log(nisn)
+        //     let msg = '';
+        //     $.ajax({
+        //         url: '<?= base_url(); ?>kunjungan/insertData',
+        //         type: 'POST',
+        //         data: {
+        //             nisn: nisn
+        //         },
+        //         serverSide: true,
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             msg += response.message;
+        //             console.log(response)
+        //             if (response.code === 200) {
+        //                 Swal.fire({
+        //                     icon: "success",
+        //                     title: msg,
+        //                     showConfirmButton: false,
+        //                     timer: 1500,
+        //                 }).then((result) => {
+        //                     location.reload();
+        //                 });
+        //             } else {
+        //                 $('#insertNisnHelp').html(`<i><code>${msg}</i>`);
+        //                 $('#insertNisnHelp').prop('hidden', false);
+        //                 setTimeout(function() {
+        //                     $('#insertNisnHelp').prop('hidden', true);
+        //                 }, 1500);
+        //             }
+        //         }
+        //     });
+        // });
+
+        $.ajax({
+            url: '<?= base_url(); ?>kunjungan/fungsiKonfersiDate',
+            type: 'POST',
+            serverSide: true,
+            dataType: 'json',
+            success: function(response) {
+                // console.log(response)
+                let bulan = response.data.bulan_ini;
+                let date_now = response.data.tgl_bulan_ini;
+                $('.this_mounth').append('Bulan ' + bulan);
+                $('.today_date').append(date_now);
+            }
+        })
+
         $.ajax({
             url: '<?= base_url(); ?>transaksi/pengembalian/getData',
             type: 'POST',
@@ -276,21 +432,16 @@
         });
 
         $.ajax({
-            url: '<?= base_url(); ?>kunjungan/getDataPerBulan',
+            url: '<?= base_url(); ?>kunjungan/getData',
             type: 'POST',
             serverSide: true,
             data: {
-                filter_mounth: true
+                filter_mounth: 'date'
             },
             dataType: 'json',
             success: function(response) {
-                // console.log(response)
-                let jml_kunjungan_bulan_ini = response.data.kunjungan_bulan_ini;
-                let bulan = response.data.bulan_ini;
-                let date_now = response.data.tgl_bulan_ini;
-                $('#jml_kunjungan_mounth').append(jml_kunjungan_bulan_ini);
-                $('.this_mounth').append('Bulan ' + bulan);
-                $('.today_date').append(date_now);
+                let jml_kunjungan_today = response.data.kunjungan.length;
+                $('#jml_kunjungan_mounth').append(jml_kunjungan_today);
             }
         });
 
@@ -315,9 +466,6 @@
         }, 2000);
 
         $('input[name="input_tgl_kunjungan"]').daterangepicker({
-            // locale: {
-            //     format: 'Y/M/D'
-            // },
             opens: 'left'
         }, function(start, end, label) {
             console.log("A new date selection was made: " + start.format('Y-M-D') + ' to ' + end.format('Y-M-D'));
@@ -353,7 +501,7 @@
                 data: {
                     keyword: keyword,
                     limit: limit,
-                    url_pagination: 'DataKunjungan'
+                    url_pagination: 'dashboard/admin'
                 },
                 serverSide: true,
                 dataType: 'json',
@@ -373,6 +521,7 @@
         // Load pagination
         function loadPagination(limit, offset) {
             offset = typeof offset !== 'undefined' ? offset : 0;
+            // console.log(offset)
             let page = offset * limit;
             $.ajax({
                 url: '<?= base_url(); ?>kunjungan/getData/' + offset,
@@ -380,8 +529,8 @@
                 data: {
                     offset: offset,
                     limit: limit,
-                    // page: page,
-                    url_pagination: 'DataKunjungan'
+                    // filter_mounth: 'date',
+                    url_pagination: 'dashboard/admin'
                 },
                 serverSide: true,
                 dataType: 'json',
@@ -399,16 +548,18 @@
         }
 
         function createTable(data_kunjungan, total_data, limit, offset) {
-            // console.log(limit);
-            // console.log(data_kunjungan);
             let html = ``;
             offset = Number(offset);
-            $('table#tbody_buku').empty();
+            $('table#tbody_kunjungan').empty();
 
             if (data_kunjungan != 0) {
-                let no = 1;
                 let numEnd = Number(limit) + Number(offset);
-                $('#datatable_info_kunjungan').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Record`);
+                if (parseInt(total_data) < parseInt(numEnd)) {
+                    $('#datatable_info_kunjungan').html(`<strong>${offset+1}</strong>-<strong>${total_data}</strong> dari <strong>${total_data}</strong> Data`);
+                } else {
+                    $('#datatable_info_kunjungan').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Data`);
+                }
+                let no = 1;
                 $.each(data_kunjungan, function(k, item) {
                     html += `<tr>`;
                     html += `<td><small>${no}</small></td>`;

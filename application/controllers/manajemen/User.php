@@ -20,6 +20,7 @@ class User extends CI_Controller
         $this->load->model('manajemen/M_submenu', 'submenu');
         $this->load->model('transaksi/M_peminjaman', 'peminjaman');
         $this->load->model('transaksi/M_pengembalian', 'pengembalian');
+        $this->load->model('M_kunjungan', 'kunjungan');
         // $this->load->library('phpqrcode/qrlib');
         include APPPATH . 'libraries\phpqrcode\qrlib.php';
     }
@@ -50,6 +51,44 @@ class User extends CI_Controller
                 QRcode::png($file_name, $file_path, QR_ECLEVEL_L, 10);
             }
         }
+    }
+
+    public function updateStatusAktif()
+    {
+        if ($this->input->is_ajax_request()) {
+            $data_post = $this->input->post();
+            $user_id = $data_post['id'];
+            $data_update_user = [
+                'is_active' => $data_post['status']
+            ];
+            $update = $this->user->update_data('user', $user_id, $data_update_user);
+            $data['update'] = $update;
+            if ($update) {
+                $res = [
+                    'code' => 200,
+                    'status' => true,
+                    'message' => 'Success',
+                    'data' => $data,
+
+                ];
+            } else {
+                $res = [
+                    'code' => 500,
+                    'status' => false,
+                    'message' => 'Gagal update.',
+                    'data' => $data,
+
+                ];
+            }
+        } else {
+            $res = [
+                'code' => 500,
+                'status' => false,
+                'message' => 'Access Denied',
+                'data' => null
+            ];
+        }
+        echo json_encode($res);
     }
 
     public function updateData()
@@ -139,7 +178,7 @@ class User extends CI_Controller
         if ($this->input->is_ajax_request()) {
             $data_post = $this->input->post();
             if (count($data_post) <= 0) {
-                $field = 'user.user_id, user.username, user_detail.*, user_role.role_type, user_role.role_id';
+                $field = 'user.user_id, user.username, user.is_active, user_detail.*, user_role.role_type, user_role.role_id';
                 $data = $this->user->getData($field)->result_array();
             } else {
                 if (isset($data_post['filter']) && isset($data_post['search'])) {
@@ -273,6 +312,7 @@ class User extends CI_Controller
                     ];
                     $delete_peminjaman = $this->peminjaman->deleteData($wherex);
                     $delete_pengembalian = $this->pengembalian->deleteData($wherex);
+                    $delete_data_kunjungan = $this->kunjungan->delete_data(['id_user' => $data_user['user_id']]);
                     $dir = FCPATH . 'assets/img/qrcode/';
                     $file_path = $dir . $data_user['qrcode_img'];
                     unlink($file_path);

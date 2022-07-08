@@ -380,37 +380,4 @@ class Peminjaman extends CI_Controller
             redirect('transaksi/peminjaman');
         }
     }
-
-
-    // public function insertPengembalian()
-    // {
-    //     $post = $this->input->post();
-    //     $id_peminjaman = $post['id_peminjaman'];
-    //     // $table_insert = 'tr_pengembalian';
-    //     $data_insert = [
-    //         'tanggal_pengembalian' => $post['tgl_pengembalian'],
-    //         // 'denda' => $post['denda'],
-    //         'id_buku' => $post['id_buku'],
-    //         'id_anggota' => $post['id_anggota'],
-    //         'id_petugas' => $this->session->userdata('user_id')
-    //     ];
-    //     $insert = $this->peminjaman->insertData($data_insert, 'tr_pengembalian');
-    //     if ($insert) {
-    //         $update = $this->peminjaman->updateData(['status_pengembalian' => 1], ['id_peminjaman' => $id_peminjaman], 'tr_peminjaman');
-    //         $res = [
-    //             'code' => 200,
-    //             'status' => true,
-    //             'message' => 'Berhasil tersimapan',
-    //             'data' => $update,
-    //         ];
-    //     } else {
-    //         $res = [
-    //             'code' => 500,
-    //             'status' => false,
-    //             'message' => 'Internal Server Error',
-    //             'data' => null
-    //         ];
-    //     }
-    //     echo json_encode($res);
-    // }
 }

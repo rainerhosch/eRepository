@@ -10,7 +10,7 @@
                         <h4 class="header-title mt-0 mb-3">Data <?= $subpage; ?></h4>
 
                         <div class="table-responsive">
-                            <table class="table table-hover mb-0">
+                            <table class="table table-hover mb-0" id="table_data_user">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -18,6 +18,7 @@
                                         <th class="text-center">TLP</th>
                                         <th class="text-center">ALAMAT</th>
                                         <th class="text-center">ROLE</th>
+                                        <th class="text-center">STATUS AKTIF</th>
                                         <th class="text-center">TOOLS</th>
                                     </tr>
                                 </thead>
@@ -125,9 +126,15 @@
                         html += `<td class="text-center">${v.alamat}</td>`;
                         html += `<td class="text-center">${v.role_type}</td>`;
 
+                        html += `<td class="text-center"><label class="form-switch">`;
+                        if (v.is_active == '0') {
+                            html += `<input type="checkbox" class="form-check-input userSwith" data-id="${v.user_id}" value="${v.is_active}">`;
+                        } else {
+                            html += `<input type="checkbox" class="form-check-input userSwith" data-id="${v.user_id}" checked="" value="${v.is_active}">`;
+                        }
+                        html += `</label></td>`;
+
                         html += `<td class="text-center">`;
-                        html += `<button type="button" class="btn btn-xs btn-info btnEditUser" data-user_id="${v.user_id}" data-user_detail_id="${v.user_detail_id}" ${disabled}><i class="fas fa-pen"></i></button>`;
-                        html += ` | `;
                         html += `<button type="button" class="btn btn-xs btn-danger btnDeleteUser" data-user_id="${v.user_id}" data-user_detail_id="${v.user_detail_id}" data-nama="${v.nama}" ${disabled}><i class="fas fa-trash-alt"></i></button>`;
                         html += `</td>`;
                         html += `</tr>`;
@@ -136,6 +143,53 @@
                     }
                 });
                 $('#tbody_data_user').html(html);
+                $('#table_data_user').DataTable({
+                    lengthMenu: [
+                        [5, 10, 20, -1],
+                        [5, 10, 20, 'All'],
+                    ],
+                });
+
+
+                $('.userSwith').change(function() {
+                    let id = $(this).data('id');
+                    let status_awal = $(this).val();
+                    if (status_awal == '0') {
+                        status_awal = '1';
+                    } else {
+                        status_awal = '0';
+                    }
+                    $.ajax({
+                        url: "<?= base_url(); ?>manajemen/user/updateStatusAktif",
+                        type: "POST",
+                        data: {
+                            id: id,
+                            status: status_awal
+                        },
+                        dataType: "JSON",
+                        success: function(response) {
+                            let title = ``;
+                            let msg = ``;
+                            let icon = ``;
+                            if (response.code === 200) {
+                                title = `Success`;
+                                icon = `success`;
+                            } else {
+                                title = `Error!`;
+                                icon = `error`;
+                            }
+                            Swal.fire({
+                                icon: icon,
+                                title: title,
+                                text: response.msg,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function(isConfirm) {
+                                location.reload()
+                            });
+                        }
+                    });
+                });
 
                 $('.btnEditUser').on('click', function() {
                     let id = $(this).data('user_id');
