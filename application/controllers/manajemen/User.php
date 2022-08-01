@@ -10,8 +10,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *  Quots of the code     : 'Hanya seorang yang hobi berbicara dengan komputer.'
  */
 
-require 'vendor/autoload.php';
-
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Writer\Word2007;
 use \PhpOffice\PhpSpreadsheet;
