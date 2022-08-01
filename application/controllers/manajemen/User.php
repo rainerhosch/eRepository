@@ -9,6 +9,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *  Date Created          : 21/05/2022
  *  Quots of the code     : 'Hanya seorang yang hobi berbicara dengan komputer.'
  */
+
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Writer\Word2007;
+use \PhpOffice\PhpSpreadsheet;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Reader\Xls;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+
 class User extends CI_Controller
 {
     public function __construct()
@@ -371,5 +382,103 @@ class User extends CI_Controller
         }
 
         echo json_encode($res);
+    }
+
+    public function importFromExcel()
+    {
+        // if ($this->input->is_ajax_request()) {
+        $dir = FCPATH . 'assets/file/tmp/';
+        // JIKA DIREKTORI TAHUN TIDAK ADA
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
+        $file_ext = pathinfo($_FILES['files']['name'], PATHINFO_EXTENSION);
+        // $new_name = $timestamp . '.' . $file_ext;
+
+        $file_name = $_FILES['files']['name'];
+        // var_dump($file_name);
+        // die;
+
+        $config['file_name']        = $file_name;
+        $config['upload_path']      =  $dir . "/";
+        $config['allowed_types']        = 'xls|xlsx';
+        $config['max_size'] = 50000; // max_size in kb
+        // $config['max_width']            = 1024;
+        // $config['max_height']           = 768;
+
+        if (!empty($_FILES['files']['name'])) {
+
+            $_FILES['file']['name'] = $file_name;
+            $_FILES['file']['type'] = $_FILES['files']['type'];
+            $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'];
+            $_FILES['file']['error'] = $_FILES['files']['error'];
+            $_FILES['file']['size'] = $_FILES['files']['size'];
+
+            //Load upload library
+            $this->load->library('upload', $config);
+            // File upload
+            if ($this->upload->do_upload('file')) {
+                // Get data about the file
+                $uploadData = $this->upload->data();
+                $data_file_upload = $uploadData;
+                $file_name = $data_file_upload['file_name'];
+                if ('csv' == $file_ext) {
+                    $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+                } elseif ('xls' == $file_ext) {
+                    $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                } else {
+                    $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                }
+                $spreadsheet = $reader->load($data_file_upload['full_path']);
+                $sheet = $spreadsheet->getSheet(0);
+                $sheetData = $sheet->toArray(false, true, true, true);
+
+                // echo '<pre>';
+                // print_r($datav);
+                // echo '</pre>';
+                // exit();
+
+                $datasku = array();
+                $dataV = array();
+
+                foreach ($sheetData as $i => $name) {
+
+                    foreach ($name as $u => $names) {
+                        $datasku[] = $name;
+                        if ($i > 5 && $i < 393) {
+                            $datav[$i] = [
+                                'h2' => $name['C'],
+                                'j1' => $name['D'],
+                                'j2' => $name['E'],
+                                'kode' => $name['F'],
+                                'mk' => $name['G'],
+                                'sks' => $name['H'],
+                                'dosen' => $name['I'],
+                                'ruang' => $name['J'],
+                                'kelas' => $name['K'],
+                                'prodi' => $name['L'],
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+        // $res = [
+        //     'code' => 200,
+        //     'status' => true,
+        //     'message' => 'Success',
+        //     'data' => $dir
+        // ];
+        // } else {
+        //     $res = [
+        //         'code' => 500,
+        //         'status' => false,
+        //         'message' => 'Access Denied',
+        //         'data' => null
+        //     ];
+        // }
+
+        // echo json_encode($res);
     }
 }

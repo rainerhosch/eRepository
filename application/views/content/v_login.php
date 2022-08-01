@@ -76,23 +76,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="mb-3">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="checkbox-signin" checked>
-                                    <label class="form-check-label" for="checkbox-signin">Remember me</label>
-                                </div>
-                            </div> -->
                             <div class="mb-3 d-grid text-center">
-                                <button class="btn btn-primary" type="submit"> Log In </button>
+                                <button class="btn btn-primary" type="submit"> Sign In </button>
                             </div>
                         </form>
                     </div>
                 </div>
-                <!-- <div class="row mt-3">
-                    <div class="col-12 text-center">
-                        <p> <a href="#pages-recoverpw.html" class="text-muted ms-1"><i class="fa fa-lock me-1"></i>Forgot your password?</a></p>
-                    </div>
-                </div> -->
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <p class="text-dark">Don't have an account? <a href="register" class="text-dark ms-1"><b>Sign Up</b></a></p>
+                </div> <!-- end col -->
             </div>
         </div>
     </div>

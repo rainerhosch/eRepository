@@ -4,6 +4,9 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
+                        <div class="float-end" style="margin-left:5px;">
+                            <button class="btn btn-outline-success rounded-pill waves-effect waves-light btn-xs" id="btnImportExcel"><i class="mdi mdi-plus me-1"></i>Import From Excel</button>
+                        </div>
                         <div class="float-end">
                             <button class="btn btn-outline-success rounded-pill waves-effect waves-light btn-xs" id="btnAddUser"><i class="mdi mdi-plus me-1"></i>Add <?= $subpage; ?></button>
                         </div>
@@ -87,6 +90,31 @@
                             </div>
                         </div>
 
+                        <div class="form-group row mt-2">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-sm btn-primary btn_save_role_user" style="float: right;">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal add user -->
+    <div class="modal fade" id="modalImportExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Import <?= $subpage; ?> From Excel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_import_excel" enctype="multipart/form-data" method="POST" action="<?= base_url(); ?>manajemen/user/importFromExcel">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="file" class="form-control" id="file_data_import" name="files" accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" required>
+                            </div>
+                        </div>
                         <div class="form-group row mt-2">
                             <div class="col-sm-12">
                                 <button type="submit" class="btn btn-sm btn-primary btn_save_role_user" style="float: right;">Submit</button>
@@ -251,13 +279,16 @@
             }
         });
 
+        $('#btnImportExcel').on('click', function() {
+            $('#modalImportExcel').modal('show');
+        });
         $('#btnAddUser').on('click', function() {
             $.ajax({
                 url: "<?= base_url(); ?>setup/roleuser/getData",
                 type: "POST",
                 dataType: "JSON",
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     let html = ``;
                     html += `<option value="" hidden>Pilih Role...</option>`;
                     $.each(response.data, function(i, v) {

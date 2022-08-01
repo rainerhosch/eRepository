@@ -37,6 +37,16 @@ class Auth extends CI_Controller
 		$this->load->view('template', $data);
 	}
 
+	public function register()
+	{
+		// code here...
+		$data['title'] = 'E-Library';
+		$data['page'] = 'Auth';
+		$data['subpage'] = 'Register';
+		$data['content'] = 'content/v_registration';
+		$this->load->view('template', $data);
+	}
+
 	public function process_login()
 	{
 		if ($this->input->is_ajax_request()) {
