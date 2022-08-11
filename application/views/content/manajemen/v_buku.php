@@ -467,7 +467,6 @@
                 serverSide: true,
                 dataType: 'json',
                 success: function(response) {
-
                     // console.log(response);
                     let limit = response.data.limit_per_page;
                     let data_buku = response.data.buku;

@@ -105,12 +105,13 @@ class User extends CI_Controller
         if ($this->input->is_ajax_request()) {
             $data_post = $this->input->post();
             $password = '';
+            $user_id = $data_post['user_id'];
             if (isset($data_post['password_baru'])) {
                 $password = md5($data_post['password_baru']);
+                
             } else {
                 $password = $data_post['password_lama'];
             }
-            $user_id = $data_post['user_id'];
             $user_detail_id = $data_post['user_detail_id'];
             $data_update_detail = [
                 'nama'          => $data_post['nama_user'],
@@ -120,13 +121,16 @@ class User extends CI_Controller
                 'img'           => 'default.jpg'
             ];
             $update = $this->user->update_data('user_detail', $user_detail_id, $data_update_detail);
+            
+            $data_update_user = [
+                'password' => $password
+            ];
+            $update = $this->user->update_data('user', $user_id, $data_update_user);
+            
+            // $update = $this->user->update_data('user_detail', $user_detail_id, $data_update_detail);
             $data['update'] = $update;
             // $data['query'] = $this->db->last_query();
             if ($update) {
-                $data_update_user = [
-                    'password' => $password
-                ];
-                $this->user->update_data('user', $user_id, $data_update_user);
                 $res = [
                     'code' => 200,
                     'status' => true,
