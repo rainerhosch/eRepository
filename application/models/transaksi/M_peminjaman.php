@@ -18,7 +18,7 @@ class M_peminjaman extends CI_Model
     private $_join_tbl = null;
 
 
-    public function getDataById($where = null, $field = null, $join_tbl = null)
+    public function getDataById($where = null, $field = null, $join_tbl = null, $filter_like = null)
     {
         if ($field != null) {
             $this->_field = $field;
@@ -34,6 +34,9 @@ class M_peminjaman extends CI_Model
         }
         if ($where != null) {
             $this->db->where($where);
+        }
+        if ($filter_like != null) {
+            $this->db->like($filter_like['field'], $filter_like['data'], $filter_like['option']);
         }
         return $this->db->get();
     }

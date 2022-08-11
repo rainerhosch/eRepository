@@ -49,7 +49,8 @@
                                         <th class="text-center">PENULIS</th>
                                         <th class="text-center">PENERBIT</th>
                                         <th class="text-center">TAHUN TERBIT</th>
-                                        <th class="text-center">JUMLAH</th>
+                                        <th class="text-center">JUMLAH TERSEDIA</th>
+                                        <th class="text-center">JUMLAH TOTAL</th>
                                         <th class="text-center">COVER</th>
                                         <th class="text-center">TOOLS</th>
                                     </tr>
@@ -310,7 +311,6 @@
             $(".div_alert").fadeOut('slow');
         }, 2000);
 
-
         $('input[name="input_tahun_terbit"').datepicker({
             format: "yyyy",
             viewMode: "years",
@@ -321,7 +321,6 @@
             viewMode: "years",
             minViewMode: "years"
         });
-
 
         $('#btnAddBuku').click(function() {
             $.ajax({
@@ -501,6 +500,7 @@
                             <td class="text-center"><small>${v.penulis_buku}</small></td>
                             <td class="text-center"><small>${v.penerbit_buku}</small></td>
                             <td class="text-center"><small>${v.tahun_penerbit}</small></td>
+                            <td class="text-center"><small>${v.jumlah-v.jml_dipinjam}</small></td>
                             <td class="text-center"><small>${v.jumlah}</small></td>
                             <td class="text-center"><img class="cover" width="40" height="60" src="<?= base_url('assets/img/coverbuku') ?>/${v.img}" data-judul="${v.judul_buku}" alt="Italian Trulli"></td>
                             <td class="text-center">

@@ -16,6 +16,7 @@ class Buku extends CI_Controller
         parent::__construct();
         login_check();
         $this->load->model('manajemen/M_buku', 'buku');
+        $this->load->model('transaksi/M_peminjaman', 'peminjaman');
     }
 
     public function index()
@@ -70,7 +71,17 @@ class Buku extends CI_Controller
                     ]
                 ]
             ];
-            $data['buku'] = $this->buku->getData($condition)->result_array();
+            $data_buku = $this->buku->getData($condition)->result_array();
+            $data['buku'] = $data_buku;
+            foreach ($data_buku as $i => $val) {
+                $filter = [
+                    'field' => 'id_buku',
+                    'data' => $val['id_buku'],
+                    'option' => 'both'
+                ];
+                $data['buku'][$i]['jml_dipinjam'] = $this->peminjaman->getDataById(null, null, null, $filter)->num_rows();
+            }
+
             // $data['total_data'] = $this->buku->getData($condition)->num_rows();
             $data['total_data'] = $this->buku->getCount();
             $total_page = ($data['total_data'] / $limit);
