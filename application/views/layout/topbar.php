@@ -39,11 +39,12 @@
             </button>
         </li>
         <li>
-            <h4 class="page-title-main"><?php
-                                        echo $page;
-                                        if (isset($subpage)) {
-                                            echo '<i class="mdi mdi-triangle-wave"></i>' . $subpage;
-                                        }; ?>
+            <h4 class="page-title-main">SMA 6 KOTA SERANG<small class=""><?php
+                                                                            echo ' / ' . $page;
+                                                                            if (isset($subpage)) {
+                                                                                echo ' / ' . $subpage;
+                                                                            };
+                                                                            ?></small>
             </h4>
         </li>
     </ul>

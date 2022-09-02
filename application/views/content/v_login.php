@@ -47,8 +47,9 @@
                 <div class="card">
                     <div class="card-body p-4">
                         <div class="text-center mb-4">
-                            <i class="fas fa-book-open" style="font-size: 24px;"></i>
-                            <h3 class="mt-0" style="color:#7b80859c;">eLibrary</h3>
+                            <!-- <i class="fas fa-book-open" style="font-size: 24px;"></i> -->
+                            <img src="<?= base_url('assets/template') ?>/images/logo-128x128.png" alt="">
+                            <!-- <h3 class="mt-0" style="color:#7b80859c;">eLibrary</h3> -->
                             <h5 style="color:#7b80859c;">SISTEM PERPUSTAKAAN ELEKTRONIK</h5>
                             <h5 style="color:#7b80859c;">SMA NEGRI 6 KOTA SERANG</h5>
                         </div>
