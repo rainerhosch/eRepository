@@ -272,7 +272,7 @@
             offset = Number(offset);
             $('table#tbody_buku').empty();
             if (data_buku != 0) {
-                let no = 1;
+                let no = offset + 1;
                 let numEnd = Number(limit) + Number(offset);
                 $('#datatable_info').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Record`);
                 $.each(data_buku, function(k, v) {
@@ -283,7 +283,11 @@
                     htmlx += `<td class="text-center"><small>${v.penulis_buku}</small></td>`;
                     htmlx += `<td class="text-center"><small>${v.penerbit_buku}</small></td>`;
                     htmlx += `<td class="text-center"><small>${v.tahun_penerbit}</small></td>`;
-                    htmlx += `<td class="text-center"><small>${v.jumlah-v.jml_dipinjam}</small></td>`;
+                    if ((v.jumlah - v.jml_dipinjam) > 0) {
+                        htmlx += `<td class="text-center"><small>Tersedia ${v.jumlah-v.jml_dipinjam} Buku</small></td>`;
+                    } else {
+                        htmlx += `<td class="text-center"><small>Buku tidak tersedia.</small></td>`;
+                    }
                     htmlx += `<td class="text-center"><img class="cover" width="40" height="60" src="<?= base_url('assets/img/coverbuku') ?>/${v.img}" data-judul="${v.judul_buku}" alt="Italian Trulli"></td>`;
                     htmlx += `</tr>`;
                 });

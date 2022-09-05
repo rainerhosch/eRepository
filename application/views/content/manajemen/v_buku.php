@@ -370,7 +370,7 @@
                             },
                             dataType: 'json',
                             success: function(response) {
-                                console.log(response);
+                                // console.log(response);
                                 let title = ``;
                                 let msg = ``;
                                 let icon = ``;
@@ -480,34 +480,37 @@
         }
 
         function createTable(data_buku, total_data, limit, offset) {
-            // console.log(limit);
             // console.log(data_buku);
             let htmlx = ``;
             offset = Number(offset);
+            // console.log(limit);
+            // console.log(offset);
             $('table#tbody_buku').empty();
 
             if (data_buku != 0) {
-                let no = 1;
+                let no = offset + 1;
                 let numEnd = Number(limit) + Number(offset);
                 $('#datatable_info').html(`<strong>${offset+1}</strong>-<strong>${numEnd}</strong> dari <strong>${total_data}</strong> Record`);
                 $.each(data_buku, function(k, v) {
-                    htmlx += `
-                        <tr>
-                            <td>${no++}</td>
-                            <td class="text-center"><small>${v.nama_kategori}</small></td>
-                            <td class="text-center"><small>${v.judul_buku}</small></td>
-                            <td class="text-center"><small>${v.penulis_buku}</small></td>
-                            <td class="text-center"><small>${v.penerbit_buku}</small></td>
-                            <td class="text-center"><small>${v.tahun_penerbit}</small></td>
-                            <td class="text-center"><small>${v.jumlah-v.jml_dipinjam}</small></td>
-                            <td class="text-center"><small>${v.jumlah}</small></td>
-                            <td class="text-center"><img class="cover" width="40" height="60" src="<?= base_url('assets/img/coverbuku') ?>/${v.img}" data-judul="${v.judul_buku}" alt="Italian Trulli"></td>
-                            <td class="text-center">
+                    htmlx += `<tr>`;
+                    htmlx += `<td>${no++}</td>`;
+                    htmlx += `<td class="text-center"><small>${v.nama_kategori}</small></td>`;
+                    htmlx += `<td class="text-center"><small>${v.judul_buku}</small></td>`;
+                    htmlx += `<td class="text-center"><small>${v.penulis_buku}</small></td>`;
+                    htmlx += `<td class="text-center"><small>${v.penerbit_buku}</small></td>`;
+                    htmlx += `<td class="text-center"><small>${v.tahun_penerbit}</small></td>`;
+                    if ((v.jumlah - v.jml_dipinjam) > 0) {
+                        htmlx += `<td class="text-center"><small>Tersedia ${v.jumlah-v.jml_dipinjam} Buku</small></td>`;
+                    } else {
+                        htmlx += `<td class="text-center"><small>Buku tidak tersedia.</small></td>`;
+                    }
+                    htmlx += `<td class="text-center"><small>${v.jumlah}</small></td>`;
+                    htmlx += `<td class="text-center"><img class="cover" width="40" height="60" src="<?= base_url('assets/img/coverbuku') ?>/${v.img}" data-judul="${v.judul_buku}" alt="Italian Trulli"></td>`;
+                    htmlx += `<td class="text-center">
                                 <button class="btn btn-outline-warning rounded-pill waves-effect waves-light btn-xs btnEditBuku" data-id="${v.id_buku}" data-judul="${v.judul_buku}"><i class="mdi mdi-pencil-outline"></i></button>
                                 <button class="btn btn-outline-danger rounded-pill waves-effect waves-light btn-xs btnDeleteBuku" data-cover="${v.img}" data-id="${v.id_buku}" data-judul="${v.judul_buku}"><i class="mdi mdi-delete"></i></button>
-                            </td>
-                        </tr>
-                    `;
+                                < /td>`;
+                    htmlx += `</tr>`;
                 });
                 no++;
             } else {
